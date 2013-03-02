@@ -14,6 +14,7 @@
 #include "bankchangeaction.h"
 #include "usermoveaction.h"
 #include "accountmanager.h"
+#include <QMap>
 class Game : public QObject
 {
     Q_OBJECT
@@ -21,8 +22,6 @@ public:
     Game(AccountManager* accountManager);
 
 private:
-    QList<User> getUsersInGame();
-    bool isGameStarted();//Maybe we do not need to implement this.
     User* getWinner(UserCardSet firstList, UserCardSet second);
     User* getWinner(QList<UserCardSet> cardSets);
     Deck* deck;
@@ -30,10 +29,28 @@ private:
     QList<UserCardSet> cardSets;
     QList<UserInfo*> usersInGame; //This users are currently playing game.
     QList<UserInfo*> userInQueue; //This users are waiting for game.
+    QMap<long, UserAction*> lastUserAction;
     long bankValue;
     long lastBid;
-    long currentUserCursor;
     AccountManager* accountManager;
+
+    long buttonOnUserWithIndex;
+    long cursorOnUserWithIndex;
+    UserInfo* getUserWithButton();
+    UserInfo* getBigBlind();
+    UserInfo* getSmallBlind();
+    UserInfo* currentCursorOnUser();
+    void askForUserMove(bool isFirstStep = false);
+    QList<Actions> getAvailableActions(long userId);
+    long getMinimumBid(long userId);
+    long getCursor(long cursorValue);
+    void start();
+    void moveCurrentCursor(long offset);
+    UserInfo* getUserInGame(long userId);
+    bool isAllUserBidsAreEqual();
+    static const long BIG_BLIND_BID = 2;
+    static const long SMALL_BLIND_BID = 1;
+    long maximumBid;
 public slots:
     //When user do his step.
     void doAction(UserAction* userAction);

@@ -3,6 +3,7 @@
 #include <QDateTime>
 Deck::Deck(){
     resetDeck();
+    qsrand(QDateTime::currentMSecsSinceEpoch());
 }
 
 void Deck::pushInitialCards(Suit suit){
@@ -11,8 +12,8 @@ void Deck::pushInitialCards(Suit suit){
     }
 }
 
-Card Deck::getNextCard(){
-    return availableCards[qsrand(QDateTime::currentMSecsSinceEpoch()) % availableCards.length()];
+Card* Deck::getNextCard(){
+    return availableCards[rand() % availableCards.length()];
 }
 
 void Deck::resetDeck(){

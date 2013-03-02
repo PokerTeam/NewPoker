@@ -5,6 +5,9 @@ class FirstCardsAction
 {
 public:
     FirstCardsAction(Card* firstCard, Card* secondCard, Card* thirdCard);
+    Card* getFirstCard();
+    Card* getSecondCard();
+    Card* getThirdCard();
 private:
     Card* firstCard;
     Card* secondCard;
