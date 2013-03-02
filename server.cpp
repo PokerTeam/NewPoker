@@ -7,10 +7,6 @@ Server::Server()
 
 void Server::start()
 {
-    Game* game = new Game();
-
-    connect(this, SIGNAL(joinGame(UserInfo*)),game, SLOT(joinGame(UserInfo*)));
-    emit joinGame(new UserInfo(1,2,3));
 }
 
 void Server::onUserJoinGame(UserInfo* user){

@@ -8,10 +8,10 @@ class AccountManager : QObject
     Q_OBJECT
 public:
     AccountManager();
+    bool isPasswordCorrect(long userId, QString password);
 private:
     long createNewUser(User* user);
     User* loadUser(long userId);
-    bool isPasswordCorrect(long userId, QString password);
     bool isUserWithSuchUsernameExists(QString username);
     void updateUser(User* updatedUser);
 signals:

@@ -13,15 +13,14 @@
 #include "userleaveaction.h"
 #include "bankchangeaction.h"
 #include "usermoveaction.h"
+#include "accountmanager.h"
 class Game : public QObject
 {
     Q_OBJECT
 public:
-    Game();
+    Game(AccountManager* accountManager);
 
 private:
-    //Should return true, if user join game. False in other case.
-    bool joinGame(User* user);
     QList<User> getUsersInGame();
     bool isGameStarted();//Maybe we do not need to implement this.
     User* getWinner(UserCardSet firstList, UserCardSet second);
@@ -34,13 +33,15 @@ private:
     long bankValue;
     long lastBid;
     long currentUserCursor;
+    AccountManager* accountManager;
 public slots:
     //When user do his step.
     void doAction(UserAction* userAction);
-    void joinGame(UserInfo* user);
+    void joinGame(User* user);
 signals:
     //if more than 2 users joined , we need to start the game.
     void onUserJoinGame(UserInfo* user);
+    void onJoinUserFailed(long userId);
     //Deal hidden cards.
     //And We need to fill cardSets collection.
     void gameStarted(GameStartAction* gameStartAction);
