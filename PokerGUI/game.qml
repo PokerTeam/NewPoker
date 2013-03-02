@@ -92,7 +92,8 @@ Rectangle {
     Rectangle {
         id: blockRaiseValue
 
-        width: buttonInc.width + textRaiseValue.width + buttonDec.width + 20
+        width: buttonInc.width + buttonDec.width +
+               textRaiseValue.paintedWidth + textBankValue.paintedWidth + 16 * 4
         height: 32
         x: buttonRaise.x + buttonRaise.width + 30
         y: parent.height - height - 8
@@ -107,12 +108,12 @@ Rectangle {
 
         Button {
             id: buttonDec
-            objectName: "buttonDec"
+            objectName: "buttonDecObj"
 
-            width: 36
-            height: 32
             anchors.left: parent.left
             anchors.top: parent.top
+            width: 36
+            height: 32
             label: "-"
             labelSize: 12
             labelColor: "#FFB0B0B0"
@@ -125,29 +126,32 @@ Rectangle {
 
         Text {
             id: textRaiseValue
-            objectName: "textRaiseValue"
+            objectName: "textRaiseValueObj"
 
             property string raiseValue: "1024"
 
-            height: 32
-            anchors.centerIn: parent
+            anchors.left: buttonDec.right
+            anchors.leftMargin: 16
+            anchors.top: parent.top
+            anchors.topMargin: (parent.height - paintedHeight) * 0.5
+            width: paintedWidth
+            height: 0
             text: raiseValue
             color: "#FFB0B0B0"
             font.bold: true
             font.family: "Sagoe UI"
             font.pointSize: 11
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
         }
 
         Button {
             id: buttonInc
-            objectName: "buttonInc"
+            objectName: "buttonIncObj"
 
-            width: 36
-            height: 32
-            anchors.right: parent.right
+            anchors.left: textRaiseValue.right
+            anchors.leftMargin: 16
             anchors.top: parent.top
+            width: 36
+            height: 32            
             label: "+"
             labelSize: 12
             labelColor: "#FFB0B0B0"
@@ -156,6 +160,25 @@ Rectangle {
             gradientColorBottom: "#A0000000"
             gradientOnHoverColorBottom: "#A0202020"
             borderSize: 2
+        }
+
+        Text {
+            id: textBankValue
+            objectName: "textBankValueObj"
+
+            property string bankValue: "60"
+
+            anchors.left: buttonInc.right
+            anchors.leftMargin: 16
+            anchors.top: parent.top
+            anchors.topMargin: (parent.height - paintedHeight) * 0.5
+            width: paintedWidth
+            height: 0
+            text: "Bank: " + bankValue
+            color: "#FFB0B0B0"
+            font.bold: true
+            font.family: "Sagoe UI"
+            font.pointSize: 11
         }
     }
 
@@ -167,7 +190,7 @@ Rectangle {
         anchors.topMargin: 6
         anchors.right: parent.right
         anchors.rightMargin: 6
-        ublockWidth: 212
+        ublockWidth: 260
         ublockHeight: 64
         labelSize: 12
     }
@@ -179,8 +202,8 @@ Rectangle {
         anchors.top: parent.top
         anchors.topMargin: 6
         anchors.right: user3.left
-        anchors.rightMargin: 18
-        ublockWidth: 212
+        anchors.rightMargin: 12
+        ublockWidth: 260
         ublockHeight: 64
         labelSize: 12
     }
@@ -192,8 +215,8 @@ Rectangle {
         anchors.top: parent.top
         anchors.topMargin: 6
         anchors.right: user2.left
-        anchors.rightMargin: 18
-        ublockWidth: 212
+        anchors.rightMargin: 12
+        ublockWidth: 260
         ublockHeight: 64
         labelSize: 12        
     }
@@ -225,11 +248,11 @@ Rectangle {
         anchors.top: parent.bottom
         anchors.topMargin: -60 - 6
         anchors.left: parent.right
-        anchors.leftMargin: -250 - 6
-        ublockWidth: 250
+        anchors.leftMargin: -260 - 6
+        ublockWidth: 260
         ublockHeight: 60
         labelSize: 12
-        userAvaImage: 1
+        userAvaImage: 4
         failedUser: false
         gradientColorTop: "#FB101010"
         gradientOnActiveColorTop: "#FB303030"
