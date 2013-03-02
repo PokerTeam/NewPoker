@@ -9,6 +9,7 @@ public:
     Card getNextCard();
     void resetDeck();
 private:
+    void pushInitialCards(Suit suit);
     QList<Card> availableCards;
     QList<Card> dealtCards;
 
