@@ -1,5 +1,5 @@
 #include "game.h"
-
+#include "QDebug"
 Game::Game(AccountManager* accountManager){
     this->accountManager = accountManager;
     this->deck = new Deck();
@@ -7,11 +7,15 @@ Game::Game(AccountManager* accountManager){
 
 void Game::doAction(UserAction* userAction){
     lastUserAction[userAction->getUser()->getUserId()] = userAction;
+    UserInfo* user = getUserInGame(userAction->getUser()->getUserId());
     switch(userAction->getAction()){
-        case FOLD:
-
+        case CALL:
+        case RAISE:
+            user->putOnTable(userAction->getMoney());
             break;
     }
+    emit onUserAction(userAction);
+    askForUserMove();
 }
 
 void Game::joinGame(User* user){
@@ -75,6 +79,7 @@ QList<Actions> Game::getAvailableActions(long userId){
     long minimumBid = getMinimumBid(userId);
     QList<Actions> actions;
     actions.push_back(FOLD);
+    actions.push_back(CALL);
     actions.push_back(RAISE);
     if (minimumBid == 0){
         actions.push_back(CHECK);
@@ -99,13 +104,25 @@ UserInfo* Game::getUserInGame(long userId){
 }
 
 bool Game::isAllUserBidsAreEqual(){
-    if (usersInGame.length() > 1){
-        for (int i = 1; i < usersInGame.length(); i++){
-            if (usersInGame[i]->getUserMoneyOnTable() != usersInGame[i - 1]->getUserMoneyOnTable()){
-                return false;
+    long bid = -1;
+    foreach(UserInfo* user, usersInGame){
+        if (lastUserAction.keys().contains(user->getUserId())){
+            UserAction* action = lastUserAction[user->getUserId()];
+            if (action->getAction() != FOLD && !user->isAllIn()){
+                if (bid == -1){
+                    bid = user->getUserMoneyOnTable();
+                }else{
+                    if (bid != user->getUserMoneyOnTable()){
+                        return false;
+                    }
+                }
             }
+        }else{
+            return false;
         }
+
     }
+
     return true;
 }
 

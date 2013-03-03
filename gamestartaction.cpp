@@ -7,13 +7,13 @@ GameStartAction::GameStartAction(UserInfo* smallBlind, UserInfo* bigBlind, UserI
 }
 
 UserInfo* GameStartAction::getUserWithButton(){
-    return smallBlind;
+    return userWithButton;
 }
 
 UserInfo* GameStartAction::getSmallBlind(){
-    return bigBlind;
+    return smallBlind;
 }
 
 UserInfo* GameStartAction::getBigBlind(){
-    return userWithButton;
+    return bigBlind;
 }

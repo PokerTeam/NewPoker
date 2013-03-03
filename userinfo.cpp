@@ -1,6 +1,6 @@
 #include "userinfo.h"
 
-UserInfo::UserInfo(User* user, long usersMoneyOnTable){
+UserInfo::UserInfo(User* user, long userMoneyOnTable){
     init(user->getUserId(), user->getMoney(), userMoneyOnTable);
 }
 
