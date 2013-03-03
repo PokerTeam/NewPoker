@@ -180,15 +180,13 @@ UserInfo* Game::getUserInGame(long userId){
 }
 
 bool Game::isLoopFinished(){
-    //This method makes me crazy. I need to rewrite it.
+    return isAllBidsAreEquals() && isAllMovesEquals();
+}
+
+bool Game::isAllBidsAreEquals(){
     long previous = -1;
     foreach(UserInfo* user, usersInGame){
-        long key = user->getUserId();
-        if (!lastUserAction.keys().contains(key)){
-            return false;
-        }
-        if (lastUserAction[key]->getAction() != FOLD &&
-            !user->isAllIn()){
+        if (isUserActiveForBids(user->getUserId())){
             if (previous == -1){
                 previous = user->getUserMoneyOnTable();
             }else{
@@ -197,45 +195,44 @@ bool Game::isLoopFinished(){
                 }
             }
         }
-        previous = -1;
-        if (lastUserAction[key]->getAction() != FOLD &&
-            !user->isAllIn()){
+    }
+    return true;
+}
+
+bool Game::isAllMovesEquals(){
+    long previous = -1;
+    foreach (UserInfo* user, usersInGame){
+        if (isUserActiveForBids(user->getUserId())){
+            if (!isLastActionExists(user->getUserId())){
+                return false;
+            }
             if (previous == -1){
-                previous = userMoveCounter[key];
+                previous = getUserMovesCount(user->getUserId());
             }else{
-                if (previous != userMoveCounter[key]){
+                if (previous != getUserMovesCount(user->getUserId())){
                     return false;
                 }
             }
         }
     }
-    return true;
-}
-
-/*
-bool Game::isAllUserBidsAreEqual(){
-    long bid = -1;
-    foreach(UserInfo* user, usersInGame){
-        if (lastUserAction.keys().contains(user->getUserId())){
-            UserAction* action = lastUserAction[user->getUserId()];
-            if (action->getAction() != FOLD && !user->isAllIn()){
-                if (bid == -1){
-                    bid = user->getUserMoneyOnTable();
-                }else{
-                    if (bid != user->getUserMoneyOnTable()){
-                        return false;
-                    }
-                }
-            }
-        }else{
-            return false;
-        }
-
-    }
 
     return true;
 }
-*/
+
+long Game::getUserMovesCount(long userId){
+    return userMoveCounter.keys().contains(userId) ? userMoveCounter[userId] : 0;
+}
+
+bool Game::isLastActionExists(long userId){
+    return lastUserAction.keys().contains(userId);
+}
+
+bool Game::isUserActiveForBids(long userId){
+    UserInfo* user = getUserInGame(userId);
+    bool isLastActionNotFold = !isLastActionExists(userId) || lastUserAction[userId]->getAction() != FOLD;
+    return !user->isAllIn() && isLastActionNotFold;
+}
+
 // When first three cards dealed.
 void onFirstCardsDealed(FirstCardsAction* firstCardsAction);
 

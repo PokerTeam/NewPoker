@@ -58,6 +58,11 @@ private:
     long getBankValue();
     long getMaximumBid();
     QList<Card*> addCardsOnTable(int count);
+    bool isLastActionExists(long userId);
+    bool isAllBidsAreEquals();
+    bool isAllMovesEquals();
+    long getUserMovesCount(long userId);
+    bool isUserActiveForBids(long userId);
     static const long BIG_BLIND_BID = 2;
     static const long SMALL_BLIND_BID = 1;
 public slots:
