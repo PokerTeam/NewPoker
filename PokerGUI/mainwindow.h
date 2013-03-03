@@ -1,11 +1,11 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QtGui>
 #include <QtGui/QMainWindow>
 #include <QtDeclarative/QDeclarativeView>
-#include <QGraphicsObject>
-#include <QtGui>
 #include <QtDeclarative/QDeclarativeContext>
+#include <QGraphicsObject>
 
 namespace Ui
 {

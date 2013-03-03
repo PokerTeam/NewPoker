@@ -18,7 +18,9 @@ HEADERS  += mainwindow.h
 OTHER_FILES += \
     login.qml \
     register.qml \
-    game.qml
+    game.qml \
+    Button.qml \
+    TextArea.qml
 
 RESOURCES += \
     resources.qrc

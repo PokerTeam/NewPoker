@@ -5,8 +5,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui = new QDeclarativeView;
     ui->setSource(QUrl("qrc:/login.qml"));
-    setCentralWidget(ui);
     ui->setResizeMode(QDeclarativeView::SizeRootObjectToView);
+    setCentralWidget(ui);
 }
 
 MainWindow::~MainWindow()
