@@ -22,7 +22,7 @@ Rectangle {
     property bool labelItalic: false
     property string labelFontFamily: "Segoe UI"
     property string label: "button"
-    property real labelSize: 12
+    property real labelSize: 11
 
     width: buttonWidth
     height: buttonHeight

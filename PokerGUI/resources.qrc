@@ -2,7 +2,6 @@
     <qresource prefix="/">
         <file>game.qml</file>
         <file>login.qml</file>
-        <file>register.qml</file>
         <file>Button.qml</file>
         <file>TextArea.qml</file>
     </qresource>

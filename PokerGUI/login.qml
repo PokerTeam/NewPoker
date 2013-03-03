@@ -2,50 +2,56 @@
 import QtQuick 1.1
 
 Rectangle {
-    width: 600
-    height: 600
+    width: 360
+    height: 300
     anchors.fill: parent
 
     gradient: Gradient {
-             GradientStop { position: 0.0; color: "#FF404040" }
-             GradientStop { position: 1.0; color: "#FF202020" }
+             GradientStop { position: 0.0; color: "#FF393939" }
+             GradientStop { position: 1.0; color: "#FF222222" }
     }
 
-    property int spliterWidth: 40
-    property int spliterHeight: 32
+    property int spliterWidth: 20
 
     TextArea {
         id: textAreaLogin
-        x: 10
-        y: 10
-        width: 180
-        height: 36
+
+        x: textAreaPassword.x
+        y: textAreaPassword.y - 2.6 * textAreaPassword.height
+        width: buttonRegister.width + buttonLogin.width + spliterWidth
+        height: 28
+        textMaxLength: 24
         textAreaLabel: "Login"
-        textAreaHint: "Unknown user name"
+        textAreaHint: "Wrong user name"
     }
 
     TextArea {
         id: textAreaPassword
-        x: 10
-        y: textAreaLogin.y + 36
-        width: 180
-        height: 36
-        textAreaLabel: "Register"
-        textAreaHint: "Unknown password"
-    }
+
+        anchors.centerIn: parent
+        width: buttonRegister.width + buttonLogin.width + spliterWidth
+        height: 28
+        textAreaLabel: "Password"
+        textAreaHint: "Wrong password"
+        textPassword: true
+    }    
 
     Button {
         id: buttonLogin
+
+        height: 28
         x: parent.width / 2 - width - spliterWidth / 2
-        y: parent.height / 2 + spliterHeight / 2
+        y: textAreaPassword.y + 2 * textAreaPassword.height
         label: "Login"
         labelColor: "#FFB0B0B0"
     }
 
     Button {
         id: buttonRegister
+
+        height: 28
         x: parent.width / 2 + spliterWidth / 2
-        y: parent.height / 2 + spliterHeight / 2
+        y: textAreaPassword.y + 2 * textAreaPassword.height
         label: "Register"
         labelColor: "#FFB0B0B0"
 

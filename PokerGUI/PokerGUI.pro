@@ -17,7 +17,6 @@ HEADERS  += mainwindow.h
 
 OTHER_FILES += \
     login.qml \
-    register.qml \
     game.qml \
     Button.qml \
     TextArea.qml
