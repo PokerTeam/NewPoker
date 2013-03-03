@@ -7,15 +7,26 @@ Game::Game(AccountManager* accountManager){
 
 void Game::doAction(UserAction* userAction){
     lastUserAction[userAction->getUser()->getUserId()] = userAction;
+    incrementLoopCounter(userAction->getUser()->getUserId());
     UserInfo* user = getUserInGame(userAction->getUser()->getUserId());
     switch(userAction->getAction()){
         case CALL:
         case RAISE:
+            qDebug() << user->getUserMoneyOnTable();
             user->putOnTable(userAction->getMoney());
+            qDebug() << "Call/Raise " << user->getUserId() << " with money on table :" << user->getUserMoneyOnTable();
             break;
     }
     emit onUserAction(userAction);
     askForUserMove();
+}
+
+void Game::incrementLoopCounter(long userId){
+    if (userMoveCounter.keys().contains(userId)){
+        userMoveCounter[userId]++;
+    }else{
+        userMoveCounter[userId] = 0;
+    }
 }
 
 void Game::joinGame(User* user){
@@ -31,10 +42,24 @@ void Game::joinGame(User* user){
     }
 }
 
+void Game::resetLoopCounter(){
+    userMoveCounter.clear();
+}
+
 void Game::start(){
-    maximumBid = BIG_BLIND_BID;
+    resetLoopCounter();
     emit gameStarted(new GameStartAction(getSmallBlind(), getBigBlind(), getUserWithButton()));
     askForUserMove(true);
+}
+
+long Game::getMaximumBid(){
+    long maximumBid = 0;
+    foreach (UserInfo* user, usersInGame){
+        if (user->getUserMoneyOnTable() > maximumBid){
+            maximumBid = user->getUserMoneyOnTable();
+        }
+    }
+    return maximumBid;
 }
 
 UserInfo* Game::getUserWithButton(){
@@ -66,6 +91,22 @@ void Game::moveCurrentCursor(long offset){
 }
 
 void Game::askForUserMove(bool isFirstStep){
+    if (!isFirstStep && isLoopFinished()){
+        emit onBankChanged(new BankChangeAction(moveFromTableToBank()));
+        switch(cardsOnTable.length()){
+            case 0:
+                dealFirstThreeCards();
+                break;
+            case 3:
+            case 4:
+                dealNextCard();
+                break;
+            case 5:
+                //TODO: check winner;
+                clearBank();
+                break;
+        }
+    }
     moveCurrentCursor(isFirstStep ? 3 : 1);
     UserInfo* currentUser = currentCursorOnUser();
     emit onUserMove(new UserMoveAction(
@@ -73,6 +114,41 @@ void Game::askForUserMove(bool isFirstStep){
                         getAvailableActions(currentUser->getUserId()),
                         getMinimumBid(currentUser->getUserId())));
     //TODO:Add 60 sec. timer.
+}
+
+long Game::getBankValue(){
+    return bankValue;
+}
+
+void Game::clearBank(){
+    bankValue = 0;
+}
+
+long Game::moveFromTableToBank(){
+    foreach(UserInfo* user, usersInGame){
+        bankValue += user->getUserMoneyOnTable();
+        user->clearMoneyOnTable();
+    }
+    return bankValue;
+}
+
+void Game::dealFirstThreeCards(){
+    QList<Card*> newCards = addCardsOnTable(3);
+    emit onFirstCardsDealed(new FirstCardsAction(newCards[0], newCards[1], newCards[2]));
+}
+
+void Game::dealNextCard(){
+    Card* newCard = addCardsOnTable(1).first();
+    emit onNextCardDealed(newCard);
+}
+
+QList<Card*> Game::addCardsOnTable(int count){
+    QList<Card*> cardsToInsert;
+    for (int i = 0; i < count; i++){
+        cardsToInsert.push_back(deck->getNextCard());
+    }
+    cardsOnTable.append(cardsToInsert);
+    return cardsToInsert;
 }
 
 QList<Actions> Game::getAvailableActions(long userId){
@@ -90,7 +166,7 @@ QList<Actions> Game::getAvailableActions(long userId){
 
 long Game::getMinimumBid(long userId){
     UserInfo* user = getUserInGame(userId);
-    return maximumBid - user->getUserMoneyOnTable();
+    return getMaximumBid() - user->getUserMoneyOnTable();
 }
 
 UserInfo* Game::getUserInGame(long userId){
@@ -103,6 +179,40 @@ UserInfo* Game::getUserInGame(long userId){
     return NULL;
 }
 
+bool Game::isLoopFinished(){
+    //This method makes me crazy. I need to rewrite it.
+    long previous = -1;
+    foreach(UserInfo* user, usersInGame){
+        long key = user->getUserId();
+        if (!lastUserAction.keys().contains(key)){
+            return false;
+        }
+        if (lastUserAction[key]->getAction() != FOLD &&
+            !user->isAllIn()){
+            if (previous == -1){
+                previous = user->getUserMoneyOnTable();
+            }else{
+                if (previous != user->getUserMoneyOnTable()){
+                    return false;
+                }
+            }
+        }
+        previous = -1;
+        if (lastUserAction[key]->getAction() != FOLD &&
+            !user->isAllIn()){
+            if (previous == -1){
+                previous = userMoveCounter[key];
+            }else{
+                if (previous != userMoveCounter[key]){
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}
+
+/*
 bool Game::isAllUserBidsAreEqual(){
     long bid = -1;
     foreach(UserInfo* user, usersInGame){
@@ -125,7 +235,7 @@ bool Game::isAllUserBidsAreEqual(){
 
     return true;
 }
-
+*/
 // When first three cards dealed.
 void onFirstCardsDealed(FirstCardsAction* firstCardsAction);
 

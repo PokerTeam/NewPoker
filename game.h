@@ -25,11 +25,12 @@ private:
     User* getWinner(UserCardSet firstList, UserCardSet second);
     User* getWinner(QList<UserCardSet> cardSets);
     Deck* deck;
-    QList<Card> cardsOnTable;
+    QList<Card*> cardsOnTable;
     QList<UserCardSet> cardSets;
     QList<UserInfo*> usersInGame; //This users are currently playing game.
     QList<UserInfo*> userInQueue; //This users are waiting for game.
     QMap<long, UserAction*> lastUserAction;
+    QMap<long, long> userMoveCounter;
     long bankValue;
     long lastBid;
     AccountManager* accountManager;
@@ -45,12 +46,20 @@ private:
     long getMinimumBid(long userId);
     long getCursor(long cursorValue);
     void start();
+    void resetLoopCounter();
+    void incrementLoopCounter(long userId);
     void moveCurrentCursor(long offset);
     UserInfo* getUserInGame(long userId);
-    bool isAllUserBidsAreEqual();
+    bool isLoopFinished();
+    void dealFirstThreeCards();
+    void dealNextCard();
+    void clearBank();
+    long moveFromTableToBank();
+    long getBankValue();
+    long getMaximumBid();
+    QList<Card*> addCardsOnTable(int count);
     static const long BIG_BLIND_BID = 2;
     static const long SMALL_BLIND_BID = 1;
-    long maximumBid;
 public slots:
     //When user do his step.
     void doAction(UserAction* userAction);

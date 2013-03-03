@@ -4,12 +4,12 @@
 class Card
 {
 public:
-    Card(Suit suit, char number);
+    Card(Suit suit, int number);
     Suit getSuit();
-    char getCardNumber();
+    int getCardNumber();
 private:
     Suit suit;
-    char number;
+    int number;
 };
 
 #endif // CARD_H

@@ -11,6 +11,9 @@ void Server::start(){
     connect(game, SIGNAL(gameStarted(GameStartAction*)), this, SLOT(onGameStarted(GameStartAction*)));
     connect(game, SIGNAL(onUserMove(UserMoveAction*)), this, SLOT(onUserMove(UserMoveAction*)));
     connect(game, SIGNAL(onUserAction(UserAction*)), this, SLOT(onUserAction(UserAction*)));
+    connect(game, SIGNAL(onFirstCardsDealed(FirstCardsAction*)), this, SLOT(onFirstCardsDealed(FirstCardsAction*)));
+    connect(game, SIGNAL(onNextCardDealed(Card*)), this, SLOT(onNextCardDealed(Card*)));
+    connect(game, SIGNAL(onBankChanged(BankChangeAction*)), this, SLOT(onBankChanged(BankChangeAction*)));
     User* user1 = new User(1, "1", "123", 100);
     User* user2 = new User(2, "2", "123", 100);
     User* user3 = new User(3, "3", "123", 100);
@@ -49,27 +52,31 @@ void Server::onUserJoinGame(UserInfo* user){
 }
 
 void Server::onGameStarted(GameStartAction* gameStartAction){
-    qDebug() << gameStartAction->getUserWithButton()->getUserId() << gameStartAction->getUserWithButton()->getUserMoneyOnTable()
-             << " "
-             << gameStartAction->getSmallBlind()->getUserId() << gameStartAction->getSmallBlind()->getUserMoneyOnTable()
-             << " "
-             << gameStartAction->getBigBlind()->getUserId() << gameStartAction->getBigBlind()->getUserMoneyOnTable();
+    qDebug() << "Button on user " << gameStartAction->getUserWithButton()->getUserId() << " money on table " << gameStartAction->getUserWithButton()->getUserMoneyOnTable()
+             << endl
+             << "Small blind on user " << gameStartAction->getSmallBlind()->getUserId() << " money on table " << gameStartAction->getSmallBlind()->getUserMoneyOnTable()
+             << endl
+             << "Big blind on user " << gameStartAction->getBigBlind()->getUserId() << " money on table " << gameStartAction->getBigBlind()->getUserMoneyOnTable();
 
 }
 
 void Server::onUserMove(UserMoveAction* userMoveAction){
     qDebug() << "On user Move "
              << userMoveAction->getAvailableActions() << " "
-             << userMoveAction->getMinimumBid() << " "
-             << userMoveAction->getUserInfo()->getUserId();
+             << userMoveAction->getMinimumBid() << " as minimumBid; "
+             << userMoveAction->getUserInfo()->getUserId() << " as userId";
 }
 
 void Server::onFirstCardsDealed(FirstCardsAction* firstCardsAction){
-
+    qDebug() << "On first cards dealed "
+             << firstCardsAction->getFirstCard()->getCardNumber() << " " << firstCardsAction->getFirstCard()->getSuit() << " | "
+             << firstCardsAction->getSecondCard()->getCardNumber() << " " << firstCardsAction->getSecondCard()->getSuit() << " | "
+             << firstCardsAction->getThirdCard()->getCardNumber() << " " << firstCardsAction->getThirdCard()->getSuit();
 }
 
 void Server::onNextCardDealed(Card* nextCard){
-
+    qDebug() << "On next card "
+             << nextCard->getCardNumber() << " " << nextCard->getSuit();
 }
 
 void Server::onGameFinished(UserInfo* winner){
@@ -92,5 +99,5 @@ void Server::onUserLeaveGame(UserLeaveAction* userLeaveAction){
 }
 
 void Server::onBankChanged(BankChangeAction* bankChangeAction){
-
+    qDebug() << "On Bank changed: " << bankChangeAction->getBankValue();
 }

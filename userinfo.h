@@ -11,6 +11,7 @@ public:
     long getUserId();
     long getUserMoney();
     long getUserMoneyOnTable();
+    void clearMoneyOnTable();
 private:
     void init(long userId, long userMoney, long userMoneyOnTable);
     long userId;

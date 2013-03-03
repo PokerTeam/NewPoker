@@ -18,12 +18,16 @@ bool UserInfo::isAllIn(){
     return userMoneyOnTable != 0 && userMoney == 0;
 }
 
+void UserInfo::clearMoneyOnTable(){
+    userMoneyOnTable = 0;
+}
+
 void UserInfo::putOnTable(long value){
     userMoney = userMoney - value;
     if (userMoney < 0){
         userMoney = 0;
     }
-    userMoneyOnTable = value;
+    userMoneyOnTable += value;
 }
 
 long UserInfo::getUserId(){
