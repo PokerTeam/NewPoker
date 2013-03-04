@@ -2,26 +2,30 @@
 import QtQuick 1.1
 
 Rectangle {
-    width: 360
-    height: 300
+    id: loginScreen
+
+    property int loginScreenWidth: 360
+    property int loginScreenHeight: 380
+
+    width: loginScreenWidth
+    height: loginScreenHeight
     anchors.fill: parent
-
     gradient: Gradient {
-             GradientStop { position: 0.0; color: "#FF393939" }
-             GradientStop { position: 1.0; color: "#FF222222" }
+        GradientStop { position: 0.0; color: "#FF393939" }
+        GradientStop { position: 1.0; color: "#FF222222" }
     }
-
-    property int spliterWidth: 20
 
     TextArea {
         id: textAreaLogin
 
         x: textAreaPassword.x
         y: textAreaPassword.y - 2.6 * textAreaPassword.height
-        width: buttonRegister.width + buttonLogin.width + spliterWidth
-        height: 28
+        width: buttonRegister.width + buttonLogin.width + 20
+        height: 32
+        borderRadius: 18
         textMaxLength: 24
         textAreaLabel: "Login"
+        textAreaLabelSize: 12
         textAreaHint: "Wrong user name"
     }
 
@@ -29,9 +33,11 @@ Rectangle {
         id: textAreaPassword
 
         anchors.centerIn: parent
-        width: buttonRegister.width + buttonLogin.width + spliterWidth
-        height: 28
+        width: buttonRegister.width + buttonLogin.width + 20
+        height: 32
+        borderRadius: 18
         textAreaLabel: "Password"
+        textAreaLabelSize: 12
         textAreaHint: "Wrong password"
         textPassword: true
     }    
@@ -39,9 +45,9 @@ Rectangle {
     Button {
         id: buttonLogin
 
-        height: 28
-        x: parent.width / 2 - width - spliterWidth / 2
-        y: textAreaPassword.y + 2 * textAreaPassword.height
+        height: 30
+        x: parent.width / 2 - width - 10
+        y: textAreaPassword.y + 2.1 * textAreaPassword.height
         label: "Login"
         labelColor: "#FFB0B0B0"
     }
@@ -49,9 +55,9 @@ Rectangle {
     Button {
         id: buttonRegister
 
-        height: 28
-        x: parent.width / 2 + spliterWidth / 2
-        y: textAreaPassword.y + 2 * textAreaPassword.height
+        height: 30
+        x: parent.width / 2 + 10
+        y: textAreaPassword.y + 2.1 * textAreaPassword.height
         label: "Register"
         labelColor: "#FFB0B0B0"
 

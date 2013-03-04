@@ -11,11 +11,11 @@ Rectangle {
     property int animationDuration: 120
 
     property color gradientColorTop: "#FF202020"
-    property color onHoverGradientColorTop: "#FF303030"
+    property color gradientOnHoverColorTop: "#FF303030"
     property color gradientColorBottom: "#FF101010"
-    property color onHoverGradientColorBottom: "#FF202020"
+    property color gradientOnHoverColorBottom: "#FF202020"
     property color borderColor: "#20FFFFFF"
-    property color onHoverBorderColor: "#24FFFFFF"
+    property color borderOnHoverColor: "#24FFFFFF"
 
     property color labelColor: "#FFFFFFFF"
     property bool labelBold: true
@@ -24,7 +24,7 @@ Rectangle {
     property string label: "button"
     property real labelSize: 11
 
-    width: buttonWidth
+    width: (buttonLabel.paintedWidth <= (buttonWidth - 4 * borderRadius)) ? (buttonWidth) : (buttonLabel.paintedWidth + 4 * borderRadius)
     height: buttonHeight
     radius: borderRadius
     smooth: true
@@ -35,16 +35,18 @@ Rectangle {
     gradient: Gradient {
         GradientStop { position: 0.0;
             Behavior on color { ColorAnimation { duration: animationDuration } }
-            color: buttonLogin.gradientColorTop }
+            color: gradientColorTop }
         GradientStop { position: 1.0;
             Behavior on color { ColorAnimation { duration: animationDuration } }
-            color: buttonLogin.gradientColorBottom }
+            color: gradientColorBottom }
     }
 
     Text {
+        id: buttonLabel
+
         text: label
         color: labelColor
-        anchors.centerIn: parent;
+        anchors.centerIn: parent
         font.pointSize: labelSize
         font.bold: labelBold
         font.italic: labelItalic
@@ -55,17 +57,17 @@ Rectangle {
         anchors.fill: parent
         hoverEnabled: true
         onClicked: buttonClick()
-        onEntered: onButtonHover(true)
-        onExited:  onButtonHover(false)
+        onEntered: buttonOnHover(true)
+        onExited:  buttonOnHover(false)
     }
 
     signal buttonClick()
 
-    function onButtonHover(isHover) {
+    function buttonOnHover(isHover) {
         if (isHover) {
-            border.color = onHoverBorderColor
-            gradient.stops[0].color = onHoverGradientColorTop
-            gradient.stops[1].color = onHoverGradientColorBottom
+            border.color = borderOnHoverColor
+            gradient.stops[0].color = gradientOnHoverColorTop
+            gradient.stops[1].color = gradientOnHoverColorBottom
         }
         else {
             border.color = borderColor
