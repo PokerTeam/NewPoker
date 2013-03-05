@@ -13,6 +13,8 @@
 #include "userleaveaction.h"
 #include "bankchangeaction.h"
 #include "usermoveaction.h"
+#include "winner.h"
+
 class Game : public QObject
 {
     Q_OBJECT
@@ -24,8 +26,7 @@ private:
     bool joinGame(User* user);
     QList<User> getUsersInGame();
     bool isGameStarted();//Maybe we do not need to implement this.
-    User* getWinner(UserCardSet firstList, UserCardSet second);
-    User* getWinner(QList<UserCardSet> cardSets);
+    QList<User*> getWinner(QList<UserCardSet> cardSets, QList<Card> cardsOnTable);
     Deck* deck;
     QList<Card> cardsOnTable;
     QList<UserCardSet> cardSets;

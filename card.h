@@ -1,15 +1,17 @@
 #ifndef CARD_H
 #define CARD_H
-#include <suit.h>
+#include "Suit.h"
+
 class Card
 {
 public:
-    Card(Suit suit, char number);
-    Suit getSuit();
-    char getCardNumber();
+    Card(Suit suit, int number);
+    Suit getSuit(){ return suit; }
+    int getCardNumber(){ return number; }
+
 private:
     Suit suit;
-    char number;
+    int number;
 };
 
 #endif // CARD_H

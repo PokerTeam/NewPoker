@@ -2,6 +2,9 @@
 #include <QtCore/QCoreApplication>
 #include "server.h"
 #include "game.h"
+#include "usercombination.h"
+#include <QDebug>
+
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);

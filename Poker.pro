@@ -31,7 +31,9 @@ SOURCES += main.cpp \
     firstcardsaction.cpp \
     userleaveaction.cpp \
     bankchangeaction.cpp \
-    usermoveaction.cpp
+    usermoveaction.cpp \
+    usercombination.cpp \
+    winner.cpp
 
 HEADERS += \
     user.h \
@@ -50,4 +52,7 @@ HEADERS += \
     firstcardsaction.h \
     userleaveaction.h \
     bankchangeaction.h \
-    usermoveaction.h
+    usermoveaction.h \
+    combination.h \
+    usercombination.h \
+    winner.h
