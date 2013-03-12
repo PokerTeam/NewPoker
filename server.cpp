@@ -32,18 +32,18 @@ void Server::start(){
     game->doAction(new UserAction(user2, FOLD));
     game->doAction(new UserAction(user3, RAISE, 10));
     game->doAction(new UserAction(user4, CALL, 10));
-    //DEal 4th card. 9 + 10 + 10 = 19
+    //DEal 4th card. 9 + 10 + 10 = 29
     game->doAction(new UserAction(user3, CHECK));
     game->doAction(new UserAction(user4, RAISE, 1));
     game->doAction(new UserAction(user3, CALL, 1));
     game->doAction(new UserAction(user4, CHECK));
-    //Deal 5th card. 19 + 1 + 1 = 21
+    //Deal 5th card. 19 + 1 + 1 = 31
     game->doAction(new UserAction(user3, CHECK));
     game->doAction(new UserAction(user4, CHECK));
-    // 21 + 0 = 21
+    // 31 + 0 = 31
     //Check cards.
     //user3 Wins.
-    // 21 to user3.
+    // 31 to user3.
     //New Loop. Move button.
 }
 

@@ -65,6 +65,8 @@ private:
     bool isUserActiveForBids(long userId);
     static const long BIG_BLIND_BID = 2;
     static const long SMALL_BLIND_BID = 1;
+    int activeUsersCountOnStartLoop;
+    int currentLoopStep;
 public slots:
     //When user do his step.
     void doAction(UserAction* userAction);

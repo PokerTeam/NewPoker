@@ -3,6 +3,7 @@
 Game::Game(AccountManager* accountManager){
     this->accountManager = accountManager;
     this->deck = new Deck();
+    activeUsersCountOnStartLoop = currentLoopStep = 0;
 }
 
 void Game::doAction(UserAction* userAction){
@@ -12,9 +13,7 @@ void Game::doAction(UserAction* userAction){
     switch(userAction->getAction()){
         case CALL:
         case RAISE:
-            qDebug() << user->getUserMoneyOnTable();
             user->putOnTable(userAction->getMoney());
-            qDebug() << "Call/Raise " << user->getUserId() << " with money on table :" << user->getUserMoneyOnTable();
             break;
     }
     emit onUserAction(userAction);
@@ -69,6 +68,8 @@ UserInfo* Game::getUserWithButton(){
 UserInfo* Game::getBigBlind(){
     UserInfo* user = usersInGame[getCursor(buttonOnUserWithIndex + 2)];
     user->putOnTable(BIG_BLIND_BID);
+    lastUserAction[user->getUserId()] = new UserAction(new User(user->getUserId(), "", ""), RAISE, BIG_BLIND_BID);
+    incrementLoopCounter(user->getUserId());//TODO: move from this method.
     return user;
 }
 
@@ -79,6 +80,8 @@ long Game::getCursor(long cursorValue){
 UserInfo* Game::getSmallBlind(){
     UserInfo* user = usersInGame[getCursor(buttonOnUserWithIndex + 1)];
     user->putOnTable(SMALL_BLIND_BID);
+    lastUserAction[user->getUserId()] = new UserAction(new User(user->getUserId(), "", ""), RAISE, SMALL_BLIND_BID);
+    incrementLoopCounter(user->getUserId());
     return user;
 }
 
@@ -88,6 +91,12 @@ UserInfo* Game::currentCursorOnUser(){
 
 void Game::moveCurrentCursor(long offset){
     cursorOnUserWithIndex = getCursor(cursorOnUserWithIndex + offset);
+    UserInfo* user = usersInGame[cursorOnUserWithIndex];
+    bool lastActonFold = isLastActionExists(user->getUserId()) && lastUserAction[usersInGame[cursorOnUserWithIndex]->getUserId()]->getAction() == FOLD;
+    if (lastActonFold ||
+        usersInGame[cursorOnUserWithIndex]->isAllIn()){
+        moveCurrentCursor(cursorOnUserWithIndex + 1);
+    }
 }
 
 void Game::askForUserMove(bool isFirstStep){
@@ -103,10 +112,22 @@ void Game::askForUserMove(bool isFirstStep){
                 break;
             case 5:
                 //TODO: check winner;
+                qDebug() << "Winner";
                 clearBank();
+                start();
+                return;
                 break;
         }
     }
+    if (isAllMovesEquals()){
+        activeUsersCountOnStartLoop = currentLoopStep = 0;
+        foreach(UserInfo* user, usersInGame){
+            if (isUserActiveForBids(user->getUserId())){
+                activeUsersCountOnStartLoop++;
+            }
+        }
+    }
+    currentLoopStep += isFirstStep ? 2 : 1;
     moveCurrentCursor(isFirstStep ? 3 : 1);
     UserInfo* currentUser = currentCursorOnUser();
     emit onUserMove(new UserMoveAction(
@@ -180,6 +201,9 @@ UserInfo* Game::getUserInGame(long userId){
 }
 
 bool Game::isLoopFinished(){
+    qDebug() << "All bids eq: " << isAllBidsAreEquals() << endl
+             << "All moves eq: " << isAllMovesEquals() << endl
+             << "Moves " << activeUsersCountOnStartLoop << " - " << currentLoopStep;
     return isAllBidsAreEquals() && isAllMovesEquals();
 }
 
@@ -200,10 +224,13 @@ bool Game::isAllBidsAreEquals(){
 }
 
 bool Game::isAllMovesEquals(){
+    return currentLoopStep == activeUsersCountOnStartLoop;
+    /*
     long previous = -1;
     foreach (UserInfo* user, usersInGame){
         if (isUserActiveForBids(user->getUserId())){
             if (!isLastActionExists(user->getUserId())){
+                qDebug() << "Last not ex " << user->getUserId();
                 return false;
             }
             if (previous == -1){
@@ -215,7 +242,7 @@ bool Game::isAllMovesEquals(){
             }
         }
     }
-
+*/
     return true;
 }
 
@@ -232,20 +259,3 @@ bool Game::isUserActiveForBids(long userId){
     bool isLastActionNotFold = !isLastActionExists(userId) || lastUserAction[userId]->getAction() != FOLD;
     return !user->isAllIn() && isLastActionNotFold;
 }
-
-// When first three cards dealed.
-void onFirstCardsDealed(FirstCardsAction* firstCardsAction);
-
-void onNextCardDealed(Card* nextCard);// For 4th and 5th cards.
-
-
-void onGameFinished(UserInfo* winner);
-//Occurs when gameStartedAction occured and less then 3 users in game.
-void onGameStopped();
-
-void onUserAction(UserAction* userAction);
-
-//Occures after 60 seconds without response.
-void onUserLeaveGame(UserLeaveAction* userLeaveAction);
-
-void onBankChanged(BankChangeAction* bankChangeAction); //Occurs when bank value changed.
