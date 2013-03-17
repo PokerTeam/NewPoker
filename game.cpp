@@ -225,25 +225,6 @@ bool Game::isAllBidsAreEquals(){
 
 bool Game::isAllMovesEquals(){
     return currentLoopStep == activeUsersCountOnStartLoop;
-    /*
-    long previous = -1;
-    foreach (UserInfo* user, usersInGame){
-        if (isUserActiveForBids(user->getUserId())){
-            if (!isLastActionExists(user->getUserId())){
-                qDebug() << "Last not ex " << user->getUserId();
-                return false;
-            }
-            if (previous == -1){
-                previous = getUserMovesCount(user->getUserId());
-            }else{
-                if (previous != getUserMovesCount(user->getUserId())){
-                    return false;
-                }
-            }
-        }
-    }
-*/
-    return true;
 }
 
 long Game::getUserMovesCount(long userId){

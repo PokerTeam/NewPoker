@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       += core
-
+QT += network
 QT       -= gui
 
 TARGET = Poker
@@ -50,4 +50,5 @@ HEADERS += \
     firstcardsaction.h \
     userleaveaction.h \
     bankchangeaction.h \
-    usermoveaction.h
+    usermoveaction.h \
+    commands.h

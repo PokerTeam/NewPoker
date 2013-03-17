@@ -10,14 +10,14 @@ public:
     AccountManager();
     bool isPasswordCorrect(long userId, QString password);
 private:
-    long createNewUser(User* user);
     User* loadUser(long userId);
     bool isUserWithSuchUsernameExists(QString username);
     void updateUser(User* updatedUser);
+public slots:
+    void createNewUser(User* user);
 signals:
-    void onUserCreation();
-    void onLoginFailed();
-    void onLoginSuccessed();
+    void onLoginResult(bool isSuccess, User* user);
+    void onUserCreationResult(bool isSuccess, User* user);
 };
 
 #endif // ACCOUNTMANAGER_H

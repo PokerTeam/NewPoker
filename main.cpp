@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 
 
     Server* server = new Server();
-    server->start();
+    server->start(QHostAddress::Any, 1234);
 
     return a.exec();
 }
