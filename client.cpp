@@ -190,5 +190,4 @@ bool Client::doRegistration(QString login,QString pass)
      out.device()->seek(0);
      out << (quint16)(block.size() - sizeof(quint16));
      _sok->write(block);
-
  }

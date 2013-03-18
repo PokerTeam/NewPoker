@@ -24,14 +24,15 @@ SOURCES += main.cpp \
     usercardset.cpp \
     deck.cpp \
     useraction.cpp \
-    client.cpp \
     server.cpp \
     gamestartaction.cpp \
     userinfo.cpp \
     firstcardsaction.cpp \
     userleaveaction.cpp \
     bankchangeaction.cpp \
-    usermoveaction.cpp
+    usermoveaction.cpp \
+    clientsocket.cpp \
+    loginresult.cpp
 
 HEADERS += \
     user.h \
@@ -43,7 +44,6 @@ HEADERS += \
     deck.h \
     actions.h \
     useraction.h \
-    client.h \
     server.h \
     gamestartaction.h \
     userinfo.h \
@@ -51,4 +51,6 @@ HEADERS += \
     userleaveaction.h \
     bankchangeaction.h \
     usermoveaction.h \
-    commands.h
+    commands.h \
+    clientsocket.h \
+    loginresult.h

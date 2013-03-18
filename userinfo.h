@@ -1,6 +1,7 @@
 #ifndef USERINFO_H
 #define USERINFO_H
 #include "user.h"
+#include <QDataStream>
 class UserInfo
 {
 public:
@@ -18,5 +19,8 @@ private:
     long userMoney;
     long userMoneyOnTable;
 };
+
+QDataStream &operator<<(QDataStream &out, UserInfo *&info);
+QDataStream &operator>>(QDataStream &in, UserInfo *&info);
 
 #endif // USERINFO_H

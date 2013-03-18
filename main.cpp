@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
     QCoreApplication a(argc, argv);
 
 
-    Server* server = new Server();
+    Server* server = new Server(new Game(NULL));
     server->start(QHostAddress::Any, 1234);
 
     return a.exec();
