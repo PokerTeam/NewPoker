@@ -29,13 +29,13 @@ Rectangle {
         id: buttonExit
 
         height: 32
-        x: 10
-        y: 10
+        x: 8
+        y: 8
         label: "Exit"
         labelColor: "#FFB0B0B0"
-        gradientColorTop: "#80202020"
+        gradientColorTop: "#A0101010"
         gradientOnHoverColorTop: "#A0303030"
-        gradientColorBottom: "#80101010"
+        gradientColorBottom: "#A0000000"
         gradientOnHoverColorBottom: "#A0202020"
         borderSize: 2
     }
@@ -44,13 +44,13 @@ Rectangle {
         id: buttonFold
 
         height: 32
-        x: 10
-        y: parent.height - height * 1.5
+        x: 8
+        y: parent.height - height - 8
         label: "Fold"
         labelColor: "#FFB0B0B0"
-        gradientColorTop: "#80202020"
+        gradientColorTop: "#A0101010"
         gradientOnHoverColorTop: "#A0303030"
-        gradientColorBottom: "#80101010"
+        gradientColorBottom: "#A0000000"
         gradientOnHoverColorBottom: "#A0202020"
         borderSize: 2
     }
@@ -60,12 +60,12 @@ Rectangle {
 
         height: 32
         x: buttonFold.x + buttonFold.width + 10
-        y: parent.height - height * 1.5
+        y: parent.height - height - 8
         label: "Call"
         labelColor: "#FFB0B0B0"
-        gradientColorTop: "#80202020"
+        gradientColorTop: "#A0101010"
         gradientOnHoverColorTop: "#A0303030"
-        gradientColorBottom: "#80101010"
+        gradientColorBottom: "#A0000000"
         gradientOnHoverColorBottom: "#A0202020"
         borderSize: 2
     }
@@ -75,12 +75,12 @@ Rectangle {
 
         height: 32
         x: buttonCall.x + buttonCall.width + 10
-        y: parent.height - height * 1.5
+        y: parent.height - height - 8
         label: "Raise"
         labelColor: "#FFB0B0B0"
-        gradientColorTop: "#80202020"
+        gradientColorTop: "#A0101010"
         gradientOnHoverColorTop: "#A0303030"
-        gradientColorBottom: "#80101010"
+        gradientColorBottom: "#A0000000"
         gradientOnHoverColorBottom: "#A0202020"
         borderSize: 2
     }
@@ -91,7 +91,7 @@ Rectangle {
         width: buttonAdd.width + textRaiseValue.width + buttonDel.width + 20
         height: 32
         x: buttonRaise.x + buttonRaise.width + 30
-        y: parent.height - height * 1.5
+        y: parent.height - height - 8
         color: "#60303030"
         border {
             width: 2;
@@ -111,9 +111,9 @@ Rectangle {
             label: "-"
             labelSize: 12
             labelColor: "#FFB0B0B0"
-            gradientColorTop: "#80202020"
+            gradientColorTop: "#A0101010"
             gradientOnHoverColorTop: "#A0303030"
-            gradientColorBottom: "#80101010"
+            gradientColorBottom: "#A0000000"
             gradientOnHoverColorBottom: "#A0202020"
             borderSize: 2
         }
@@ -143,12 +143,141 @@ Rectangle {
             label: "+"
             labelSize: 12
             labelColor: "#FFB0B0B0"
-            gradientColorTop: "#80202020"
+            gradientColorTop: "#A0101010"
             gradientOnHoverColorTop: "#A0303030"
-            gradientColorBottom: "#80101010"
+            gradientColorBottom: "#A0000000"
             gradientOnHoverColorBottom: "#A0202020"
             borderSize: 2
         }
+    }
+
+    UserBlock {
+        id: user3
+
+        anchors.top: parent.top
+        anchors.topMargin: 6
+        anchors.right: parent.right
+        anchors.rightMargin: 6
+        ublockWidth: 212
+        ublockHeight: 64
+        labelSize: 12
+        userAvaImage: 3
+        activeUser: true
+    }
+
+    UserBlock {
+        id: user2
+
+        anchors.top: parent.top
+        anchors.topMargin: 6
+        anchors.right: user3.left
+        anchors.rightMargin: 18
+        ublockWidth: 212
+        ublockHeight: 64
+        labelSize: 12
+        userAvaImage: 0
+        failedUser: true
+    }
+
+    UserBlock {
+        id: user1
+
+        anchors.top: parent.top
+        anchors.topMargin: 6
+        anchors.right: user2.left
+        anchors.rightMargin: 18
+        ublockWidth: 212
+        ublockHeight: 64
+        labelSize: 12
+        userAvaImage: 4
+    }
+
+    CardImage {
+        id: cardImageSelf1
+
+        cardSize: 1
+        currentFrame: 0
+        anchors.top: parent.bottom
+        anchors.topMargin: -126
+        anchors.left: parent.right
+        anchors.leftMargin: -140
+    }
+
+    CardImage {
+        id: cardImageSelf2
+
+        cardSize: 1
+        currentFrame: 2
+        anchors.top: parent.bottom
+        anchors.topMargin: -126
+        anchors.left: parent.right
+        anchors.leftMargin: -106
+    }
+
+    UserBlock {
+        id: userSelf
+
+        anchors.top: parent.bottom
+        anchors.topMargin: -60 - 6
+        anchors.left: parent.right
+        anchors.leftMargin: -250 - 6
+        ublockWidth: 250
+        ublockHeight: 60
+        labelSize: 12
+        userAvaImage: 1
+        gradientColorTop: "#FB101010"
+        gradientOnActiveColorTop: "#FB303030"
+        gradientOnFailColorTop: "#FB606060"
+        gradientColorBottom: "#FB000000"
+        gradientOnActiveColorBottom: "#FB202020"
+    }
+
+    CardImage {
+        id: card3
+
+        cardSize: 1
+        currentFrame: 3
+        anchors.centerIn: parent
+    }
+
+    CardImage {
+        id: card2
+
+        cardSize: 1
+        currentFrame: 4
+        anchors.top: card3.top
+        anchors.right: card3.left
+        anchors.rightMargin: 18
+    }
+
+    CardImage {
+        id: card1
+
+        cardSize: 1
+        currentFrame: 5
+        anchors.top: card3.top
+        anchors.right: card2.left
+        anchors.rightMargin: 18
+    }
+
+    CardImage {
+        id: card4
+
+        cardSize: 1
+        currentFrame: 6
+        anchors.top: card3.top
+        anchors.left: card3.right
+        anchors.leftMargin: 18
+    }
+
+    CardImage {
+        id: card5
+
+        cardSize: 1
+        currentFrame: 7
+        anchors.top: card3.top
+        anchors.left: card4.right
+        anchors.leftMargin: 18
     }
 
     Gradient {

@@ -4,10 +4,10 @@ import QtQuick 1.1
 Rectangle {
     id: button
 
-    property int buttonWidth: 120
+    property int buttonWidth: 110
     property int buttonHeight: 32
     property int borderSize: 4
-    property int borderRadius: 8
+    property int borderRadius: 6
     property int animationDuration: 120
 
     property color gradientColorTop: "#FF202020"
@@ -23,6 +23,8 @@ Rectangle {
     property string labelFontFamily: "Segoe UI"
     property string label: "button"
     property real labelSize: 11
+
+    signal buttonClick()
 
     width: (buttonLabel.paintedWidth <= (buttonWidth - 4 * borderRadius)) ? (buttonWidth) : (buttonLabel.paintedWidth + 4 * borderRadius)
     height: buttonHeight
@@ -54,14 +56,14 @@ Rectangle {
     }
 
     MouseArea {
+        id: buttonMouseArea
+
         anchors.fill: parent
         hoverEnabled: true
         onClicked: buttonClick()
         onEntered: buttonOnHover(true)
         onExited:  buttonOnHover(false)
-    }
-
-    signal buttonClick()
+    }    
 
     function buttonOnHover(isHover) {
         if (isHover) {

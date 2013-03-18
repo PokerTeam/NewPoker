@@ -11,5 +11,9 @@
         <file>ava_3.gif</file>
         <file>ava_4.gif</file>
         <file>ava_5.gif</file>
+        <file>UserBlock.qml</file>
+        <file>CardImage.qml</file>
+        <file>cards.png</file>
+        <file>unknown.jpg</file>
     </qresource>
 </RCC>

@@ -19,7 +19,9 @@ OTHER_FILES += \
     login.qml \
     game.qml \
     Button.qml \
-    TextArea.qml
+    TextArea.qml \
+    CardImage.qml \
+    UserBlock.qml
 
 RESOURCES += \
     resources.qrc

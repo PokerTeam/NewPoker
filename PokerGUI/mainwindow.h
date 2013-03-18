@@ -22,6 +22,23 @@ public:
 
 private:
     QDeclarativeView *ui;
+    QObject *root;
+
+    void SetupUI(QString path);
+
+    void SetLoginScreen();
+    void SetupLoginControls(QObject *aRoot);
+    void SetupLoginTextAreas(QObject *aRoot);
+    void SetupLoginButtons(QObject *aRoot);
+
+    void SetGameScreen();
+    void SetupGameControls(QObject *aRoot);
+    void SetupGameTextAreas(QObject *aRoot);
+    void SetupGameButtons(QObject *aRoot);
+
+private slots:
+    void OnButtonLoginClick();
+    void OnButtonRegisterClick();
 };
 
 #endif // MAINWINDOW_H

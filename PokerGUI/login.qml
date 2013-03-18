@@ -17,6 +17,7 @@ Rectangle {
 
     TextArea {
         id: textAreaLogin
+        objectName: "textAreaLogin"
 
         x: textAreaPassword.x
         y: textAreaPassword.y - 2.6 * textAreaPassword.height
@@ -31,6 +32,7 @@ Rectangle {
 
     TextArea {
         id: textAreaPassword
+        objectName: "textAreaPassword"
 
         anchors.centerIn: parent
         width: buttonRegister.width + buttonLogin.width + 20
@@ -44,6 +46,7 @@ Rectangle {
 
     Button {
         id: buttonLogin
+        objectName: "buttonLogin"
 
         height: 30
         x: parent.width / 2 - width - 10
@@ -54,12 +57,12 @@ Rectangle {
 
     Button {
         id: buttonRegister
+        objectName: "buttonRegister"
 
         height: 30
         x: parent.width / 2 + 10
         y: textAreaPassword.y + 2.1 * textAreaPassword.height
         label: "Register"
-        labelColor: "#FFB0B0B0"
-
+        labelColor: "#FFB0B0B0"        
     }
 }
