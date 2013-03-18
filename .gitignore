@@ -1,3 +1,4 @@
 *.autosave
 *.user
 /PokerGUI/*.user
+/PokerGUI-build*
