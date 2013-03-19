@@ -28,8 +28,8 @@ Rectangle {
     property real labelSize: 10
 
     property bool activeUser: false
-    property bool failedUser: false
-    property int userAvaImage: 1
+    property bool failedUser: true
+    property int userAvaImage: 0
 
     width: ublockWidth
     height: ublockHeight

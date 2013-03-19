@@ -33,12 +33,21 @@ private:
 
     void SetGameScreen();
     void SetupGameControls(QObject *aRoot);
-    void SetupGameTextAreas(QObject *aRoot);
+    void SetupGameText(QObject *aRoot);
     void SetupGameButtons(QObject *aRoot);
+    void SetupGameUserBlocks(QObject *aRoot);
+    void SetupGameCardImages(QObject *aRoot);
 
 private slots:
     void OnButtonLoginClick();
     void OnButtonRegisterClick();
+
+    void OnButtonExitClick();
+    void OnButtonFoldClick();
+    void OnButtonCallClick();
+    void OnButtonRaiseClick();
+    void OnButtonRateIncClick();
+    void OnButtonRateDecClick();
 };
 
 #endif // MAINWINDOW_H

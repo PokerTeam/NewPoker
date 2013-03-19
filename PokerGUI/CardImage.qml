@@ -33,15 +33,6 @@ Rectangle {
         }
     }
 
-    /*Timer{
-        id: cardTimer
-
-        interval: 500
-        running: true
-        repeat: true
-        onTriggered: currentFrame++
-    }*/
-
     function getFrameCount() {
         return framesCountX * framesCountY
     }

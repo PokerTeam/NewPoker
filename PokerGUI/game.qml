@@ -27,6 +27,7 @@ Rectangle {
 
     Button {
         id: buttonExit
+        objectName: "buttonExit"
 
         height: 32
         x: 8
@@ -42,6 +43,7 @@ Rectangle {
 
     Button {
         id: buttonFold
+        objectName: "buttonFold"
 
         height: 32
         x: 8
@@ -57,6 +59,7 @@ Rectangle {
 
     Button {
         id: buttonCall
+        objectName: "buttonCall"
 
         height: 32
         x: buttonFold.x + buttonFold.width + 10
@@ -72,6 +75,7 @@ Rectangle {
 
     Button {
         id: buttonRaise
+        objectName: "buttonRaise"
 
         height: 32
         x: buttonCall.x + buttonCall.width + 10
@@ -88,7 +92,7 @@ Rectangle {
     Rectangle {
         id: blockRaiseValue
 
-        width: buttonAdd.width + textRaiseValue.width + buttonDel.width + 20
+        width: buttonInc.width + textRaiseValue.width + buttonDec.width + 20
         height: 32
         x: buttonRaise.x + buttonRaise.width + 30
         y: parent.height - height - 8
@@ -102,7 +106,8 @@ Rectangle {
         smooth: true
 
         Button {
-            id: buttonDel
+            id: buttonDec
+            objectName: "buttonDec"
 
             width: 36
             height: 32
@@ -120,11 +125,13 @@ Rectangle {
 
         Text {
             id: textRaiseValue
+            objectName: "textRaiseValue"
 
-            width: paintedWidth + 10
+            property string raiseValue: "1024"
+
             height: 32
             anchors.centerIn: parent
-            text: "1025"
+            text: raiseValue
             color: "#FFB0B0B0"
             font.bold: true
             font.family: "Sagoe UI"
@@ -134,7 +141,8 @@ Rectangle {
         }
 
         Button {
-            id: buttonAdd
+            id: buttonInc
+            objectName: "buttonInc"
 
             width: 36
             height: 32
@@ -153,6 +161,7 @@ Rectangle {
 
     UserBlock {
         id: user3
+        objectName: "user3"
 
         anchors.top: parent.top
         anchors.topMargin: 6
@@ -161,12 +170,11 @@ Rectangle {
         ublockWidth: 212
         ublockHeight: 64
         labelSize: 12
-        userAvaImage: 3
-        activeUser: true
     }
 
     UserBlock {
         id: user2
+        objectName: "user2"
 
         anchors.top: parent.top
         anchors.topMargin: 6
@@ -175,12 +183,11 @@ Rectangle {
         ublockWidth: 212
         ublockHeight: 64
         labelSize: 12
-        userAvaImage: 0
-        failedUser: true
     }
 
     UserBlock {
         id: user1
+        objectName: "user1"
 
         anchors.top: parent.top
         anchors.topMargin: 6
@@ -188,15 +195,13 @@ Rectangle {
         anchors.rightMargin: 18
         ublockWidth: 212
         ublockHeight: 64
-        labelSize: 12
-        userAvaImage: 4
+        labelSize: 12        
     }
 
     CardImage {
         id: cardImageSelf1
+        objectName: "cardImageSelf1"
 
-        cardSize: 1
-        currentFrame: 0
         anchors.top: parent.bottom
         anchors.topMargin: -126
         anchors.left: parent.right
@@ -205,9 +210,8 @@ Rectangle {
 
     CardImage {
         id: cardImageSelf2
+        objectName: "cardImageSelf2"
 
-        cardSize: 1
-        currentFrame: 2
         anchors.top: parent.bottom
         anchors.topMargin: -126
         anchors.left: parent.right
@@ -216,6 +220,7 @@ Rectangle {
 
     UserBlock {
         id: userSelf
+        objectName: "userSelf"
 
         anchors.top: parent.bottom
         anchors.topMargin: -60 - 6
@@ -225,6 +230,7 @@ Rectangle {
         ublockHeight: 60
         labelSize: 12
         userAvaImage: 1
+        failedUser: false
         gradientColorTop: "#FB101010"
         gradientOnActiveColorTop: "#FB303030"
         gradientOnFailColorTop: "#FB606060"
@@ -234,17 +240,15 @@ Rectangle {
 
     CardImage {
         id: card3
+        objectName: "card3"
 
-        cardSize: 1
-        currentFrame: 3
         anchors.centerIn: parent
     }
 
     CardImage {
         id: card2
+        objectName: "card2"
 
-        cardSize: 1
-        currentFrame: 4
         anchors.top: card3.top
         anchors.right: card3.left
         anchors.rightMargin: 18
@@ -252,9 +256,8 @@ Rectangle {
 
     CardImage {
         id: card1
+        objectName: "card1"
 
-        cardSize: 1
-        currentFrame: 5
         anchors.top: card3.top
         anchors.right: card2.left
         anchors.rightMargin: 18
@@ -262,9 +265,8 @@ Rectangle {
 
     CardImage {
         id: card4
+        objectName: "card4"
 
-        cardSize: 1
-        currentFrame: 6
         anchors.top: card3.top
         anchors.left: card3.right
         anchors.leftMargin: 18
@@ -272,9 +274,8 @@ Rectangle {
 
     CardImage {
         id: card5
+        objectName: "card5"
 
-        cardSize: 1
-        currentFrame: 7
         anchors.top: card3.top
         anchors.left: card4.right
         anchors.leftMargin: 18
