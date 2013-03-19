@@ -75,15 +75,18 @@ void Client::readClient(){
             qDebug() << requestType << " Size: " << socket.bytesAvailable() << " next: " << nextBlockSize;
             switch(requestType){
                 case Commands::loginResult:
-                    qDebug() << "Login Result";
+                    LoginResult* result;
+                    in >> result;
+                    qDebug() << "Login Result " << result->getIsSuccessed() << " " << result->getUser()->getUserId();
                     break;
                 case Commands::joinGame:
                     qDebug() << "Join Result";
                     break;
             }
-            /*Stub*/
+            /*Stub
             char *arr;
-            uint len = (uint)socket.bytesAvailable();
+
+            uint len = (uint)(quint32(nextBlockSize) - quint32(bytesBeforeRead) - quint32(socket.bytesAvailable()));
             in.readBytes(arr, len);
             /*To process bytes*/
             //socket.close();

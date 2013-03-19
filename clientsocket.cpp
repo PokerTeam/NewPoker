@@ -10,7 +10,7 @@ ClientSocket::ClientSocket(QObject *parent) :
 
 
 void ClientSocket::readClient(){
-    qDebug() << "Req";
+    //qDebug() << "Req";
     QDataStream in(this);
     in.setVersion(QDataStream::Qt_4_6);
     while (bytesAvailable() > 0){
@@ -27,7 +27,7 @@ void ClientSocket::readClient(){
         }else{
             quint16 requestType;
             in >> requestType;
-            qDebug() << bytesAvailable() << " " << nextBlockSize << " " << requestType;
+            //qDebug() << bytesAvailable() << " " << nextBlockSize << " " << requestType;
             switch(requestType){
                 case Commands::registerNewUser:
                     processRegisterRequest(in);
@@ -81,4 +81,6 @@ void ClientSocket::sendLoginRequest(LoginResult* login){
     out.device()->seek(0);
     out << quint16(block.size() - sizeof(quint16));
     write(block);
+    flush();
+    waitForBytesWritten(1000);
 }
