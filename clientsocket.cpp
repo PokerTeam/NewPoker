@@ -13,36 +13,41 @@ void ClientSocket::readClient(){
     qDebug() << "Req";
     QDataStream in(this);
     in.setVersion(QDataStream::Qt_4_6);
-    long readedBytes = 0;
-    if (nextBlockSize == 0){
-        if (bytesAvailable() < sizeof(quint16)){
+    while (bytesAvailable() > 0){
+        if (nextBlockSize == 0){
+            if (bytesAvailable() < sizeof(quint16)){
+                return;
+            }else{
+                in >> nextBlockSize;
+            }
+        }
+
+        if (bytesAvailable() < nextBlockSize){
             return;
         }else{
-            in >> nextBlockSize;
+            quint16 requestType;
+            in >> requestType;
+            qDebug() << bytesAvailable() << " " << nextBlockSize << " " << requestType;
+            switch(requestType){
+                case Commands::registerNewUser:
+                    processRegisterRequest(in);
+                    break;
+                case Commands::loginUser:
+                    processLoginRequest(in);
+                    break;
+                case Commands::joinGame:
+                    processJoinGameRequest(in);
+                    break;
+            }
+            /*Stub
+            char *arr;
+            uint len = (uint)socket.bytesAvailable();
+            in.readBytes(arr, len);
+            /*To process bytes*/
+            //close();
+            nextBlockSize = 0;
         }
     }
-
-    if (bytesAvailable() < nextBlockSize){
-        return;
-    }else{
-        quint16 requestType;
-        in >> requestType;
-        qDebug() << bytesAvailable() << " " << nextBlockSize << " " << requestType;
-        switch(requestType){
-            case Commands::registerNewUser:
-                processRegisterRequest(in);
-                break;
-            case Commands::loginUser:
-                processLoginRequest(in);
-                break;
-            case Commands::joinGame:
-                processJoinGameRequest(in);
-                break;
-        }
-        //close();
-        nextBlockSize = 0;
-    }
-
 }
 
 void ClientSocket::processRegisterRequest(QDataStream &stream){
@@ -76,5 +81,4 @@ void ClientSocket::sendLoginRequest(LoginResult* login){
     out.device()->seek(0);
     out << quint16(block.size() - sizeof(quint16));
     write(block);
-    flush();
 }

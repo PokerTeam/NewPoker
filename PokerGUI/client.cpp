@@ -22,8 +22,8 @@ void Client::doRegisterRequest(QString username, QString password){
     out << quint16(block.size() - sizeof(quint16));
     socket.write(block);
     qDebug() << "Block size " << block.size() - sizeof(quint16);
-    //socket.waitForBytesWritten();
     socket.flush();
+    socket.waitForBytesWritten(1000);
 }
 
 void Client::doLoginRequest(QString username, QString password){
@@ -36,8 +36,8 @@ void Client::doLoginRequest(QString username, QString password){
     out << quint16(block.size() - sizeof(quint16));
     qDebug() << "Block size " << block.size() - sizeof(quint16);
     socket.write(block);
-    //socket.waitForBytesWritten();
     socket.flush();
+    socket.waitForBytesWritten(1000);
 }
 
 void Client::doJoinGameRequest(UserInfo* userInfo){
@@ -50,14 +50,15 @@ void Client::doJoinGameRequest(UserInfo* userInfo){
     out << quint16(block.size() - sizeof(quint16));
     qDebug() << "Block size " << block.size() - sizeof(quint16);
     socket.write(block);
-   // socket.waitForBytesWritten();
     socket.flush();
+    socket.waitForBytesWritten(1000);
 }
 
 void Client::readClient(){
-    qDebug() << "Client req";
+    qDebug() << endl <<"Client req, Avalible: " << socket.bytesAvailable() << ", next: " << nextBlockSize;
     QDataStream in(&socket);
     in.setVersion(QDataStream::Qt_4_6);
+    while (socket.bytesAvailable() > 0){
         if (nextBlockSize == 0){
             if (socket.bytesAvailable() < sizeof(quint16)){
                 return;
@@ -71,7 +72,7 @@ void Client::readClient(){
         }else{
             quint16 requestType;
             in >> requestType;
-            qDebug() << requestType;
+            qDebug() << requestType << " Size: " << socket.bytesAvailable() << " next: " << nextBlockSize;
             switch(requestType){
                 case Commands::loginResult:
                     qDebug() << "Login Result";
@@ -80,7 +81,13 @@ void Client::readClient(){
                     qDebug() << "Join Result";
                     break;
             }
+            /*Stub*/
+            char *arr;
+            uint len = (uint)socket.bytesAvailable();
+            in.readBytes(arr, len);
+            /*To process bytes*/
             //socket.close();
             nextBlockSize = 0;
         }
+    }
 }
