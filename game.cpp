@@ -28,12 +28,11 @@ void Game::incrementLoopCounter(long userId){
     }
 }
 
-void Game::joinGame(User* user){
-    if (accountManager->isPasswordCorrect(user->getUserId(), user->getPassword()) || usersInGame.length() == 6){
-        UserInfo* userInfo = new UserInfo(user);
-        usersInGame.push_back(userInfo);
-        emit onUserJoinGame(userInfo);
-        if (usersInGame.length() == 4){
+void Game::joinGame(UserInfo* user){
+    if (usersInGame.length() == 4){
+        usersInGame.push_back(user);
+        emit onUserJoinGame(usersInGame);
+        if (usersInGame.length() == 2){
             start();
         }
     }else{

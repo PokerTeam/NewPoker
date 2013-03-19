@@ -10,9 +10,10 @@ ClientSocket::ClientSocket(QObject *parent) :
 
 
 void ClientSocket::readClient(){
+    qDebug() << "Req";
     QDataStream in(this);
     in.setVersion(QDataStream::Qt_4_6);
-
+    long readedBytes = 0;
     if (nextBlockSize == 0){
         if (bytesAvailable() < sizeof(quint16)){
             return;
@@ -26,13 +27,20 @@ void ClientSocket::readClient(){
     }else{
         quint16 requestType;
         in >> requestType;
-        qDebug() << requestType;
+        qDebug() << bytesAvailable() << " " << nextBlockSize << " " << requestType;
         switch(requestType){
             case Commands::registerNewUser:
                 processRegisterRequest(in);
                 break;
+            case Commands::loginUser:
+                processLoginRequest(in);
+                break;
+            case Commands::joinGame:
+                processJoinGameRequest(in);
+                break;
         }
-        close();
+        //close();
+        nextBlockSize = 0;
     }
 
 }
@@ -41,19 +49,32 @@ void ClientSocket::processRegisterRequest(QDataStream &stream){
     QString login;
     QString password;
     stream >> login >> password;
-    qDebug() << "Login/Password on server = " << login << "/" << password;
-    LoginResult* result = new LoginResult(false, "IncorrectPassword", NULL);//emit onRegisterRequest(login, password);
+    LoginResult* result = emit onRegisterRequest(login, password);
     sendLoginRequest(result);
-    QDataStream out(this);
-    out << quint16(0xFFFF);
+}
+
+void ClientSocket::processLoginRequest(QDataStream &stream){
+    QString login;
+    QString password;
+    stream >> login >> password;
+    LoginResult* result = emit onLoginRequest(login, password);
+    sendLoginRequest(result);
+}
+
+void ClientSocket::processJoinGameRequest(QDataStream &stream){
+    UserInfo* userInfo;
+    stream >> userInfo;
+    qDebug() << "Join game " << userInfo->getUserId();
+    emit onJoinGameRequest(userInfo);
 }
 
 void ClientSocket::sendLoginRequest(LoginResult* login){
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_4_6);
-    out << quint16(0) << quint16(Commands::loginUser) << login;
+    out << quint16(0) << quint16(Commands::loginResult) << login;
     out.device()->seek(0);
     out << quint16(block.size() - sizeof(quint16));
     write(block);
+    flush();
 }

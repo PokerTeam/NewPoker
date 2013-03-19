@@ -4,6 +4,8 @@
 #include <QtNetwork/QTcpSocket>
 #include<qnetworkinterface.h>
 #include "../loginresult.h"
+#include "../user.h"
+#include "../userinfo.h"
 #include <QObject>
 class Client : QObject
 {
@@ -13,6 +15,8 @@ public:
     void connectToServer();
 public slots:
     void doRegisterRequest(QString username, QString password);
+    void doLoginRequest(QString username, QString password);
+    void doJoinGameRequest(UserInfo* userInfo);
     void readClient();
 signals:
     void onLoginResult(LoginResult* result);

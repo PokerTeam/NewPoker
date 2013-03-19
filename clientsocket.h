@@ -15,11 +15,15 @@ public:
     
 signals:
     LoginResult* onRegisterRequest(QString login, QString password);
+    LoginResult* onLoginRequest(QString login, QString password);
+    void onJoinGameRequest(UserInfo* user);
 private slots:
     void readClient();
 private:
     void sendLoginRequest(LoginResult* login);
     void processRegisterRequest(QDataStream &stream);
+    void processLoginRequest(QDataStream &stream);
+    void processJoinGameRequest(QDataStream &stream);
     quint16 nextBlockSize;
 };
 

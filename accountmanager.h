@@ -3,7 +3,8 @@
 #include <user.h>
 #include <QString>
 #include <QObject>
-class AccountManager : QObject
+#include "loginresult.h"
+class AccountManager : public QObject
 {
     Q_OBJECT
 public:
@@ -14,10 +15,8 @@ private:
     bool isUserWithSuchUsernameExists(QString username);
     void updateUser(User* updatedUser);
 public slots:
-    void createNewUser(User* user);
-signals:
-    void onLoginResult(bool isSuccess, User* user);
-    void onUserCreationResult(bool isSuccess, User* user);
+    LoginResult* createNewUser(QString login, QString password);
+    LoginResult* loginUser(QString login, QString password);
 };
 
 #endif // ACCOUNTMANAGER_H

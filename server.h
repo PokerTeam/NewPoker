@@ -26,12 +26,13 @@ class Server : public QTcpServer
 {
     Q_OBJECT
 public:
-    Server(Game* game);
+    Server(Game* game, AccountManager* accountManager);
     void start(QHostAddress addr, qint16 port);
     void stop();
     void outToConsole(QString message,int color);
 private:
     Game* game;
+    AccountManager* accountManager;
     HANDLE hConsole;
 protected:
 void incomingConnection(int handle);

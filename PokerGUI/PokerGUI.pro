@@ -12,9 +12,14 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    client.cpp
+    client.cpp \
+    ../userinfo.cpp \
+    ../user.cpp \
+    ../loginresult.cpp
 
 HEADERS  += mainwindow.h \
     client.h \
     ../loginresult.h \
-    ../commands.h
+    ../commands.h \
+    ../userinfo.h \
+    ../user.h

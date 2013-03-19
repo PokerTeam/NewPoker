@@ -70,10 +70,10 @@ private:
 public slots:
     //When user do his step.
     void doAction(UserAction* userAction);
-    void joinGame(User* user);
+    void joinGame(UserInfo* user);
 signals:
     //if more than 2 users joined , we need to start the game.
-    void onUserJoinGame(UserInfo* user);
+    void onUserJoinGame(QList<UserInfo*> usersInGame);
     void onJoinUserFailed(long userId);
     //Deal hidden cards.
     //And We need to fill cardSets collection.

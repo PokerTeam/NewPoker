@@ -4,10 +4,11 @@
 #include "clientsocket.h"
 using namespace std;
 
-Server::Server(Game* game)
+Server::Server(Game* game, AccountManager* manager)
 {
     hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     this->game = game;
+    this->accountManager = manager;
     connect(this->thread(), SIGNAL(finished()), this, SLOT(deleteLater()) );
 }
 
@@ -18,7 +19,7 @@ void Server::start(QHostAddress addr, qint16 port)
         qDebug()<<"    p   p   o   o   k k     e       r   r        v     v    1 1       0    0";
         qDebug()<<"    ppppp   o   o   kk      eeeee   rrrr          v   v       1       0    0";
         qDebug()<<"    p       o   o   k k     e       r  r           v v        1  ..   0    0";
-        qDebug()<<"    p	    ooo    k   k   eeeee   r   r           v         1  ..   000000";
+        qDebug()<<"    p        ooo    k   k   eeeee   r   r           v         1  ..   000000";
         qDebug()<<"\n";
         SetConsoleTextAttribute(hConsole, 10);
         cout<<"> ";
@@ -55,6 +56,9 @@ void Server::incomingConnection(int handle)
     qDebug() << "Connected";
     ClientSocket *client = new ClientSocket(this);
     client->setSocketDescriptor(handle);
+    connect(client, SIGNAL(onRegisterRequest(QString,QString)), accountManager, SLOT(createNewUser(QString,QString)));
+    connect(client, SIGNAL(onLoginRequest(QString,QString)), accountManager, SLOT(loginUser(QString,QString)));
+    connect(client, SIGNAL(onJoinGameRequest(UserInfo*)), game, SLOT(joinGame(UserInfo*)));
 }
 
 
