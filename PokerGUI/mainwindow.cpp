@@ -27,8 +27,6 @@ void MainWindow::SetLoginScreen()
     root = ui->rootObject();    
     this->setMinimumWidth(360);
     this->setMinimumHeight(380);
-    this->setMaximumWidth(360);
-    this->setMaximumHeight(380);
     SetupLoginControls(root);
 }
 
@@ -66,8 +64,6 @@ void MainWindow::SetGameScreen()
     root = ui->rootObject();    
     this->setMinimumWidth(1024);
     this->setMinimumHeight(600);
-    this->setMaximumWidth(1920);
-    this->setMaximumHeight(1080);
     SetupGameControls(root);
 }
 
@@ -81,8 +77,11 @@ void MainWindow::SetupGameControls(QObject *aRoot)
 
 void MainWindow::SetupGameText(QObject *aRoot)
 {
-    QObject* text = aRoot->findChild<QObject*>("textRaiseValue");
+    QObject* text = aRoot->findChild<QObject*>("textRaiseValueObj");
     text->setProperty("raiseValue", "0");
+
+    text = aRoot->findChild<QObject*>("textBankValueObj");
+    text->setProperty("bankValue", "0");
 }
 
 void MainWindow::SetupGameButtons(QObject *aRoot)
@@ -103,11 +102,11 @@ void MainWindow::SetupGameButtons(QObject *aRoot)
     QObject::connect(button, SIGNAL(buttonClick()),
                      this, SLOT(OnButtonRaiseClick()));
 
-    button = aRoot->findChild<QObject*>("buttonInc");
+    button = aRoot->findChild<QObject*>("buttonIncObj");
     QObject::connect(button, SIGNAL(buttonClick()),
                      this, SLOT(OnButtonRateIncClick()));
 
-    button = aRoot->findChild<QObject*>("buttonDec");
+    button = aRoot->findChild<QObject*>("buttonDecObj");
     QObject::connect(button, SIGNAL(buttonClick()),
                      this, SLOT(OnButtonRateDecClick()));
 }
@@ -132,7 +131,7 @@ void MainWindow::SetupGameUserBlocks(QObject *aRoot)
     user = aRoot->findChild<QObject*>("userSelf");
     user->setProperty("activeUser", false);
     user->setProperty("faildeUser", false);
-    user->setProperty("userAvaImage", 1);
+    user->setProperty("userAvaImage", 4);
 }
 
 void MainWindow::SetupGameCardImages(QObject *aRoot)

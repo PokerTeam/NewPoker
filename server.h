@@ -1,9 +1,19 @@
 #ifndef SERVER_H
 #define SERVER_H
+
+#include <QtNetwork/QTcpServer>
+#include<qnetworkinterface.h>
+#include <QObject>
+#include <QDebug>
+#include <QDate>
+#include <qlist.h>
+#include <iostream>
+#include <windows.h>
+#include <QThread>
+
 #include "useraction.h"
 #include "user.h"
 #include "gameaction.h"
-#include <QObject>
 #include "userinfo.h"
 #include "usermoveaction.h"
 #include "gamestartaction.h"
@@ -11,30 +21,25 @@
 #include "userleaveaction.h"
 #include "bankchangeaction.h"
 #include "game.h"
+#include "clientsocket.h"
 
-class Server : QObject
+class Server : public QTcpServer
 {
     Q_OBJECT
+
 public:
-    Server();
-    void start();
+    Server(Game* game, AccountManager* accountManager);
+    void start(QHostAddress addr, qint16 port);
     void stop();
+    void outToConsole(QString message,int color);
+
 private:
     Game* game;
-signals:
-    void onAction(UserAction* userAction);
-    void joinGame(UserInfo* user);
-public slots:
-    void onUserJoinGame(UserInfo* user);
-    void onGameStarted(GameStartAction* gameStartAction);
-    void onUserMove(UserMoveAction* userMoveAction);
-    void onFirstCardsDealed(FirstCardsAction* firstCardsAction);
-    void onNextCardDealed(Card* nextCard);
-    void onGameFinished(UserInfo* winner);
-    void onGameStopped();
-    void onUserAction(UserAction* userAction);
-    void onUserLeaveGame(UserLeaveAction* userLeaveAction);
-    void onBankChanged(BankChangeAction* bankChangeAction);
+    AccountManager* accountManager;
+    HANDLE hConsole;
+
+protected:
+    void incomingConnection(int handle);
 };
 
 #endif // SERVER_H

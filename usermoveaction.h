@@ -1,8 +1,10 @@
 #ifndef USERMOVEACTION_H
 #define USERMOVEACTION_H
+
+#include <QList>
 #include "actions.h"
 #include "userinfo.h"
-#include <QList>
+
 class UserMoveAction
 {
 public:
@@ -10,6 +12,7 @@ public:
     UserInfo* getUserInfo();
     long getMinimumBid();
     QList<Actions> getAvailableActions();
+
 private:
     UserInfo* user;
     QList<Actions> availableActions;

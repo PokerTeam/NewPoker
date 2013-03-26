@@ -1,5 +1,6 @@
 #ifndef GAMESTARTACTION_H
 #define GAMESTARTACTION_H
+
 #include "userinfo.h"
 
 class GameStartAction
@@ -9,6 +10,7 @@ public:
     UserInfo* getUserWithButton();
     UserInfo* getSmallBlind();
     UserInfo* getBigBlind();
+
 private:
     UserInfo* smallBlind;
     UserInfo* bigBlind;
