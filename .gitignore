@@ -1,4 +1,6 @@
+*.autosave
 *.user
 /trash
-
-/PokerGUI/PokerGUI.pro.user.2.5pre1
+/trash_2
+/PokerGUI/PokerGUI.pro.user.2.5pre1/PokerGUI-build*
+Poker.pro.user

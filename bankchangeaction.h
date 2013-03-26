@@ -5,6 +5,8 @@ class BankChangeAction
 {
 public:
     BankChangeAction(long newBankValue);
+    long getBankValue();
+
 private:
     long newBankValue;
 };
