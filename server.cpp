@@ -61,9 +61,4 @@ void Server::incomingConnection(int handle)
     connect(client, SIGNAL(onJoinGameRequest(UserInfo*)), game, SLOT(joinGame(UserInfo*)));
 }
 
-QList<Client*> Server::getClients()
-{
-    return QList<Client*>();
-}
-
 

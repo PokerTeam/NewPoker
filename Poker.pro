@@ -17,41 +17,49 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    user.cpp \
-    card.cpp \
-    accountmanager.cpp \
-    game.cpp \
-    usercardset.cpp \
-    deck.cpp \
-    useraction.cpp \
-    client.cpp \
-    server.cpp \
-    gamestartaction.cpp \
-    userinfo.cpp \
-    firstcardsaction.cpp \
-    userleaveaction.cpp \
-    bankchangeaction.cpp \
+    winner.cpp \
     usermoveaction.cpp \
+    userleaveaction.cpp \
+    userinfo.cpp \
+    usercombination.cpp \
+    usercardset.cpp \
+    useraction.cpp \
+    user.cpp \
+    server.cpp \
+    loginresult.cpp \
+    gamestartaction.cpp \
+    gameaction.cpp \
+    game.cpp \
+    firstcardsaction.cpp \
+    deck.cpp \
     clientsocket.cpp \
-    loginresult.cpp
+    client.cpp \
+    card.cpp \
+    bankchangeaction.cpp \
+    accountmanager.cpp
+
 HEADERS += \
+    winner.h \
+    usermoveaction.h \
+    userleaveaction.h \
+    userinfo.h \
+    usercombination.h \
+    usercardset.h \
+    useraction.h \
     user.h \
     suit.h \
-    card.h \
-    accountmanager.h \
-    game.h \
-    usercardset.h \
-    deck.h \
-    actions.h \
-    useraction.h \
-    client.h \
     server.h \
+    loginresult.h \
     gamestartaction.h \
-    userinfo.h \
+    gameaction.h \
+    game.h \
     firstcardsaction.h \
-    userleaveaction.h \
-    bankchangeaction.h \
-    usermoveaction.h \
+    deck.h \
     commands.h \
+    combination.h \
     clientsocket.h \
-    loginresult.h
+    client.h \
+    card.h \
+    bankchangeaction.h \
+    actions.h \
+    accountmanager.h

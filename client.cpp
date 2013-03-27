@@ -94,7 +94,7 @@ void Client::onReadyRead()
                 _isAutched = true;
                 emit SendCommandToCurrentUser(Commands::comResultLogin, "1");
                 QString userList;
-                QList<Client*> clients = _serv->getClients();
+                /*QList<Client*> clients = _serv->getClients();
                 for(int i = 0; i < clients.count(); i++)
                 {
                     userList += clients[i]->_user->getUsername() + ";";
@@ -102,7 +102,7 @@ void Client::onReadyRead()
                     {
                         userList += clients[i]->_user->getUsername();
                     }
-                }
+                }*/
                 emit SendCommandToAll(Commands::comSendList, userList);
             }
             else
@@ -211,11 +211,11 @@ void Client::doSendCommandAll(quint8 command, QString container)
     out << container;
     out.device()->seek(0);
     out << (quint16)(block.size() - sizeof(quint16));
-    QList<Client*> _clients = _serv->getClients();
+    /*QList<Client*> _clients = _serv->getClients();
     for (int i = 0; i < _clients.count(); i++)
     {
         _clients[i]->_sok->write(block);
-    }
+    }*/
 }
 
 void Client::doSendCommand(quint8 command, QString container)

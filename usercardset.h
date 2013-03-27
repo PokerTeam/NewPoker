@@ -8,7 +8,9 @@
 class UserCardSet
 {
 public:
-    UserCardSet(User *user, Card* firstCard, Card* secondCard);
+    UserCardSet(User* user,
+                Card* firstCard,
+                Card* secondCard);
     Card* getFirstCard();
     Card* getSecondCard();
     User* getUser();

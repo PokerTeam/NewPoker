@@ -316,6 +316,6 @@ bool Game::isUserActiveForBids(long userId)
 
 QList<User*> Game::getWinner(QList<UserCardSet> cardSets, QList<Card*> cardsOnTable)
 {
-    Winner winners;
-    return winners.GetWinner(cardSets, cardsOnTable);
+    Winner* winners = new Winner();
+    return winners->GetWinner(cardSets, cardsOnTable);
 }

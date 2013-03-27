@@ -30,7 +30,7 @@ QList<UserCombination> Winner::determineWinners(QList<UserCombination> &usersCom
     QList<UserCombination> winners;
     QList<UserCombination> bestCombinations = getBestCombinations(usersCombination);
 
-    if(bestCombinations.length() == 1)
+    if (bestCombinations.length() == 1)
     {
         winners.append(bestCombinations[0]);
         return winners;
@@ -39,17 +39,17 @@ QList<UserCombination> Winner::determineWinners(QList<UserCombination> &usersCom
     {
         winners.append(bestCombinations[0]);
 
-        for(int i = 1; i< bestCombinations.length(); i++)
+        for (int i = 1; i< bestCombinations.length(); i++)
         {
             int compareResult = compareTwoTheSameCombinations(winners.last(), bestCombinations[i]);
 
-            if(compareResult == -1)
+            if (compareResult == -1)
             {
                 winners.clear();
                 winners.append(bestCombinations[i]);
             }
 
-            if(compareResult == 0)
+            if (compareResult == 0)
             {
                 winners.append(bestCombinations[i]);
             }
@@ -60,19 +60,20 @@ QList<UserCombination> Winner::determineWinners(QList<UserCombination> &usersCom
     return winners;
 }
 
-int Winner::compareTwoTheSameCombinations(UserCombination firstCombination, UserCombination secondCombination)
+int Winner::compareTwoTheSameCombinations(UserCombination firstCombination,
+                                          UserCombination secondCombination)
 {
-    QList<Card> firstControversialCards = firstCombination.GetControversialCards();
-    QList<Card> secondControversialCards = secondCombination.GetControversialCards();
+    QList<Card*> firstControversialCards = firstCombination.GetControversialCards();
+    QList<Card*> secondControversialCards = secondCombination.GetControversialCards();
 
-    for(int i = 0; i < firstControversialCards.length(); i++)
+    for (int i = 0; i < firstControversialCards.length(); i++)
     {
-        if(firstControversialCards[i].getCardNumber() > secondControversialCards[i].getCardNumber())
+        if (firstControversialCards[i]->getCardNumber() > secondControversialCards[i]->getCardNumber())
         {
             return 1;
         }
 
-        if(firstControversialCards[i].getCardNumber() < secondControversialCards[i].getCardNumber())
+        if (firstControversialCards[i]->getCardNumber() < secondControversialCards[i]->getCardNumber())
         {
             return -1;
         }
@@ -85,16 +86,16 @@ QList<UserCombination> Winner::getBestCombinations(QList<UserCombination> &users
     QList<UserCombination> bestCombinations;
     bestCombinations.append(usersCombination[0]);
 
-    for(int i = 1; i< usersCombination.length(); i++)
+    for (int i = 1; i< usersCombination.length(); i++)
     {
-        if(usersCombination[i].GetCombinationValue() > bestCombinations[0].GetCombinationValue())
+        if (usersCombination[i].GetCombinationValue() > bestCombinations[0].GetCombinationValue())
         {
             bestCombinations.clear();
             bestCombinations.append(usersCombination[i]);
         }
         else
         {
-            if(usersCombination[i].GetCombinationValue() == bestCombinations[0].GetCombinationValue())
+            if (usersCombination[i].GetCombinationValue() == bestCombinations[0].GetCombinationValue())
             {
                 bestCombinations.append(usersCombination[i]);
             }

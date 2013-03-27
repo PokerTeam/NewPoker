@@ -21,10 +21,7 @@
 #include "userleaveaction.h"
 #include "bankchangeaction.h"
 #include "game.h"
-#include "client.h"
 #include "clientsocket.h"
-
-class Client;
 
 class Server : public QTcpServer
 {
@@ -34,8 +31,7 @@ public:
     Server(Game* game, AccountManager* accountManager);
     void start(QHostAddress addr, qint16 port);
     void stop();
-    void outToConsole(QString message,int color);
-    QList<Client*> getClients();
+    void outToConsole(QString message,int color);    
 
 private:
     Game* game;
