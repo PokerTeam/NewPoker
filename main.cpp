@@ -1,6 +1,7 @@
 #include <QtCore/QCoreApplication>
 #include "server.h"
 #include "game.h"
+#include "usercombination.h"
 
 int main(int argc, char *argv[])
 {

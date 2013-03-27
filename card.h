@@ -1,7 +1,7 @@
 #ifndef CARD_H
 #define CARD_H
 
-#include <suit.h>
+#include "suit.h"
 
 class Card
 {

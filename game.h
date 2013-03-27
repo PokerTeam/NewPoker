@@ -15,6 +15,7 @@
 #include "userleaveaction.h"
 #include "bankchangeaction.h"
 #include "usermoveaction.h"
+#include "winner.h"
 #include "accountmanager.h"
 
 class Game : public QObject
@@ -24,7 +25,7 @@ class Game : public QObject
 public:
     Game(AccountManager* accountManager);
 
-private:    
+private:
     static const long BIG_BLIND_BID = 2;
     static const long SMALL_BLIND_BID = 1;
 
@@ -38,11 +39,13 @@ private:
     QMap<long, long> userMoveCounter;
     long bankValue;
     long lastBid;
+    long currentUserCursor;
     long buttonOnUserWithIndex;
     long cursorOnUserWithIndex;
     int activeUsersCountOnStartLoop;
     int currentLoopStep;
 
+    QList<User*> getWinner(QList<UserCardSet> cardSets, QList<Card*> cardsOnTable);
     User* getWinner(UserCardSet firstList, UserCardSet second);
     User* getWinner(QList<UserCardSet> cardSets);      
     UserInfo* getUserWithButton();

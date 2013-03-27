@@ -1,29 +1,39 @@
 #include "user.h"
 
-User::User(long userId, QString username, QString password, long money){
+User::User(long userId,
+           QString username,
+           QString password,
+           long money)
+{
     this->userId = userId;
     this->username = username;
     this->password = password;
     this->money = money;
 }
 
-long User::getUserId(){
+long User::getUserId()
+{
     return this->userId;
 }
 
-QString User::getUsername(){
+QString User::getUsername()
+{
     return this->username;
 }
 
-QString User::getPassword(){
+QString User::getPassword()
+{
     return this->password;
 }
 
-long User::getMoney(){
+long User::getMoney()
+{
     return money;
 }
 
-void User::setMoney(long newValue){
+long User::setMoney(long newValue)
+{
     money = newValue;
+    return money;
 }
 

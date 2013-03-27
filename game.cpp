@@ -1,21 +1,25 @@
 #include "game.h"
 #include "QDebug"
 
-Game::Game(AccountManager* accountManager){
+Game::Game(AccountManager* accountManager)
+{
     this->accountManager = accountManager;
     this->deck = new Deck();
     activeUsersCountOnStartLoop = currentLoopStep = 0;
 }
 
-void Game::doAction(UserAction* userAction){
+void Game::doAction(UserAction* userAction)
+{
     lastUserAction[userAction->getUser()->getUserId()] = userAction;
     incrementLoopCounter(userAction->getUser()->getUserId());
     UserInfo* user = getUserInGame(userAction->getUser()->getUserId());
-    switch(userAction->getAction()){
+    switch(userAction->getAction())
+    {
         case CALL:
         case RAISE:
             user->putOnTable(userAction->getMoney());
             break;
+
         case FOLD:
         case CHECK:
             break;
@@ -24,108 +28,146 @@ void Game::doAction(UserAction* userAction){
     askForUserMove();
 }
 
-void Game::incrementLoopCounter(long userId){
-    if (userMoveCounter.keys().contains(userId)){
+void Game::incrementLoopCounter(long userId)
+{
+    if (userMoveCounter.keys().contains(userId))
+    {
         userMoveCounter[userId]++;
-    }else{
+    }
+    else
+    {
         userMoveCounter[userId] = 0;
     }
 }
 
-void Game::joinGame(UserInfo* user){
-    if (usersInGame.length() == 4){
+void Game::joinGame(UserInfo* user)
+{
+    if (usersInGame.length() == 4)
+    {
         usersInGame.push_back(user);
         emit onUserJoinGame(usersInGame);
-        if (usersInGame.length() == 2){
+        if (usersInGame.length() == 2)
+        {
             start();
         }
-    }else{
+    }
+    else
+    {
         emit onJoinUserFailed(user->getUserId());
     }
 }
 
-void Game::resetLoopCounter(){
+void Game::resetLoopCounter()
+{
     userMoveCounter.clear();
 }
 
-void Game::start(){
+void Game::start()
+{
     resetLoopCounter();
-    emit gameStarted(new GameStartAction(getSmallBlind(), getBigBlind(), getUserWithButton()));
+    emit gameStarted(new GameStartAction(getSmallBlind(),
+                                         getBigBlind(),
+                                         getUserWithButton()));
     askForUserMove(true);
 }
 
-long Game::getMaximumBid(){
+long Game::getMaximumBid()
+{
     long maximumBid = 0;
-    foreach (UserInfo* user, usersInGame){
-        if (user->getUserMoneyOnTable() > maximumBid){
+    foreach (UserInfo* user, usersInGame)
+    {
+        if (user->getUserMoneyOnTable() > maximumBid)
+        {
             maximumBid = user->getUserMoneyOnTable();
         }
     }
     return maximumBid;
 }
 
-UserInfo* Game::getUserWithButton(){
+UserInfo* Game::getUserWithButton()
+{
     return usersInGame[getCursor(buttonOnUserWithIndex)];
 }
 
-UserInfo* Game::getBigBlind(){
+UserInfo* Game::getBigBlind()
+{
     UserInfo* user = usersInGame[getCursor(buttonOnUserWithIndex + 2)];
     user->putOnTable(BIG_BLIND_BID);
-    lastUserAction[user->getUserId()] = new UserAction(new User(user->getUserId(), "", ""), RAISE, BIG_BLIND_BID);
-    incrementLoopCounter(user->getUserId());//TODO: move from this method.
+    lastUserAction[user->getUserId()] =
+            new UserAction(new User(user->getUserId(), "", ""),
+                           RAISE,
+                           BIG_BLIND_BID);
+    incrementLoopCounter(user->getUserId()); //TODO: move from this method.
     return user;
 }
 
-long Game::getCursor(long cursorValue){
+long Game::getCursor(long cursorValue)
+{
     return cursorValue % usersInGame.length();
 }
 
-UserInfo* Game::getSmallBlind(){
+UserInfo* Game::getSmallBlind()
+{
     UserInfo* user = usersInGame[getCursor(buttonOnUserWithIndex + 1)];
     user->putOnTable(SMALL_BLIND_BID);
-    lastUserAction[user->getUserId()] = new UserAction(new User(user->getUserId(), "", ""), RAISE, SMALL_BLIND_BID);
+    lastUserAction[user->getUserId()] =
+            new UserAction(new User(user->getUserId(), "", ""),
+                           RAISE,
+                           SMALL_BLIND_BID);
     incrementLoopCounter(user->getUserId());
     return user;
 }
 
-UserInfo* Game::currentCursorOnUser(){
+UserInfo* Game::currentCursorOnUser()
+{
     return usersInGame[getCursor(cursorOnUserWithIndex)];
 }
 
-void Game::moveCurrentCursor(long offset){
+void Game::moveCurrentCursor(long offset)
+{
     cursorOnUserWithIndex = getCursor(cursorOnUserWithIndex + offset);
     UserInfo* user = usersInGame[cursorOnUserWithIndex];
-    bool lastActonFold = isLastActionExists(user->getUserId()) && lastUserAction[usersInGame[cursorOnUserWithIndex]->getUserId()]->getAction() == FOLD;
+    bool lastActonFold = isLastActionExists(user->getUserId()) &&
+                         (lastUserAction[usersInGame[cursorOnUserWithIndex]->getUserId()]->getAction() == FOLD);
     if (lastActonFold ||
-        usersInGame[cursorOnUserWithIndex]->isAllIn()){
+        usersInGame[cursorOnUserWithIndex]->isAllIn())
+    {
         moveCurrentCursor(cursorOnUserWithIndex + 1);
     }
 }
 
-void Game::askForUserMove(bool isFirstStep){
-    if (!isFirstStep && isLoopFinished()){
+void Game::askForUserMove(bool isFirstStep)
+{
+    if (!isFirstStep && isLoopFinished())
+    {
         emit onBankChanged(new BankChangeAction(moveFromTableToBank()));
-        switch(cardsOnTable.length()){
+        switch(cardsOnTable.length())
+        {
             case 0:
                 dealFirstThreeCards();
                 break;
+
             case 3:
             case 4:
                 dealNextCard();
                 break;
+
             case 5:
                 //TODO: check winner;
                 qDebug() << "Winner";
                 clearBank();
                 start();
                 return;
-                break;
         }
     }
-    if (isAllMovesEquals()){
+
+    if (isAllMovesEquals())
+    {
         activeUsersCountOnStartLoop = currentLoopStep = 0;
-        foreach(UserInfo* user, usersInGame){
-            if (isUserActiveForBids(user->getUserId())){
+        foreach(UserInfo* user, usersInGame)
+        {
+            if (isUserActiveForBids(user->getUserId()))
+            {
                 activeUsersCountOnStartLoop++;
             }
         }
@@ -133,69 +175,84 @@ void Game::askForUserMove(bool isFirstStep){
     currentLoopStep += isFirstStep ? 2 : 1;
     moveCurrentCursor(isFirstStep ? 3 : 1);
     UserInfo* currentUser = currentCursorOnUser();
-    emit onUserMove(new UserMoveAction(
-                        currentUser,
-                        getAvailableActions(currentUser->getUserId()),
-                        getMinimumBid(currentUser->getUserId())));
+    emit onUserMove(new UserMoveAction(currentUser,
+                                       getAvailableActions(currentUser->getUserId()),
+                                       getMinimumBid(currentUser->getUserId())));
     //TODO:Add 60 sec. timer.
 }
 
-long Game::getBankValue(){
+long Game::getBankValue()
+{
     return bankValue;
 }
 
-void Game::clearBank(){
+void Game::clearBank()
+{
     bankValue = 0;
 }
 
-long Game::moveFromTableToBank(){
-    foreach(UserInfo* user, usersInGame){
+long Game::moveFromTableToBank()
+{
+    foreach(UserInfo* user, usersInGame)
+    {
         bankValue += user->getUserMoneyOnTable();
         user->clearMoneyOnTable();
     }
     return bankValue;
 }
 
-void Game::dealFirstThreeCards(){
+void Game::dealFirstThreeCards()
+{
     QList<Card*> newCards = addCardsOnTable(3);
-    emit onFirstCardsDealed(new FirstCardsAction(newCards[0], newCards[1], newCards[2]));
+    emit onFirstCardsDealed(new FirstCardsAction(newCards[0],
+                                                 newCards[1],
+                                                 newCards[2]));
 }
 
-void Game::dealNextCard(){
+void Game::dealNextCard()
+{
     Card* newCard = addCardsOnTable(1).first();
     emit onNextCardDealed(newCard);
 }
 
-QList<Card*> Game::addCardsOnTable(int count){
+QList<Card*> Game::addCardsOnTable(int count)
+{
     QList<Card*> cardsToInsert;
-    for (int i = 0; i < count; i++){
+    for (int i = 0; i < count; i++)
+    {
         cardsToInsert.push_back(deck->getNextCard());
     }
     cardsOnTable.append(cardsToInsert);
     return cardsToInsert;
 }
 
-QList<Actions> Game::getAvailableActions(long userId){
+QList<Actions> Game::getAvailableActions(long userId)
+{
     long minimumBid = getMinimumBid(userId);
     QList<Actions> actions;
     actions.push_back(FOLD);
     actions.push_back(CALL);
     actions.push_back(RAISE);
-    if (minimumBid == 0){
+    if (minimumBid == 0)
+    {
         actions.push_back(CHECK);
     }
 
     return actions;
 }
 
-long Game::getMinimumBid(long userId){
+long Game::getMinimumBid(long userId)
+{
     UserInfo* user = getUserInGame(userId);
     return getMaximumBid() - user->getUserMoneyOnTable();
 }
 
-UserInfo* Game::getUserInGame(long userId){
-    foreach(UserInfo* user, usersInGame){
-        if (user->getUserId() == userId){
+UserInfo* Game::getUserInGame(long userId)
+{
+    foreach(UserInfo* user, usersInGame)
+    {
+        if (user->getUserId() == userId)
+        {
             return user;
         }
     }
@@ -203,21 +260,29 @@ UserInfo* Game::getUserInGame(long userId){
     return NULL;
 }
 
-bool Game::isLoopFinished(){
+bool Game::isLoopFinished()
+{
     qDebug() << "All bids eq: " << isAllBidsAreEquals() << endl
              << "All moves eq: " << isAllMovesEquals() << endl
              << "Moves " << activeUsersCountOnStartLoop << " - " << currentLoopStep;
     return isAllBidsAreEquals() && isAllMovesEquals();
 }
 
-bool Game::isAllBidsAreEquals(){
+bool Game::isAllBidsAreEquals()
+{
     long previous = -1;
-    foreach(UserInfo* user, usersInGame){
-        if (isUserActiveForBids(user->getUserId())){
-            if (previous == -1){
+    foreach(UserInfo* user, usersInGame)
+    {
+        if (isUserActiveForBids(user->getUserId()))
+        {
+            if (previous == -1)
+            {
                 previous = user->getUserMoneyOnTable();
-            }else{
-                if (previous != user->getUserMoneyOnTable()){
+            }
+            else
+            {
+                if (previous != user->getUserMoneyOnTable())
+                {
                     return false;
                 }
             }
@@ -226,20 +291,31 @@ bool Game::isAllBidsAreEquals(){
     return true;
 }
 
-bool Game::isAllMovesEquals(){
+bool Game::isAllMovesEquals()
+{
     return currentLoopStep == activeUsersCountOnStartLoop;
 }
 
-long Game::getUserMovesCount(long userId){
+long Game::getUserMovesCount(long userId)
+{
     return userMoveCounter.keys().contains(userId) ? userMoveCounter[userId] : 0;
 }
 
-bool Game::isLastActionExists(long userId){
+bool Game::isLastActionExists(long userId)
+{
     return lastUserAction.keys().contains(userId);
 }
 
-bool Game::isUserActiveForBids(long userId){
+bool Game::isUserActiveForBids(long userId)
+{
     UserInfo* user = getUserInGame(userId);
-    bool isLastActionNotFold = !isLastActionExists(userId) || lastUserAction[userId]->getAction() != FOLD;
+    bool isLastActionNotFold = !isLastActionExists(userId) ||
+                               (lastUserAction[userId]->getAction() != FOLD);
     return !user->isAllIn() && isLastActionNotFold;
+}
+
+QList<User*> Game::getWinner(QList<UserCardSet> cardSets, QList<Card*> cardsOnTable)
+{
+    Winner winners;
+    return winners.GetWinner(cardSets, cardsOnTable);
 }

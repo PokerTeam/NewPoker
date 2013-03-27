@@ -24,6 +24,7 @@ SOURCES += main.cpp \
     usercardset.cpp \
     deck.cpp \
     useraction.cpp \
+    client.cpp \
     server.cpp \
     gamestartaction.cpp \
     userinfo.cpp \
@@ -33,7 +34,6 @@ SOURCES += main.cpp \
     usermoveaction.cpp \
     clientsocket.cpp \
     loginresult.cpp
-
 HEADERS += \
     user.h \
     suit.h \
@@ -44,6 +44,7 @@ HEADERS += \
     deck.h \
     actions.h \
     useraction.h \
+    client.h \
     server.h \
     gamestartaction.h \
     userinfo.h \

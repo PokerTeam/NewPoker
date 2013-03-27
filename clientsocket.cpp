@@ -3,37 +3,51 @@
 ClientSocket::ClientSocket(QObject *parent) :
     QTcpSocket(parent)
 {
-    connect(this, SIGNAL(readyRead()), this, SLOT(readClient()));
-    connect(this, SIGNAL(disconnected()), this, SLOT(deleteLater()));
+    connect(this, SIGNAL(readyRead()),
+            this, SLOT(readClient()));
+    connect(this, SIGNAL(disconnected()),
+            this, SLOT(deleteLater()));
     nextBlockSize = 0;
 }
 
-void ClientSocket::readClient(){
+void ClientSocket::readClient()
+{
     //qDebug() << "Req";
     QDataStream in(this);
     in.setVersion(QDataStream::Qt_4_6);
-    while (bytesAvailable() > 0){
-        if (nextBlockSize == 0){
-            if (bytesAvailable() < sizeof(quint16)){
+    while (bytesAvailable() > 0)
+    {
+        if (nextBlockSize == 0)
+        {
+            if (bytesAvailable() < sizeof(quint16))
+            {
                 return;
-            } else {
+            }
+            else
+            {
                 in >> nextBlockSize;
             }
         }
 
-        if (bytesAvailable() < nextBlockSize){
+        if (bytesAvailable() < nextBlockSize)
+        {
             return;
-        }else{
+        }
+        else
+        {
             quint16 requestType;
             in >> requestType;
             //qDebug() << bytesAvailable() << " " << nextBlockSize << " " << requestType;
-            switch(requestType){
+            switch(requestType)
+            {
                 case Commands::registerNewUser:
                     processRegisterRequest(in);
                     break;
+
                 case Commands::loginUser:
                     processLoginRequest(in);
                     break;
+
                 case Commands::joinGame:
                     processJoinGameRequest(in);
                     break;
@@ -49,7 +63,8 @@ void ClientSocket::readClient(){
     }
 }
 
-void ClientSocket::processRegisterRequest(QDataStream &stream){
+void ClientSocket::processRegisterRequest(QDataStream &stream)
+{
     QString login;
     QString password;
     stream >> login >> password;
@@ -57,7 +72,8 @@ void ClientSocket::processRegisterRequest(QDataStream &stream){
     sendLoginRequest(result);
 }
 
-void ClientSocket::processLoginRequest(QDataStream &stream){
+void ClientSocket::processLoginRequest(QDataStream &stream)
+{
     QString login;
     QString password;
     stream >> login >> password;
@@ -65,14 +81,16 @@ void ClientSocket::processLoginRequest(QDataStream &stream){
     sendLoginRequest(result);
 }
 
-void ClientSocket::processJoinGameRequest(QDataStream &stream){
+void ClientSocket::processJoinGameRequest(QDataStream &stream)
+{
     UserInfo* userInfo;
     stream >> userInfo;
     qDebug() << "Join game " << userInfo->getUserId();
     emit onJoinGameRequest(userInfo);
 }
 
-void ClientSocket::sendLoginRequest(LoginResult* login){
+void ClientSocket::sendLoginRequest(LoginResult* login)
+{
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_4_6);

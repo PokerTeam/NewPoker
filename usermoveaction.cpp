@@ -1,19 +1,25 @@
 #include "usermoveaction.h"
 
-UserMoveAction::UserMoveAction(UserInfo* user, QList<Actions> availableActions, long minimumBid){
+UserMoveAction::UserMoveAction(UserInfo* user,
+                               QList<Actions> availableActions,
+                               long minimumBid)
+{
     this->user = user;
     this->availableActions = availableActions;
     this->minimumBid = minimumBid;
 }
 
-UserInfo* UserMoveAction::getUserInfo(){
+UserInfo* UserMoveAction::getUserInfo()
+{
     return user;
 }
 
-long UserMoveAction::getMinimumBid(){
+long UserMoveAction::getMinimumBid()
+{
     return minimumBid;
 }
 
-QList<Actions> UserMoveAction::getAvailableActions(){
+QList<Actions> UserMoveAction::getAvailableActions()
+{
     return availableActions;
 }

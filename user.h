@@ -11,7 +11,7 @@ public:
     QString getUsername();
     QString getPassword();
     long getMoney();
-    void setMoney(long newValue);
+    long setMoney(long newValue);
 
 private:
     long userId;

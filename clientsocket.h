@@ -3,16 +3,17 @@
 
 #include <QObject>
 #include <QTcpSocket>
+#include <QDataStream>
 #include "commands.h"
 #include "loginresult.h"
-#include "QDataStream"
+
 
 class ClientSocket : public QTcpSocket
 {
     Q_OBJECT
 
 public:
-    ClientSocket(QObject *parent = 0);
+    ClientSocket(QObject* parent = 0);
     
 signals:
     LoginResult* onRegisterRequest(QString login, QString password);

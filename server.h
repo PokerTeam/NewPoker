@@ -6,7 +6,7 @@
 #include <QObject>
 #include <QDebug>
 #include <QDate>
-#include <qlist.h>
+#include <QList>
 #include <iostream>
 #include <windows.h>
 #include <QThread>
@@ -21,7 +21,10 @@
 #include "userleaveaction.h"
 #include "bankchangeaction.h"
 #include "game.h"
+#include "client.h"
 #include "clientsocket.h"
+
+class Client;
 
 class Server : public QTcpServer
 {
@@ -32,6 +35,7 @@ public:
     void start(QHostAddress addr, qint16 port);
     void stop();
     void outToConsole(QString message,int color);
+    QList<Client*> getClients();
 
 private:
     Game* game;

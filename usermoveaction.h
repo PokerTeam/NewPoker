@@ -8,7 +8,9 @@
 class UserMoveAction
 {
 public:
-    UserMoveAction(UserInfo* user, QList<Actions> availableActions, long minimumBid);
+    UserMoveAction(UserInfo* user,
+                   QList<Actions> availableActions,
+                   long minimumBid);
     UserInfo* getUserInfo();
     long getMinimumBid();
     QList<Actions> getAvailableActions();

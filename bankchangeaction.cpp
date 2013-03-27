@@ -1,9 +1,11 @@
 #include "bankchangeaction.h"
 
-BankChangeAction::BankChangeAction(long newBankValue){
+BankChangeAction::BankChangeAction(long newBankValue)
+{
     this->newBankValue = newBankValue;
 }
 
-long BankChangeAction::getBankValue(){
+long BankChangeAction::getBankValue()
+{
     return newBankValue;
 }

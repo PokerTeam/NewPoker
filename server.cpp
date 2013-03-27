@@ -15,12 +15,12 @@ Server::Server(Game* game, AccountManager* manager)
 void Server::start(QHostAddress addr, qint16 port)
 {
         SetConsoleTextAttribute(hConsole, 11);
-        qDebug()<<"    ppppp    ooo    k   k   eeeee   rrrr                      1       000000";
-        qDebug()<<"    p   p   o   o   k k     e       r   r        v     v    1 1       0    0";
-        qDebug()<<"    ppppp   o   o   kk      eeeee   rrrr          v   v       1       0    0";
-        qDebug()<<"    p       o   o   k k     e       r  r           v v        1  ..   0    0";
-        qDebug()<<"    p        ooo    k   k   eeeee   r   r           v         1  ..   000000";
-        qDebug()<<"\n";
+        qDebug() << "    ppppp    ooo    k   k   eeeee   rrrr                      1       000000";
+        qDebug() << "    p   p   o   o   k k     e       r   r        v     v    1 1       0    0";
+        qDebug() << "    ppppp   o   o   kk      eeeee   rrrr          v   v       1       0    0";
+        qDebug() << "    p       o   o   k k     e       r  r           v v        1  ..   0    0";
+        qDebug() << "    p        ooo    k   k   eeeee   r   r           v         1  ..   000000";
+        qDebug() << "\n";
         SetConsoleTextAttribute(hConsole, 10);
         cout<<"> ";
         QList<QHostAddress> allAddress = QNetworkInterface::allAddresses();
@@ -59,6 +59,11 @@ void Server::incomingConnection(int handle)
     connect(client, SIGNAL(onRegisterRequest(QString,QString)), accountManager, SLOT(createNewUser(QString,QString)));
     connect(client, SIGNAL(onLoginRequest(QString,QString)), accountManager, SLOT(loginUser(QString,QString)));
     connect(client, SIGNAL(onJoinGameRequest(UserInfo*)), game, SLOT(joinGame(UserInfo*)));
+}
+
+QList<Client*> Server::getClients()
+{
+    return QList<Client*>();
 }
 
 

@@ -1,13 +1,11 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
-/////Network
+#include <QObject>
 #include <QtNetwork/QTcpSocket>
 #include "qstringlist.h"
 #include "server.h"
 #include "commands.h"
-///////////
-#include <QObject>
 #include "user.h"
 #include "useraction.h"
 #include "userinfo.h"
@@ -17,29 +15,35 @@
 #include "firstcardsaction.h"
 #include "userleaveaction.h"
 #include "bankchangeaction.h"
+
 class Server;
+
 class Client : QObject
 {
- friend class Server;
+friend class Server;
+
     Q_OBJECT
+
 public:
+        //Конструктор для сервера
+    Client(int desc, Server *serv);
 
-    Client(int desc,Server *serv);//Конструктор для сервера
+    void ConnectToHost(QHostAddress address, qint16 port);
 
-    void ConnectToHost(QHostAddress address,qint16 port);
 public slots:
-    bool doLogin(QString login,QString pass);
-    bool doRegistration(QString login,QString pass);
-    void doSendCommand(quint8 command,QString container);
-    void doSendCommandAll(quint8 command,QString container);
+    bool doLogin(QString login, QString pass);
+    bool doRegistration(QString login, QString pass);
+    void doSendCommand(quint8 command, QString container);
+    void doSendCommandAll(quint8 command, QString container);
     void onAction(UserAction* userAction);
     void joinGame(UserInfo* user);
+
 signals:
-    bool Login(QString name,QString pass);
-    bool Registration(QString name,QString pass);
+    bool Login(QString name, QString pass);
+    bool Registration(QString name, QString pass);
     void removeUser(Client *client);
-    void SendCommandToCurrentUser(quint8 command,QString container);
-    void SendCommandToAll(quint8 command,QString container);
+    void SendCommandToCurrentUser(quint8 command, QString container);
+    void SendCommandToAll(quint8 command, QString container);
 
     void onUserJoinGame(UserInfo* user);
     void onGameStarted(GameStartAction* gameStartAction);
@@ -51,6 +55,7 @@ signals:
     void onUserAction(UserAction* userAction);
     void onUserLeaveGame(UserLeaveAction* userLeaveAction);
     void onBankChanged(BankChangeAction* bankChangeAction);
+
 private slots:
     void onReadyRead();
     void onDisconnect();
