@@ -9,7 +9,7 @@
 #include "../user.h"
 #include "../userinfo.h"
 
-class Client : QObject
+class Client : public QObject
 {
     Q_OBJECT
 

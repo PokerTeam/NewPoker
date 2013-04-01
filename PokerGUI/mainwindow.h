@@ -6,6 +6,8 @@
 #include <QtDeclarative/QDeclarativeView>
 #include <QtDeclarative/QDeclarativeContext>
 #include <QGraphicsObject>
+#include "client.h"
+#include "../userinfo.h"
 
 namespace Ui
 {
@@ -23,6 +25,8 @@ public:
 private:
     QDeclarativeView *ui;
     QObject *root;
+    Client *client;
+    UserInfo* userInfo;
 
     void SetupUI(QString path);
 
@@ -37,9 +41,11 @@ private:
     void SetupGameButtons(QObject *aRoot);
     void SetupGameUserBlocks(QObject *aRoot);
     void SetupGameCardImages(QObject *aRoot);
-
+signals:
+    void joinGame(UserInfo*);
 private slots:
     void OnButtonLoginClick();
+    void OnLoginResult(LoginResult*);
     void OnButtonRegisterClick();
 
     void OnButtonExitClick();

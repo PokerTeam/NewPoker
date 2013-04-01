@@ -25,21 +25,20 @@ UserInfo* LoginResult::getUser()
 }
 
 QDataStream &operator<<(QDataStream &out,
-                        LoginResult *&login)
+                        LoginResult &login)
 {
-    out << login->getIsSuccessed()
-        << login->getMessage()
-        << login->getUser();
+    out << login.getIsSuccessed()
+        << login.getMessage()
+        << *login.getUser();
     return out;
 }
 
 QDataStream &operator>>(QDataStream &in,
-                        LoginResult *&login)
+                        LoginResult &login)
 {
-    bool isSuccess;
-    QString message;
-    UserInfo* user;
-    in >> isSuccess >> message >> user;
-    login = new LoginResult(isSuccess, message, user);
+    UserInfo user;
+    in >> login.isSuccessed >> login.message >> user;
+    login.user = &user;
+    //login = new LoginResult(isSuccess, message, &user);
     return in;
 }

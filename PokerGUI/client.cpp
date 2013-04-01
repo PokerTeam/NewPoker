@@ -46,7 +46,7 @@ void Client::doJoinGameRequest(UserInfo* userInfo){
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_4_6);
-    out << quint16(0) << quint16(Commands::joinGame) << userInfo;
+    out << quint16(0) << quint16(Commands::joinGame) << *userInfo;
     out.device()->seek(0);
     out << quint16(block.size() - sizeof(quint16));
     qDebug() << "Block size " << block.size() - sizeof(quint16);
@@ -76,13 +76,16 @@ void Client::readClient(){
             qDebug() << requestType << " Size: " << socket.bytesAvailable() << " next: " << nextBlockSize;
             switch(requestType){
                 case Commands::loginResult:
-                    LoginResult* result;
+                    {
+                    LoginResult result;
                     in >> result;
-                    qDebug() << "Login Result " << result->getIsSuccessed() << " " << result->getUser()->getUserId();
+                    emit onLoginResult(&result);
                     break;
-                case Commands::joinGame:
+                    }
+            case Commands::joinGame:{
                     qDebug() << "Join Result";
                     break;
+                }
             }
             /*Stub
             char *arr;

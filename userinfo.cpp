@@ -56,20 +56,22 @@ long UserInfo::getUserMoneyOnTable()
     return userMoneyOnTable;
 }
 
-QDataStream &operator<<(QDataStream &out, UserInfo *&info)
+QDataStream &operator<<(QDataStream &out, UserInfo &info)
 {
-    out << quint32(info->getUserId())
-        << quint32(info->getUserMoney())
-        << quint32(info->getUserMoneyOnTable());
+    out << quint32(info.getUserId())
+        << quint32(info.getUserMoney())
+        << quint32(info.getUserMoneyOnTable());
     return out;
 }
 
-QDataStream &operator>>(QDataStream &in, UserInfo *&info)
+QDataStream &operator>>(QDataStream &in, UserInfo &info)
 {
     quint32 userId;
     quint32 money;
     quint32 moneyOnTable;
     in >> userId >> money >> moneyOnTable;
-    info = new UserInfo(userId, money, moneyOnTable);
+    info.userId = userId;
+    info.userMoney = money;
+    info.userMoneyOnTable = moneyOnTable;
     return in;
 }

@@ -1,11 +1,15 @@
 #include "mainwindow.h"
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {    
-    ui = new QDeclarativeView;    
+    ui = new QDeclarativeView;
+    client = new Client();
+    client->connectToServer();
+    connect(client, SIGNAL(onLoginResult(LoginResult*)), this, SLOT(OnLoginResult(LoginResult*)));
+    connect(this, SIGNAL(joinGame(UserInfo*)), client, SLOT(doJoinGameRequest(UserInfo*)));
     SetLoginScreen();
-    SetGameScreen();
 }
 
 MainWindow::~MainWindow()
@@ -160,7 +164,22 @@ void MainWindow::SetupGameCardImages(QObject *aRoot)
 
 void MainWindow::OnButtonLoginClick()
 {
+    QObject* textArea = root->findChild<QObject*>("textAreaLogin");
+    QString login = textArea->property("textContent").toString();
+    textArea = root->findChild<QObject*>("textAreaPassword");
+    QString password = textArea->property("textContent").toString();
+    client->doLoginRequest(login, password);
+}
 
+void MainWindow::OnLoginResult(LoginResult *loginResult)
+{
+    if (loginResult->getIsSuccessed()){
+        userInfo = loginResult->getUser();
+        emit joinGame(userInfo);
+    }else{
+        QObject* textArea = root->findChild<QObject*>("textAreaPassword");
+        textArea->setProperty("textAreaHint", loginResult->getMessage());
+    }
 }
 
 void MainWindow::OnButtonRegisterClick()

@@ -83,10 +83,10 @@ void ClientSocket::processLoginRequest(QDataStream &stream)
 
 void ClientSocket::processJoinGameRequest(QDataStream &stream)
 {
-    UserInfo* userInfo;
+    UserInfo userInfo;
     stream >> userInfo;
-    qDebug() << "Join game " << userInfo->getUserId();
-    emit onJoinGameRequest(userInfo);
+    qDebug() << "Join game " << userInfo.getUserId();
+    emit onJoinGameRequest(&userInfo);
 }
 
 void ClientSocket::sendLoginRequest(LoginResult* login)
@@ -94,7 +94,7 @@ void ClientSocket::sendLoginRequest(LoginResult* login)
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_4_6);
-    out << quint16(0) << quint16(Commands::loginResult) << login;
+    out << quint16(0) << quint16(Commands::loginResult) << *login;
     out.device()->seek(0);
     out << quint16(block.size() - sizeof(quint16));
     write(block);

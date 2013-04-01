@@ -7,6 +7,7 @@
 class UserInfo
 {
 public:
+    UserInfo(){}
     UserInfo(User* user, long usersMoneyOnTable = 0);
     UserInfo(long userId, long userMoney, long userMoneyOnTable);
         //If money on table <> 0 and userMoney = 0
@@ -17,6 +18,9 @@ public:
     long getUserMoneyOnTable();
     void clearMoneyOnTable();
 
+    friend QDataStream &operator<<(QDataStream &out, UserInfo &info);
+    friend QDataStream &operator>>(QDataStream &in, UserInfo &info);
+
 private:
     long userId;
     long userMoney;
@@ -25,7 +29,5 @@ private:
     void init(long userId, long userMoney, long userMoneyOnTable);    
 };
 
-QDataStream &operator<<(QDataStream &out, UserInfo *&info);
-QDataStream &operator>>(QDataStream &in, UserInfo *&info);
 
 #endif // USERINFO_H
