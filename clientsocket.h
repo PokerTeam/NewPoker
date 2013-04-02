@@ -22,7 +22,7 @@ signals:
 
 private slots:
     void readClient();
-
+    void doUserJoinGame(QList<UserInfo> users);
 private:
     quint16 nextBlockSize;
 

@@ -42,9 +42,9 @@ void Game::incrementLoopCounter(long userId)
 
 void Game::joinGame(UserInfo* user)
 {
-    if (usersInGame.length() == 4)
+    if (usersInGame.length() <= 4)
     {
-        usersInGame.push_back(user);
+        usersInGame.push_back(*user);
         emit onUserJoinGame(usersInGame);
         if (usersInGame.length() == 2)
         {
@@ -74,11 +74,11 @@ void Game::start()
 long Game::getMaximumBid()
 {
     long maximumBid = 0;
-    foreach (UserInfo* user, usersInGame)
+    foreach (UserInfo user, usersInGame)
     {
-        if (user->getUserMoneyOnTable() > maximumBid)
+        if (user.getUserMoneyOnTable() > maximumBid)
         {
-            maximumBid = user->getUserMoneyOnTable();
+            maximumBid = user.getUserMoneyOnTable();
         }
     }
     return maximumBid;
@@ -86,12 +86,12 @@ long Game::getMaximumBid()
 
 UserInfo* Game::getUserWithButton()
 {
-    return usersInGame[getCursor(buttonOnUserWithIndex)];
+    return &usersInGame[getCursor(buttonOnUserWithIndex)];
 }
 
 UserInfo* Game::getBigBlind()
 {
-    UserInfo* user = usersInGame[getCursor(buttonOnUserWithIndex + 2)];
+    UserInfo* user = &usersInGame[getCursor(buttonOnUserWithIndex + 2)];
     user->putOnTable(BIG_BLIND_BID);
     lastUserAction[user->getUserId()] =
             new UserAction(new User(user->getUserId(), "", ""),
@@ -108,7 +108,7 @@ long Game::getCursor(long cursorValue)
 
 UserInfo* Game::getSmallBlind()
 {
-    UserInfo* user = usersInGame[getCursor(buttonOnUserWithIndex + 1)];
+    UserInfo* user = &usersInGame[getCursor(buttonOnUserWithIndex + 1)];
     user->putOnTable(SMALL_BLIND_BID);
     lastUserAction[user->getUserId()] =
             new UserAction(new User(user->getUserId(), "", ""),
@@ -120,17 +120,17 @@ UserInfo* Game::getSmallBlind()
 
 UserInfo* Game::currentCursorOnUser()
 {
-    return usersInGame[getCursor(cursorOnUserWithIndex)];
+    return &usersInGame[getCursor(cursorOnUserWithIndex)];
 }
 
 void Game::moveCurrentCursor(long offset)
 {
     cursorOnUserWithIndex = getCursor(cursorOnUserWithIndex + offset);
-    UserInfo* user = usersInGame[cursorOnUserWithIndex];
+    UserInfo* user = &usersInGame[cursorOnUserWithIndex];
     bool lastActonFold = isLastActionExists(user->getUserId()) &&
-                         (lastUserAction[usersInGame[cursorOnUserWithIndex]->getUserId()]->getAction() == FOLD);
+                         (lastUserAction[usersInGame[cursorOnUserWithIndex].getUserId()]->getAction() == FOLD);
     if (lastActonFold ||
-        usersInGame[cursorOnUserWithIndex]->isAllIn())
+        usersInGame[cursorOnUserWithIndex].isAllIn())
     {
         moveCurrentCursor(cursorOnUserWithIndex + 1);
     }
@@ -164,9 +164,9 @@ void Game::askForUserMove(bool isFirstStep)
     if (isAllMovesEquals())
     {
         activeUsersCountOnStartLoop = currentLoopStep = 0;
-        foreach(UserInfo* user, usersInGame)
+        foreach(UserInfo user, usersInGame)
         {
-            if (isUserActiveForBids(user->getUserId()))
+            if (isUserActiveForBids(user.getUserId()))
             {
                 activeUsersCountOnStartLoop++;
             }
@@ -193,10 +193,10 @@ void Game::clearBank()
 
 long Game::moveFromTableToBank()
 {
-    foreach(UserInfo* user, usersInGame)
+    foreach(UserInfo user, usersInGame)
     {
-        bankValue += user->getUserMoneyOnTable();
-        user->clearMoneyOnTable();
+        bankValue += user.getUserMoneyOnTable();
+        user.clearMoneyOnTable();
     }
     return bankValue;
 }
@@ -249,11 +249,11 @@ long Game::getMinimumBid(long userId)
 
 UserInfo* Game::getUserInGame(long userId)
 {
-    foreach(UserInfo* user, usersInGame)
+    foreach(UserInfo user, usersInGame)
     {
-        if (user->getUserId() == userId)
+        if (user.getUserId() == userId)
         {
-            return user;
+            return &user;
         }
     }
 
@@ -271,17 +271,17 @@ bool Game::isLoopFinished()
 bool Game::isAllBidsAreEquals()
 {
     long previous = -1;
-    foreach(UserInfo* user, usersInGame)
+    foreach(UserInfo user, usersInGame)
     {
-        if (isUserActiveForBids(user->getUserId()))
+        if (isUserActiveForBids(user.getUserId()))
         {
             if (previous == -1)
             {
-                previous = user->getUserMoneyOnTable();
+                previous = user.getUserMoneyOnTable();
             }
             else
             {
-                if (previous != user->getUserMoneyOnTable())
+                if (previous != user.getUserMoneyOnTable())
                 {
                     return false;
                 }

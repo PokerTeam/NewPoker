@@ -83,7 +83,18 @@ void Client::readClient(){
                     break;
                     }
             case Commands::joinGame:{
-                    qDebug() << "Join Result";
+                    {
+                        qDebug() << "JOIN";
+                        QList<UserInfo> list;
+                        qint32 size;
+                        in >> size;
+                        for (quint32 i = 0; i < size; i++){
+                            UserInfo userInfo;
+                            in >> userInfo;
+                            list.push_back(userInfo);
+                        }
+                        qDebug() << "Array of " << list.count();
+                    }
                     break;
                 }
             }

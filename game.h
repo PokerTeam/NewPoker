@@ -33,8 +33,8 @@ private:
     Deck* deck;
     QList<Card*> cardsOnTable;
     QList<UserCardSet> cardSets;
-    QList<UserInfo*> usersInGame; //This users are currently playing game.
-    QList<UserInfo*> userInQueue; //This users are waiting for game.
+    QList<UserInfo> usersInGame; //This users are currently playing game.
+    QList<UserInfo> userInQueue; //This users are waiting for game.
     QMap<long, UserAction*> lastUserAction;
     QMap<long, long> userMoveCounter;
     long bankValue;
@@ -82,7 +82,7 @@ public slots:
 
 signals:
         //if more than 2 users joined , we need to start the game.
-    void onUserJoinGame(QList<UserInfo*> usersInGame);
+    void onUserJoinGame(QList<UserInfo> usersInGame);
     void onJoinUserFailed(long userId);
         //Deal hidden cards.
         //And We need to fill cardSets collection.

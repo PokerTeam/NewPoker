@@ -52,12 +52,6 @@ void ClientSocket::readClient()
                     processJoinGameRequest(in);
                     break;
             }
-            /*Stub
-            char *arr;
-            uint len = (uint)socket.bytesAvailable();
-            in.readBytes(arr, len);
-            /*To process bytes*/
-            //close();
             nextBlockSize = 0;
         }
     }
@@ -87,6 +81,22 @@ void ClientSocket::processJoinGameRequest(QDataStream &stream)
     stream >> userInfo;
     qDebug() << "Join game " << userInfo.getUserId();
     emit onJoinGameRequest(&userInfo);
+}
+
+void ClientSocket::doUserJoinGame(QList<UserInfo> users){
+    QByteArray block;
+    QDataStream out(&block, QIODevice::WriteOnly);
+    out.setVersion(QDataStream::Qt_4_6);
+    out << quint16(0) << quint16(Commands::joinGame);
+    out << qint32(users.size());
+    foreach (UserInfo user, users){
+        out << user;
+    }
+    out.device()->seek(0);
+    out << quint16(block.size() - sizeof(quint16));
+    write(block);
+    flush();
+    waitForBytesWritten(1000);
 }
 
 void ClientSocket::sendLoginRequest(LoginResult* login)
