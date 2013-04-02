@@ -15,12 +15,12 @@ LoginResult* AccountManager::createNewUser(QString login, QString password)
 {
     return new LoginResult(true, "",
                            new UserInfo(
-                               new User(1, login, password, 1000)));
+                               new User(1, login, password, 1000), 0));
 }
 
 LoginResult* AccountManager::loginUser(QString login, QString password)
 {
     return new LoginResult(true, "",
                            new UserInfo(
-                               new User(1, login, password, 1000)));
+                               new User(1, login, password, 1000), 0));
 }

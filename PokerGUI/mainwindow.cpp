@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
     client->connectToServer();
     connect(client, SIGNAL(onLoginResult(LoginResult*)), this, SLOT(OnLoginResult(LoginResult*)));
     connect(this, SIGNAL(joinGame(UserInfo*)), client, SLOT(doJoinGameRequest(UserInfo*)));
+    connect(client, SIGNAL(userJoinedGame(QList<UserInfo>)), this, SLOT(OnUserJoinedGame(QList<UserInfo>)));
     SetLoginScreen();
 }
 
@@ -171,14 +172,26 @@ void MainWindow::OnButtonLoginClick()
     client->doLoginRequest(login, password);
 }
 
-void MainWindow::OnLoginResult(LoginResult *loginResult)
+void MainWindow::OnLoginResult(LoginResult* loginResult)
 {
     if (loginResult->getIsSuccessed()){
-        userInfo = loginResult->getUser();
-        emit joinGame(userInfo);
+        userInfo = *loginResult->getUser();
+        emit joinGame(&userInfo);
     }else{
         QObject* textArea = root->findChild<QObject*>("textAreaPassword");
         textArea->setProperty("textAreaHint", loginResult->getMessage());
+    }
+}
+
+void MainWindow::OnUserJoinedGame(QList<UserInfo> users){
+    UpdateUsersInGame(users);
+}
+
+void MainWindow::UpdateUsersInGame(QList<UserInfo> users){
+    foreach (UserInfo user, users){
+        if (user.getUserId() == userInfo.getUserId()){
+            SetGameScreen();
+        }
     }
 }
 

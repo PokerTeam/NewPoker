@@ -24,8 +24,8 @@ public slots:
     void readClient();
 
 signals:
-    void onLoginResult(LoginResult* result);
-
+    void onLoginResult(LoginResult *result);
+    void userJoinedGame(QList<UserInfo> users);
 private:
     QTcpSocket socket;
     quint16 nextBlockSize;

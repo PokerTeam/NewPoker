@@ -84,7 +84,6 @@ void Client::readClient(){
                     }
             case Commands::joinGame:{
                     {
-                        qDebug() << "JOIN";
                         QList<UserInfo> list;
                         qint32 size;
                         in >> size;
@@ -93,7 +92,7 @@ void Client::readClient(){
                             in >> userInfo;
                             list.push_back(userInfo);
                         }
-                        qDebug() << "Array of " << list.count();
+                        emit userJoinedGame(list);
                     }
                     break;
                 }

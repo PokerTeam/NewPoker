@@ -26,7 +26,9 @@ private:
     QDeclarativeView *ui;
     QObject *root;
     Client *client;
-    UserInfo* userInfo;
+    UserInfo userInfo;
+    QMap<long,int> usersPosition;
+    QMap<long,UserInfo> usersInGame;
 
     void SetupUI(QString path);
 
@@ -41,11 +43,14 @@ private:
     void SetupGameButtons(QObject *aRoot);
     void SetupGameUserBlocks(QObject *aRoot);
     void SetupGameCardImages(QObject *aRoot);
+
+    void UpdateUsersInGame(QList<UserInfo> users);
 signals:
     void joinGame(UserInfo*);
 private slots:
     void OnButtonLoginClick();
     void OnLoginResult(LoginResult*);
+    void OnUserJoinedGame(QList<UserInfo> users);
     void OnButtonRegisterClick();
 
     void OnButtonExitClick();
