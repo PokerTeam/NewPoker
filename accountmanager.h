@@ -15,9 +15,10 @@ public:
     bool isPasswordCorrect(long userId, QString password);
 
 private:
-    User* loadUser(long userId);
+    User* loadUser(QString login);
     bool isUserWithSuchUsernameExists(QString username);
     void updateUser(User* updatedUser);
+    QList<User> users; //Remove when DB will be implemented.
 
 public slots:
     LoginResult* createNewUser(QString login, QString password);
