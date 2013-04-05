@@ -1,10 +1,5 @@
 #include "userinfo.h"
 
-UserInfo::UserInfo(User* user, long userMoneyOnTable)
-{
-    init(user->getUserId(), user->getMoney(), userMoneyOnTable);
-}
-
 UserInfo::UserInfo(long userId,
                    long userMoney,
                    long userMoneyOnTable)
@@ -56,7 +51,7 @@ long UserInfo::getUserMoneyOnTable()
     return userMoneyOnTable;
 }
 
-QDataStream &operator<<(QDataStream &out, UserInfo &info)
+QDataStream &operator<<(QDataStream &out,UserInfo &info)
 {
     out << quint32(info.getUserId())
         << quint32(info.getUserMoney())

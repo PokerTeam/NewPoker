@@ -2,7 +2,7 @@
 
 LoginResult::LoginResult(bool isSuccessed,
                          QString message,
-                         UserInfo* user)
+                         UserInfo user)
 {
     this->isSuccessed = isSuccessed;
     this->message = message;
@@ -19,7 +19,7 @@ QString LoginResult::getMessage()
     return message;
 }
 
-UserInfo* LoginResult::getUser()
+UserInfo LoginResult::getUser()
 {
     return user;
 }
@@ -27,18 +27,17 @@ UserInfo* LoginResult::getUser()
 QDataStream &operator<<(QDataStream &out,
                         LoginResult &login)
 {
+    UserInfo usr = login.getUser();
     out << login.getIsSuccessed()
         << login.getMessage()
-        << *login.getUser();
+        << usr;
     return out;
 }
 
 QDataStream &operator>>(QDataStream &in,
                         LoginResult &login)
 {
-    UserInfo user;
-    in >> login.isSuccessed >> login.message >> user;
-    login.user = &user;
+    in >> login.isSuccessed >> login.message >> login.user;
     //login = new LoginResult(isSuccess, message, &user);
     return in;
 }

@@ -75,27 +75,27 @@ void Client::readClient(){
             in >> requestType;
             qDebug() << requestType << " Size: " << socket.bytesAvailable() << " next: " << nextBlockSize;
             switch(requestType){
-                case Commands::loginResult:
-                    {
-                    LoginResult result;
-                    in >> result;
-                    emit onLoginResult(&result);
-                    break;
-                    }
+            case Commands::loginResult:
+            {
+                LoginResult result;
+                in >> result;
+                emit onLoginResult(&result);
+                break;
+            }
             case Commands::joinGame:{
-                    {
-                        QList<UserInfo> list;
-                        qint32 size;
-                        in >> size;
-                        for (quint32 i = 0; i < size; i++){
-                            UserInfo userInfo;
-                            in >> userInfo;
-                            list.push_back(userInfo);
-                        }
-                        emit userJoinedGame(list);
+                {
+                    QList<UserInfo> list;
+                    qint32 size;
+                    in >> size;
+                    for (quint32 i = 0; i < size; i++){
+                        UserInfo userInfo;
+                        in >> userInfo;
+                        list.push_back(userInfo);
                     }
-                    break;
+                    emit userJoinedGame(list);
                 }
+                break;
+            }
             }
             /*Stub
             char *arr;

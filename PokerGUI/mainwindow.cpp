@@ -175,7 +175,7 @@ void MainWindow::OnButtonLoginClick()
 void MainWindow::OnLoginResult(LoginResult* loginResult)
 {
     if (loginResult->getIsSuccessed()){
-        userInfo = *loginResult->getUser();
+        userInfo = (*loginResult).getUser();
         emit joinGame(&userInfo);
     }else{
         QObject* textArea = root->findChild<QObject*>("textAreaPassword");

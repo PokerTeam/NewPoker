@@ -8,16 +8,16 @@ class LoginResult
 {
 public:
     LoginResult(){}
-    LoginResult(bool isSuccessed, QString message, UserInfo* user);
+    LoginResult(bool isSuccessed, QString message, UserInfo user);
     bool getIsSuccessed();
     QString getMessage();
-    UserInfo* getUser();
+    UserInfo getUser();
 
     friend QDataStream &operator<<(QDataStream &out, LoginResult &login);
     friend QDataStream &operator>>(QDataStream &in, LoginResult &login);
 
 private:
-    UserInfo* user;
+    UserInfo user;
     QString message;
     bool isSuccessed;
 };
