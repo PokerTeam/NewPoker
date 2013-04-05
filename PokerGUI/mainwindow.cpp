@@ -197,7 +197,11 @@ void MainWindow::UpdateUsersInGame(QList<UserInfo> users){
 
 void MainWindow::OnButtonRegisterClick()
 {
-
+    QObject* textArea = root->findChild<QObject*>("textAreaLogin");
+    QString login = textArea->property("textContent").toString();
+    textArea = root->findChild<QObject*>("textAreaPassword");
+    QString password = textArea->property("textContent").toString();
+    client->doRegisterRequest(login, password);
 }
 
 void MainWindow::OnButtonExitClick()

@@ -5,7 +5,7 @@ AccountManager::AccountManager()
     users.push_back(User(1, "qwe", "123", 1000));
     users.push_back(User(2, "qwe1", "123", 1000));
     users.push_back(User(3, "qwe2", "123", 1000));
-    users.push_back(User(3, "qwe3", "123", 1000));
+    users.push_back(User(4, "qwe3", "123", 1000));
 }
 
 bool AccountManager::isPasswordCorrect(long userId, QString password)
@@ -16,8 +16,15 @@ bool AccountManager::isPasswordCorrect(long userId, QString password)
 
 LoginResult* AccountManager::createNewUser(QString login, QString password)
 {
-    return new LoginResult(true, QString(""),
-                           UserInfo(1, 1000, 0));
+    User* user = loadUser(login);
+    if (user != NULL){
+        return new LoginResult(false, QString("User already exists."), UserInfo());
+    }else{
+        User user = User(users.count() + 1, login, password, 1000);
+        users.push_back(user);
+        return new LoginResult(true, QString(""),
+                                UserInfo(user.getUserId(), user.getMoney(), 0));
+    }
 }
 
 LoginResult* AccountManager::loginUser(QString login, QString password)
