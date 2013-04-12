@@ -65,7 +65,7 @@ void Game::resetLoopCounter()
 void Game::start()
 {
     resetLoopCounter();
-    emit gameStarted(new GameStartAction(getSmallBlind(),
+    emit gameStarted(GameStartAction(getSmallBlind(),
                                          getBigBlind(),
                                          getUserWithButton()));
     askForUserMove(true);
@@ -84,20 +84,20 @@ long Game::getMaximumBid()
     return maximumBid;
 }
 
-UserInfo* Game::getUserWithButton()
+UserInfo Game::getUserWithButton()
 {
-    return &usersInGame[getCursor(buttonOnUserWithIndex)];
+    return usersInGame[getCursor(buttonOnUserWithIndex)];
 }
 
-UserInfo* Game::getBigBlind()
+UserInfo Game::getBigBlind()
 {
-    UserInfo* user = &usersInGame[getCursor(buttonOnUserWithIndex + 2)];
-    user->putOnTable(BIG_BLIND_BID);
-    lastUserAction[user->getUserId()] =
-            new UserAction(new User(user->getUserId(), "", ""),
+    UserInfo user = usersInGame[getCursor(buttonOnUserWithIndex + 2)];
+    user.putOnTable(BIG_BLIND_BID);
+    lastUserAction[user.getUserId()] =
+            new UserAction(new User(user.getUserId(), "", ""),
                            RAISE,
                            BIG_BLIND_BID);
-    incrementLoopCounter(user->getUserId()); //TODO: move from this method.
+    incrementLoopCounter(user.getUserId()); //TODO: move from this method.
     return user;
 }
 
@@ -106,21 +106,21 @@ long Game::getCursor(long cursorValue)
     return cursorValue % usersInGame.length();
 }
 
-UserInfo* Game::getSmallBlind()
+UserInfo Game::getSmallBlind()
 {
-    UserInfo* user = &usersInGame[getCursor(buttonOnUserWithIndex + 1)];
-    user->putOnTable(SMALL_BLIND_BID);
-    lastUserAction[user->getUserId()] =
-            new UserAction(new User(user->getUserId(), "", ""),
+    UserInfo user = usersInGame[getCursor(buttonOnUserWithIndex + 1)];
+    user.putOnTable(SMALL_BLIND_BID);
+    lastUserAction[user.getUserId()] =
+            new UserAction(new User(user.getUserId(), "", ""),
                            RAISE,
                            SMALL_BLIND_BID);
-    incrementLoopCounter(user->getUserId());
+    incrementLoopCounter(user.getUserId());
     return user;
 }
 
-UserInfo* Game::currentCursorOnUser()
+UserInfo Game::currentCursorOnUser()
 {
-    return &usersInGame[getCursor(cursorOnUserWithIndex)];
+    return usersInGame[getCursor(cursorOnUserWithIndex)];
 }
 
 void Game::moveCurrentCursor(long offset)
@@ -174,10 +174,10 @@ void Game::askForUserMove(bool isFirstStep)
     }
     currentLoopStep += isFirstStep ? 2 : 1;
     moveCurrentCursor(isFirstStep ? 3 : 1);
-    UserInfo* currentUser = currentCursorOnUser();
+    UserInfo currentUser = currentCursorOnUser();
     emit onUserMove(new UserMoveAction(currentUser,
-                                       getAvailableActions(currentUser->getUserId()),
-                                       getMinimumBid(currentUser->getUserId())));
+                                       getAvailableActions(currentUser.getUserId()),
+                                       getMinimumBid(currentUser.getUserId())));
     //TODO:Add 60 sec. timer.
 }
 

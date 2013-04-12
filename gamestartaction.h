@@ -6,15 +6,15 @@
 class GameStartAction
 {
 public:
-    GameStartAction(UserInfo* smallBlind, UserInfo* bigBlind, UserInfo* userWithButton);
-    UserInfo* getUserWithButton();
-    UserInfo* getSmallBlind();
-    UserInfo* getBigBlind();
+    GameStartAction(UserInfo smallBlind, UserInfo bigBlind, UserInfo userWithButton);
+    UserInfo getUserWithButton();
+    UserInfo getSmallBlind();
+    UserInfo getBigBlind();
 
 private:
-    UserInfo* smallBlind;
-    UserInfo* bigBlind;
-    UserInfo* userWithButton;
+    UserInfo smallBlind;
+    UserInfo bigBlind;
+    UserInfo userWithButton;
 };
 
 #endif // GAMESTARTACTION_H

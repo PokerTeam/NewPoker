@@ -1,6 +1,6 @@
 #include "usermoveaction.h"
 
-UserMoveAction::UserMoveAction(UserInfo* user,
+UserMoveAction::UserMoveAction(UserInfo user,
                                QList<Actions> availableActions,
                                long minimumBid)
 {
@@ -9,7 +9,7 @@ UserMoveAction::UserMoveAction(UserInfo* user,
     this->minimumBid = minimumBid;
 }
 
-UserInfo* UserMoveAction::getUserInfo()
+UserInfo UserMoveAction::getUserInfo()
 {
     return user;
 }
