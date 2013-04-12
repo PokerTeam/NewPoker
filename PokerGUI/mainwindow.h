@@ -45,6 +45,8 @@ private:
     void SetupGameCardImages(QObject *aRoot);
 
     void UpdateUsersInGame(QList<UserInfo> users);
+    void UpdateSecondaryUsers();
+    void UpdateCurrentUser();
 signals:
     void joinGame(UserInfo*);
 private slots:

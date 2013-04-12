@@ -23,7 +23,7 @@ LoginResult* AccountManager::createNewUser(QString login, QString password)
         User user = User(users.count() + 1, login, password, 1000);
         users.push_back(user);
         return new LoginResult(true, QString(""),
-                                UserInfo(user.getUserId(), user.getMoney(), 0));
+                                UserInfo(user.getUsername(), user.getUserId(), user.getMoney(), 0));
     }
 }
 
@@ -35,7 +35,7 @@ LoginResult* AccountManager::loginUser(QString login, QString password)
     }else{
         if (user.getPassword() == password){
             return new LoginResult(true, QString(""),
-                                    UserInfo(user.getUserId(), user.getMoney(), 0));
+                                    UserInfo(user.getUsername(), user.getUserId(), user.getMoney(), 0));
         }else{
             return new LoginResult(false, QString("Incorrect password."), UserInfo());
         }

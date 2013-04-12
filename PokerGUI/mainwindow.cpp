@@ -188,15 +188,35 @@ void MainWindow::OnUserJoinedGame(QList<UserInfo> users){
 }
 
 void MainWindow::UpdateUsersInGame(QList<UserInfo> users){
+    long position = 0;
+    bool isFirstInitialization = false;
     foreach (UserInfo user, users){
         if (user.getUserId() == userInfo.getUserId()){
             SetGameScreen();
+        }else{
+            if (isFirstInitialization){
+                usersPosition[user.getUserId()] = position++;
+            }
+            usersInGame[user.getUserId()] = user;
         }
+    }
+    UpdateCurrentUser();
+    UpdateSecondaryUsers();
+}
+
+void MainWindow::UpdateCurrentUser(){
+    QObject* user = root->findChild<QObject*>("userSelf");
+    user->setProperty("labelUsername", userInfo.getUsername());
+    user->setProperty("labelUsercash", QString("%1 (%2)").arg(userInfo.getUserMoney()).arg(userInfo.getUserMoneyOnTable()));
+}
+
+void MainWindow::UpdateSecondaryUsers(){
+    foreach(UserInfo user, usersInGame.values()){
+
     }
 }
 
-void MainWindow::OnButtonRegisterClick()
-{
+void MainWindow::OnButtonRegisterClick(){
     QObject* textArea = root->findChild<QObject*>("textAreaLogin");
     QString login = textArea->property("textContent").toString();
     textArea = root->findChild<QObject*>("textAreaPassword");

@@ -7,12 +7,13 @@
 class UserInfo
 {
 public:
-    UserInfo(){ userId = 0; userMoney = 0; userMoneyOnTable = 0;}
-    UserInfo(long userId, long userMoney, long userMoneyOnTable);
+    UserInfo(){ username = ""; userId = 0; userMoney = 0; userMoneyOnTable = 0;}
+    UserInfo(QString username, long userId, long userMoney, long userMoneyOnTable);
         //If money on table <> 0 and userMoney = 0
     bool isAllIn();
     void putOnTable(long value);
     long getUserId();
+    QString getUsername();
     long getUserMoney();
     long getUserMoneyOnTable();
     void clearMoneyOnTable();
@@ -21,11 +22,12 @@ public:
     friend QDataStream &operator>>(QDataStream &in, UserInfo &info);
 
 private:
+    QString username;
     long userId;
     long userMoney;
     long userMoneyOnTable;
 
-    void init(long userId, long userMoney, long userMoneyOnTable);    
+    void init(QString username, long userId, long userMoney, long userMoneyOnTable);
 };
 
 
