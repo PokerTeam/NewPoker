@@ -212,8 +212,14 @@ void MainWindow::UpdateCurrentUser(){
 
 void MainWindow::UpdateSecondaryUsers(){
     foreach(UserInfo user, usersInGame.values()){
-
+        QObject* userUI = root->findChild<QObject*>(getUserFieldName(usersPosition[user.getUserId()]));
+        userUI->setProperty("labelUsername", user.getUsername());
+        userUI->setProperty("labelUsercash", QString("%1 (%2)").arg(user.getUserMoney()).arg(user.getUserMoneyOnTable()));
     }
+}
+
+QString MainWindow::getUserFieldName(long position){
+    return QString("user%1").arg(position);
 }
 
 void MainWindow::OnButtonRegisterClick(){

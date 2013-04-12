@@ -47,6 +47,7 @@ private:
     void UpdateUsersInGame(QList<UserInfo> users);
     void UpdateSecondaryUsers();
     void UpdateCurrentUser();
+    QString getUserFieldName(long position);
 signals:
     void joinGame(UserInfo*);
 private slots:
