@@ -219,7 +219,7 @@ void MainWindow::UpdateSecondaryUsers(){
 }
 
 QString MainWindow::getUserFieldName(long position){
-    return QString("user%1").arg(position);
+    return QString("user%1").arg(position+1);
 }
 
 void MainWindow::OnButtonRegisterClick(){
