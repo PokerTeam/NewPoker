@@ -16,8 +16,8 @@ bool AccountManager::isPasswordCorrect(long userId, QString password)
 
 LoginResult* AccountManager::createNewUser(QString login, QString password)
 {
-    User* user = loadUser(login);
-    if (user != NULL){
+    User user = loadUser(login);
+    if (user.getUserId() != 0){
         return new LoginResult(false, QString("User already exists."), UserInfo());
     }else{
         User user = User(users.count() + 1, login, password, 1000);
@@ -29,24 +29,24 @@ LoginResult* AccountManager::createNewUser(QString login, QString password)
 
 LoginResult* AccountManager::loginUser(QString login, QString password)
 {
-    User* user = loadUser(login);
-    if (user == NULL){
+    User user = loadUser(login);
+    if (user.getUserId() == 0){
         return new LoginResult(false, QString("Incorrect username."), UserInfo());
     }else{
-        if (user->getPassword() == password){
+        if (user.getPassword() == password){
             return new LoginResult(true, QString(""),
-                                    UserInfo(user->getUserId(), user->getMoney(), 0));
+                                    UserInfo(user.getUserId(), user.getMoney(), 0));
         }else{
             return new LoginResult(false, QString("Incorrect password."), UserInfo());
         }
     }
 }
 
-User* AccountManager::loadUser(QString login){
+User AccountManager::loadUser(QString login){
     foreach(User user, users){
         if (user.getUsername() == login){
-            return &user;
+            return user;
         }
     }
-    return NULL;
+    return User(0, "", "", 0);
 }
