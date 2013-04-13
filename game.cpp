@@ -17,9 +17,9 @@ Game::Game(AccountManager* accountManager)
 
 void Game::doAction(UserAction* userAction)
 {
-    lastUserAction[userAction->getUser()->getUserId()] = userAction;
-    incrementLoopCounter(userAction->getUser()->getUserId());
-    UserInfo user = getUserInGame(userAction->getUser()->getUserId());
+    lastUserAction[userAction->getUser().getUserId()] = userAction;
+    incrementLoopCounter(userAction->getUser().getUserId());
+    UserInfo user = getUserInGame(userAction->getUser().getUserId());
     switch(userAction->getAction())
     {
         case CALL:
@@ -72,12 +72,12 @@ void Game::resetLoopCounter()
 void Game::start()
 {
     resetLoopCounter();
-    UserInfo* smallBlind = getSmallBlind();
-    UserInfo* bigBlind = getBigBlind();
-    UserInfo* userWithButton = getUserWithButton();
-    emit gameStarted(GameStartAction(*smallBlind,
-                                     *bigBlind,
-                                     *userWithButton));
+    UserInfo smallBlind = getSmallBlind();
+    UserInfo bigBlind = getBigBlind();
+    UserInfo userWithButton = getUserWithButton();
+    emit gameStarted(GameStartAction(smallBlind,
+                                     bigBlind,
+                                     userWithButton));
     askForUserMove(true);
 }
 
@@ -94,22 +94,22 @@ long Game::getMaximumBid()
     return maximumBid;
 }
 
-UserInfo* Game::getUserWithButton()
+UserInfo Game::getUserWithButton()
 {
-    return &usersInGame[getCursor(buttonOnUserWithIndex)];
+    return usersInGame[getCursor(buttonOnUserWithIndex)];
 }
 
-UserInfo* Game::getBigBlind()
+UserInfo Game::getBigBlind()
 {
     long index = getCursor(buttonOnUserWithIndex + 2);
     UserInfo* user = &usersInGame[index];
     user->putOnTable(BIG_BLIND_BID);
     lastUserAction[user->getUserId()] =
-            new UserAction(new User(user->getUserId(), "", ""),
+            new UserAction(*user,
                            RAISE,
                            BIG_BLIND_BID);
     incrementLoopCounter(user->getUserId()); //TODO: move from this method.
-    return user;
+    return *user;
 }
 
 long Game::getCursor(long cursorValue)
@@ -118,16 +118,16 @@ long Game::getCursor(long cursorValue)
     return cursorValue % usersInGame.length();
 }
 
-UserInfo* Game::getSmallBlind()
+UserInfo Game::getSmallBlind()
 {
     UserInfo* user = &usersInGame[getCursor(buttonOnUserWithIndex + 1)];
     user->putOnTable(SMALL_BLIND_BID);
     lastUserAction[user->getUserId()] =
-            new UserAction(new User(user->getUserId(), "", ""),
+            new UserAction(*user,
                            RAISE,
                            SMALL_BLIND_BID);
     incrementLoopCounter(user->getUserId());
-    return user;
+    return *user;
 }
 
 UserInfo Game::currentCursorOnUser()

@@ -1,6 +1,6 @@
 #include "useraction.h"
 
-UserAction::UserAction(User* user,
+UserAction::UserAction(UserInfo user,
                        Actions action,
                        int money)
 {
@@ -19,7 +19,7 @@ int UserAction::getMoney()
     return money;
 }
 
-User* UserAction::getUser()
+UserInfo UserAction::getUser()
 {
     return user;
 }

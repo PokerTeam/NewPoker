@@ -2,19 +2,19 @@
 #define USERACTION_H
 
 #include "actions.h"
-#include "user.h"
+#include "userinfo.h"
 
 class UserAction
 {
 public:
         //We pass User class as argument because we need to verify password.
-    UserAction(User *user, Actions action, int money = -1);
+    UserAction(UserInfo user, Actions action, int money = -1);
     Actions getAction();
     int getMoney();
-    User* getUser();
+    UserInfo getUser();
 
 private:
-    User* user;
+    UserInfo user;
     Actions action;
         //-1 if action is Fold or Check.
     int money;

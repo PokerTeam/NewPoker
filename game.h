@@ -48,9 +48,9 @@ private:
     QList<User*> getWinner(QList<UserCardSet> cardSets, QList<Card*> cardsOnTable);
     User* getWinner(UserCardSet firstList, UserCardSet second);
     User* getWinner(QList<UserCardSet> cardSets);      
-    UserInfo* getUserWithButton();
-    UserInfo* getBigBlind();
-    UserInfo* getSmallBlind();
+    UserInfo getUserWithButton();
+    UserInfo getBigBlind();
+    UserInfo getSmallBlind();
     UserInfo currentCursorOnUser();
     void askForUserMove(bool isFirstStep = false);
     QList<Actions> getAvailableActions(long userId);
