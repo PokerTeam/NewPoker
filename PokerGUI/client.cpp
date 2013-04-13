@@ -91,6 +91,7 @@ void Client::readClient(){
             case Commands::userMove:{
                 UserMoveAction action;
                 in >> action;
+                emit onUserMove(action);
                 break;
             }
             case Commands::joinGame:{

@@ -31,6 +31,9 @@ private:
     QMap<long,UserInfo> usersInGame;
     QMap<long,QObject*> usersUI;
     QMap<long, QString> userAdditionalInfo;
+    long maximumBid;
+    long currentBid;
+    UserMoveAction lastAction;
 
     void SetupUI(QString path);
     void SetLoginScreen();
@@ -58,6 +61,7 @@ private slots:
     void OnUserJoinedGame(QList<UserInfo> users);
     void OnButtonRegisterClick();
     void OnGameStart(GameStartAction);
+    void OnUserMove(UserMoveAction);
 
     void OnButtonExitClick();
     void OnButtonFoldClick();

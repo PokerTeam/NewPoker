@@ -29,6 +29,7 @@ signals:
     void onLoginResult(LoginResult *result);
     void userJoinedGame(QList<UserInfo> users);
     void onGameStart(GameStartAction action);
+    void onUserMove(UserMoveAction action);
 private:
     QTcpSocket socket;
     quint16 nextBlockSize;

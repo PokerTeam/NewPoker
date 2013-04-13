@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this, SIGNAL(joinGame(UserInfo*)), client, SLOT(doJoinGameRequest(UserInfo*)));
     connect(client, SIGNAL(userJoinedGame(QList<UserInfo>)), this, SLOT(OnUserJoinedGame(QList<UserInfo>)));
     connect(client, SIGNAL(onGameStart(GameStartAction)), this, SLOT(OnGameStart(GameStartAction)));
+    connect(client, SIGNAL(onUserMove(UserMoveAction)), this, SLOT(OnUserMove(UserMoveAction)));
     SetLoginScreen();
 }
 
@@ -101,18 +102,22 @@ void MainWindow::SetupGameButtons(QObject *aRoot)
                      this, SLOT(OnButtonFoldClick()));
 
     button = aRoot->findChild<QObject*>("buttonCall");
+    button->setProperty("enabled", false);
     QObject::connect(button, SIGNAL(buttonClick()),
                      this, SLOT(OnButtonCallClick()));
 
     button = aRoot->findChild<QObject*>("buttonRaise");
+    button->setProperty("enabled", false);
     QObject::connect(button, SIGNAL(buttonClick()),
                      this, SLOT(OnButtonRaiseClick()));
 
     button = aRoot->findChild<QObject*>("buttonIncObj");
+    button->setProperty("enabled", false);
     QObject::connect(button, SIGNAL(buttonClick()),
                      this, SLOT(OnButtonRateIncClick()));
 
     button = aRoot->findChild<QObject*>("buttonDecObj");
+    button->setProperty("enabled", false);
     QObject::connect(button, SIGNAL(buttonClick()),
                      this, SLOT(OnButtonRateDecClick()));
 }
@@ -196,6 +201,12 @@ void MainWindow::OnGameStart(GameStartAction action){
     AppendInfo(action.getSmallBlind().getUserId(), "Small");
     AppendInfo(action.getUserWithButton().getUserId(), "Btn");
     UpdateUsers();
+}
+
+void MainWindow::OnUserMove(UserMoveAction action){
+    if (userInfo.getUserId() == action.getUserInfo().getUserId()){
+
+    }
 }
 
 void MainWindow::AppendInfo(long userId, QString info){
