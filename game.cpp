@@ -15,16 +15,16 @@ Game::Game(AccountManager* accountManager)
     currentLoopStep = 0;
 }
 
-void Game::doAction(UserAction* userAction)
+void Game::doAction(UserAction userAction)
 {
-    lastUserAction[userAction->getUser().getUserId()] = userAction;
-    incrementLoopCounter(userAction->getUser().getUserId());
-    UserInfo user = getUserInGame(userAction->getUser().getUserId());
-    switch(userAction->getAction())
+    lastUserAction[userAction.getUser().getUserId()] = &userAction;
+    incrementLoopCounter(userAction.getUser().getUserId());
+    UserInfo user = getUserInGame(userAction.getUser().getUserId());
+    switch(userAction.getAction())
     {
         case CALL:
         case RAISE:
-            user.putOnTable(userAction->getMoney());
+            user.putOnTable(userAction.getMoney());
             break;
 
         case FOLD:

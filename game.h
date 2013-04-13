@@ -77,7 +77,7 @@ private:
 
 public slots:
         //When user do his step.
-    void doAction(UserAction* userAction);
+    void doAction(UserAction userAction);
     void joinGame(UserInfo* user);
 
 signals:
@@ -99,7 +99,7 @@ signals:
         //Occurs when gameStartedAction occured and less then 3 users in game.
     void onGameStopped();
 
-    void onUserAction(UserAction* userAction);
+    void onUserAction(UserAction userAction);
 
         //Occures after 60 seconds without response.
     void onUserLeaveGame(UserLeaveAction* userLeaveAction);
