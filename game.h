@@ -60,7 +60,7 @@ private:
     void resetLoopCounter();
     void incrementLoopCounter(long userId);
     void moveCurrentCursor(long offset);
-    UserInfo* getUserInGame(long userId);
+    UserInfo getUserInGame(long userId);
     bool isLoopFinished();
     void dealFirstThreeCards();
     void dealNextCard();

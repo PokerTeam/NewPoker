@@ -19,12 +19,12 @@ void Game::doAction(UserAction* userAction)
 {
     lastUserAction[userAction->getUser()->getUserId()] = userAction;
     incrementLoopCounter(userAction->getUser()->getUserId());
-    UserInfo* user = getUserInGame(userAction->getUser()->getUserId());
+    UserInfo user = getUserInGame(userAction->getUser()->getUserId());
     switch(userAction->getAction())
     {
         case CALL:
         case RAISE:
-            user->putOnTable(userAction->getMoney());
+            user.putOnTable(userAction->getMoney());
             break;
 
         case FOLD:
@@ -187,9 +187,10 @@ void Game::askForUserMove(bool isFirstStep)
     currentLoopStep += isFirstStep ? 2 : 1;
     moveCurrentCursor(isFirstStep ? 3 : 1);
     UserInfo currentUser = currentCursorOnUser();
-    emit onUserMove(UserMoveAction(currentUser,
-                                       getAvailableActions(currentUser.getUserId()),
-                                       getMinimumBid(currentUser.getUserId())));
+    UserMoveAction action = UserMoveAction(currentUser,
+                                           getAvailableActions(currentUser.getUserId()),
+                                           getMinimumBid(currentUser.getUserId()));
+    emit onUserMove(action);
     //TODO:Add 60 sec. timer.
 }
 
@@ -255,21 +256,21 @@ QList<Actions> Game::getAvailableActions(long userId)
 
 long Game::getMinimumBid(long userId)
 {
-    UserInfo* user = getUserInGame(userId);
-    return getMaximumBid() - user->getUserMoneyOnTable();
+    UserInfo user = getUserInGame(userId);
+    return getMaximumBid() - user.getUserMoneyOnTable();
 }
 
-UserInfo* Game::getUserInGame(long userId)
+UserInfo Game::getUserInGame(long userId)
 {
     foreach(UserInfo user, usersInGame)
     {
         if (user.getUserId() == userId)
         {
-            return &user;
+            return user;
         }
     }
 
-    return NULL;
+    return UserInfo();
 }
 
 bool Game::isLoopFinished()
@@ -320,10 +321,10 @@ bool Game::isLastActionExists(long userId)
 
 bool Game::isUserActiveForBids(long userId)
 {
-    UserInfo* user = getUserInGame(userId);
+    UserInfo user = getUserInGame(userId);
     bool isLastActionNotFold = !isLastActionExists(userId) ||
                                (lastUserAction[userId]->getAction() != FOLD);
-    return !user->isAllIn() && isLastActionNotFold;
+    return !user.isAllIn() && isLastActionNotFold;
 }
 
 QList<User*> Game::getWinner(QList<UserCardSet> cardSets, QList<Card*> cardsOnTable)
