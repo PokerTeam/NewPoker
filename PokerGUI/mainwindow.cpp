@@ -204,10 +204,60 @@ void MainWindow::OnGameStart(GameStartAction action){
 }
 
 void MainWindow::OnUserMove(UserMoveAction action){
-    if (userInfo.getUserId() == action.getUserInfo().getUserId()){
+    QObject* button;
+    button = root->findChild<QObject*>("buttonCall");
+    button->setProperty("enabled", false);
 
+    button = root->findChild<QObject*>("buttonRaise");
+    button->setProperty("enabled", false);
+
+    button = root->findChild<QObject*>("buttonIncObj");
+    button->setProperty("enabled", false);
+
+    button = root->findChild<QObject*>("buttonDecObj");
+    button->setProperty("enabled", false);
+
+    if (userInfo.getUserId() == action.getUserInfo().getUserId()){
+        foreach(Actions item, action.getAvailableActions()){
+            switch (item){
+                case CALL:
+                    button = root->findChild<QObject*>("buttonCall");
+                    button->setProperty("enabled", true);
+                    break;
+                case RAISE:
+                    button = root->findChild<QObject*>("buttonRaise");
+                    button->setProperty("enabled", true);
+                    break;
+            }
+        }
     }
 }
+
+/*
+    button = aRoot->findChild<QObject*>("buttonFold");
+    QObject::connect(button, SIGNAL(buttonClick()),
+                     this, SLOT(OnButtonFoldClick()));
+
+    button = aRoot->findChild<QObject*>("buttonCall");
+    button->setProperty("enabled", false);
+    QObject::connect(button, SIGNAL(buttonClick()),
+                     this, SLOT(OnButtonCallClick()));
+
+    button = aRoot->findChild<QObject*>("buttonRaise");
+    button->setProperty("enabled", false);
+    QObject::connect(button, SIGNAL(buttonClick()),
+                     this, SLOT(OnButtonRaiseClick()));
+
+    button = aRoot->findChild<QObject*>("buttonIncObj");
+    button->setProperty("enabled", false);
+    QObject::connect(button, SIGNAL(buttonClick()),
+                     this, SLOT(OnButtonRateIncClick()));
+
+    button = aRoot->findChild<QObject*>("buttonDecObj");
+    button->setProperty("enabled", false);
+    QObject::connect(button, SIGNAL(buttonClick()),
+                     this, SLOT(OnButtonRateDecClick()));
+*/
 
 void MainWindow::AppendInfo(long userId, QString info){
     userAdditionalInfo[userId] = QString("%1%2").arg(userAdditionalInfo.contains(userId) ? userAdditionalInfo[userId] + ", " : "").arg(info);
