@@ -17,6 +17,7 @@ public:
     static const quint16 joinGame = 9;
     static const quint16 gameStart = 10;
     static const quint16 userMove = 11;
+    static const quint16 userAction = 12;
 
     Commands();
 };

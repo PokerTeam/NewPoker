@@ -51,6 +51,10 @@ void ClientSocket::readClient()
                 case Commands::joinGame:
                     processJoinGameRequest(in);
                     break;
+
+                case Commands::userAction:
+                    processUserActionRequest(in);
+                    break;
             }
             nextBlockSize = 0;
         }
@@ -81,6 +85,12 @@ void ClientSocket::processJoinGameRequest(QDataStream &stream)
     stream >> userInfo;
     qDebug() << "Join game " << userInfo.getUserId();
     emit onJoinGameRequest(&userInfo);
+}
+
+void ClientSocket::processUserActionRequest(QDataStream &stream){
+    UserAction action;
+    stream >> action;
+    emit onUserAction(action);
 }
 
 void ClientSocket::doUserJoinGame(QList<UserInfo> users){

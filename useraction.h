@@ -7,11 +7,15 @@
 class UserAction
 {
 public:
+    UserAction();
         //We pass User class as argument because we need to verify password.
     UserAction(UserInfo user, Actions action, int money = -1);
     Actions getAction();
     int getMoney();
     UserInfo getUser();
+
+    friend QDataStream &operator<<(QDataStream &out,UserAction &action);
+    friend QDataStream &operator>>(QDataStream &in, UserAction &action);
 
 private:
     UserInfo user;

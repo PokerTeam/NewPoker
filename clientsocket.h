@@ -8,6 +8,7 @@
 #include "loginresult.h"
 #include "gamestartaction.h"
 #include "usermoveaction.h"
+#include "useraction.h"
 
 
 class ClientSocket : public QTcpSocket
@@ -21,6 +22,7 @@ signals:
     LoginResult* onRegisterRequest(QString login, QString password);
     LoginResult* onLoginRequest(QString login, QString password);
     void onJoinGameRequest(UserInfo* user);
+    void onUserAction(UserAction action);
 
 private slots:
     void readClient();
@@ -33,7 +35,8 @@ private:
     void sendLoginRequest(LoginResult* login);
     void processRegisterRequest(QDataStream &stream);
     void processLoginRequest(QDataStream &stream);
-    void processJoinGameRequest(QDataStream &stream);    
+    void processJoinGameRequest(QDataStream &stream);
+    void processUserActionRequest(QDataStream &stream);
 };
 
 #endif // CLIENTSOCKET_H
