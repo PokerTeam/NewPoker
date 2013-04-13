@@ -99,6 +99,32 @@ void ClientSocket::doUserJoinGame(QList<UserInfo> users){
     waitForBytesWritten(1000);
 }
 
+void ClientSocket::doGameStart(GameStartAction action){
+    QByteArray block;
+    QDataStream out(&block, QIODevice::WriteOnly);
+    out.setVersion(QDataStream::Qt_4_6);
+    out << quint16(0) << quint16(Commands::gameStart);
+    out << action;
+    out.device()->seek(0);
+    out << quint16(block.size() - sizeof(quint16));
+    write(block);
+    flush();
+    waitForBytesWritten(1000);
+}
+
+void ClientSocket::doUserMove(UserMoveAction userMoveAction){
+    QByteArray block;
+    QDataStream out(&block, QIODevice::WriteOnly);
+    out.setVersion(QDataStream::Qt_4_6);
+    out << quint16(0) << quint16(Commands::userMove);
+    out << userMoveAction;
+    out.device()->seek(0);
+    out << quint16(block.size() - sizeof(quint16));
+    write(block);
+    flush();
+    waitForBytesWritten(1000);
+}
+
 void ClientSocket::sendLoginRequest(LoginResult* login)
 {
     QByteArray block;

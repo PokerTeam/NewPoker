@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(client, SIGNAL(onLoginResult(LoginResult*)), this, SLOT(OnLoginResult(LoginResult*)));
     connect(this, SIGNAL(joinGame(UserInfo*)), client, SLOT(doJoinGameRequest(UserInfo*)));
     connect(client, SIGNAL(userJoinedGame(QList<UserInfo>)), this, SLOT(OnUserJoinedGame(QList<UserInfo>)));
+    connect(client, SIGNAL(onGameStart(GameStartAction)), this, SLOT(OnGameStart(GameStartAction)));
     SetLoginScreen();
 }
 
@@ -187,39 +188,63 @@ void MainWindow::OnUserJoinedGame(QList<UserInfo> users){
     UpdateUsersInGame(users);
 }
 
+void MainWindow::OnGameStart(GameStartAction action){
+    usersInGame[action.getBigBlind().getUserId()] = action.getBigBlind();
+    usersInGame[action.getSmallBlind().getUserId()] = action.getSmallBlind();
+    usersInGame[action.getUserWithButton().getUserId()] = action.getUserWithButton();
+    AppendInfo(action.getBigBlind().getUserId(), "Big");
+    AppendInfo(action.getSmallBlind().getUserId(), "Small");
+    AppendInfo(action.getUserWithButton().getUserId(), "Btn");
+    UpdateUsers();
+}
+
+void MainWindow::AppendInfo(long userId, QString info){
+    userAdditionalInfo[userId] = QString("%1%2").arg(userAdditionalInfo.contains(userId) ? userAdditionalInfo[userId] + ", " : "").arg(info);
+}
+
+long MainWindow::GetAvaliblePosition(){
+    for (long i = 1; i <= 3; i++){
+        if (!usersByPosition.contains(i)){
+            return i;
+        }
+    }
+    return -1;
+}
+
 void MainWindow::UpdateUsersInGame(QList<UserInfo> users){
-    long position = 0;
-    bool isFirstInitialization = false;
     foreach (UserInfo user, users){
         if (user.getUserId() == userInfo.getUserId()){
-            SetGameScreen();
-        }else{
-            if (isFirstInitialization){
-                usersPosition[user.getUserId()] = position++;
+            if (!usersUI.contains(user.getUserId())){
+                SetGameScreen();
+                usersUI[user.getUserId()] = root->findChild<QObject*>("userSelf");
+                usersInGame[user.getUserId()] = user;
+            }
+        }
+    } //Because we need to show table first.
+    foreach (UserInfo user, users){
+        if (user.getUserId() != userInfo.getUserId()){
+            if (!usersUI.contains(user.getUserId())){
+                usersUI[user.getUserId()] = root->findChild<QObject*>(getUserFieldName(GetAvaliblePosition()));
+                usersByPosition[GetAvaliblePosition()] = user.getUserId();
             }
             usersInGame[user.getUserId()] = user;
         }
     }
-    UpdateCurrentUser();
-    UpdateSecondaryUsers();
+    UpdateUsers();
 }
 
-void MainWindow::UpdateCurrentUser(){
-    QObject* user = root->findChild<QObject*>("userSelf");
-    user->setProperty("labelUsername", userInfo.getUsername());
-    user->setProperty("labelUsercash", QString("%1 (%2)").arg(userInfo.getUserMoney()).arg(userInfo.getUserMoneyOnTable()));
-}
 
-void MainWindow::UpdateSecondaryUsers(){
-    foreach(UserInfo user, usersInGame.values()){
-        QObject* userUI = root->findChild<QObject*>(getUserFieldName(usersPosition[user.getUserId()]));
-        userUI->setProperty("labelUsername", user.getUsername());
-        userUI->setProperty("labelUsercash", QString("%1 (%2)").arg(user.getUserMoney()).arg(user.getUserMoneyOnTable()));
+void MainWindow::UpdateUsers(){
+    foreach(long key, usersInGame.keys()){
+        QObject* userUI = usersUI[key];
+        QString info = userAdditionalInfo.contains(key) ? "(" + userAdditionalInfo[key] + ")" : "";
+        userUI->setProperty("labelUsername", QString("%1 %2").arg(usersInGame[key].getUsername()).arg(info));
+        userUI->setProperty("labelUsercash", QString("%1 (%2)").arg(usersInGame[key].getUserMoney()).arg(usersInGame[key].getUserMoneyOnTable()));
     }
 }
 
 QString MainWindow::getUserFieldName(long position){
-    return QString("user%1").arg(position+1);
+    return QString("user%1").arg(position);
 }
 
 void MainWindow::OnButtonRegisterClick(){

@@ -27,11 +27,12 @@ private:
     QObject *root;
     Client *client;
     UserInfo userInfo;
-    QMap<long,int> usersPosition;
+    QMap<long,long> usersByPosition;
     QMap<long,UserInfo> usersInGame;
+    QMap<long,QObject*> usersUI;
+    QMap<long, QString> userAdditionalInfo;
 
     void SetupUI(QString path);
-
     void SetLoginScreen();
     void SetupLoginControls(QObject *aRoot);
     void SetupLoginTextAreas(QObject *aRoot);
@@ -45,9 +46,10 @@ private:
     void SetupGameCardImages(QObject *aRoot);
 
     void UpdateUsersInGame(QList<UserInfo> users);
-    void UpdateSecondaryUsers();
-    void UpdateCurrentUser();
+    void UpdateUsers();
     QString getUserFieldName(long position);
+    long GetAvaliblePosition();
+    void AppendInfo(long userId, QString info);
 signals:
     void joinGame(UserInfo*);
 private slots:
@@ -55,6 +57,7 @@ private slots:
     void OnLoginResult(LoginResult*);
     void OnUserJoinedGame(QList<UserInfo> users);
     void OnButtonRegisterClick();
+    void OnGameStart(GameStartAction);
 
     void OnButtonExitClick();
     void OnButtonFoldClick();

@@ -6,6 +6,8 @@
 #include <QDataStream>
 #include "commands.h"
 #include "loginresult.h"
+#include "gamestartaction.h"
+#include "usermoveaction.h"
 
 
 class ClientSocket : public QTcpSocket
@@ -23,6 +25,8 @@ signals:
 private slots:
     void readClient();
     void doUserJoinGame(QList<UserInfo> users);
+    void doGameStart(GameStartAction action);
+    void doUserMove(UserMoveAction userMoveAction);
 private:
     quint16 nextBlockSize;
 

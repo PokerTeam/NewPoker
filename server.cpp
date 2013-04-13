@@ -60,6 +60,8 @@ void Server::incomingConnection(int handle)
     connect(client, SIGNAL(onLoginRequest(QString,QString)), accountManager, SLOT(loginUser(QString,QString)));
     connect(client, SIGNAL(onJoinGameRequest(UserInfo*)), game, SLOT(joinGame(UserInfo*)));
     connect(game, SIGNAL(onUserJoinGame(QList<UserInfo>)), client, SLOT(doUserJoinGame(QList<UserInfo>)));
+    connect(game, SIGNAL(gameStarted(GameStartAction)), client, SLOT(doGameStart(GameStartAction)));
+    connect(game, SIGNAL(onUserMove(UserMoveAction)), client, SLOT(doUserMove(UserMoveAction)));
 }
 
 

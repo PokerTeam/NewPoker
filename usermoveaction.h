@@ -8,6 +8,7 @@
 class UserMoveAction
 {
 public:
+    UserMoveAction();
     UserMoveAction(UserInfo user,
                    QList<Actions> availableActions,
                    long minimumBid);
@@ -15,6 +16,8 @@ public:
     long getMinimumBid();
     QList<Actions> getAvailableActions();
 
+    friend QDataStream &operator<<(QDataStream &out, UserMoveAction &action);
+    friend QDataStream &operator>>(QDataStream &in, UserMoveAction &action);
 private:
     UserInfo user;
     QList<Actions> availableActions;

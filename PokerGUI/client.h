@@ -8,6 +8,8 @@
 #include "../loginresult.h"
 #include "../user.h"
 #include "../userinfo.h"
+#include "../gamestartaction.h"
+#include "../usermoveaction.h"
 
 class Client : public QObject
 {
@@ -26,6 +28,7 @@ public slots:
 signals:
     void onLoginResult(LoginResult *result);
     void userJoinedGame(QList<UserInfo> users);
+    void onGameStart(GameStartAction action);
 private:
     QTcpSocket socket;
     quint16 nextBlockSize;

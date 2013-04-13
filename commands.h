@@ -13,10 +13,10 @@ public:
     static const quint16 comSendList = 5;
     static const quint16 registerNewUser = 6;
     static const quint16 loginUser = 7;
-    /*static const quint16 registerNewUser = 1;
-    static const quint16 loginUser = 2;*/
     static const quint16 loginResult = 8;
     static const quint16 joinGame = 9;
+    static const quint16 gameStart = 10;
+    static const quint16 userMove = 11;
 
     Commands();
 };

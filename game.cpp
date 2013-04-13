@@ -6,6 +6,13 @@ Game::Game(AccountManager* accountManager)
     this->accountManager = accountManager;
     this->deck = new Deck();
     activeUsersCountOnStartLoop = currentLoopStep = 0;
+    bankValue = 0;
+    lastBid = 0;
+    currentUserCursor = 0;
+    buttonOnUserWithIndex = 0;
+    cursorOnUserWithIndex = 0;
+    activeUsersCountOnStartLoop = 0;
+    currentLoopStep = 0;
 }
 
 void Game::doAction(UserAction* userAction)
@@ -65,9 +72,12 @@ void Game::resetLoopCounter()
 void Game::start()
 {
     resetLoopCounter();
-    emit gameStarted(GameStartAction(getSmallBlind(),
-                                         getBigBlind(),
-                                         getUserWithButton()));
+    UserInfo* smallBlind = getSmallBlind();
+    UserInfo* bigBlind = getBigBlind();
+    UserInfo* userWithButton = getUserWithButton();
+    emit gameStarted(GameStartAction(*smallBlind,
+                                     *bigBlind,
+                                     *userWithButton));
     askForUserMove(true);
 }
 
@@ -84,37 +94,39 @@ long Game::getMaximumBid()
     return maximumBid;
 }
 
-UserInfo Game::getUserWithButton()
+UserInfo* Game::getUserWithButton()
 {
-    return usersInGame[getCursor(buttonOnUserWithIndex)];
+    return &usersInGame[getCursor(buttonOnUserWithIndex)];
 }
 
-UserInfo Game::getBigBlind()
+UserInfo* Game::getBigBlind()
 {
-    UserInfo user = usersInGame[getCursor(buttonOnUserWithIndex + 2)];
-    user.putOnTable(BIG_BLIND_BID);
-    lastUserAction[user.getUserId()] =
-            new UserAction(new User(user.getUserId(), "", ""),
+    long index = getCursor(buttonOnUserWithIndex + 2);
+    UserInfo* user = &usersInGame[index];
+    user->putOnTable(BIG_BLIND_BID);
+    lastUserAction[user->getUserId()] =
+            new UserAction(new User(user->getUserId(), "", ""),
                            RAISE,
                            BIG_BLIND_BID);
-    incrementLoopCounter(user.getUserId()); //TODO: move from this method.
+    incrementLoopCounter(user->getUserId()); //TODO: move from this method.
     return user;
 }
 
 long Game::getCursor(long cursorValue)
 {
+    long length = usersInGame.length();
     return cursorValue % usersInGame.length();
 }
 
-UserInfo Game::getSmallBlind()
+UserInfo* Game::getSmallBlind()
 {
-    UserInfo user = usersInGame[getCursor(buttonOnUserWithIndex + 1)];
-    user.putOnTable(SMALL_BLIND_BID);
-    lastUserAction[user.getUserId()] =
-            new UserAction(new User(user.getUserId(), "", ""),
+    UserInfo* user = &usersInGame[getCursor(buttonOnUserWithIndex + 1)];
+    user->putOnTable(SMALL_BLIND_BID);
+    lastUserAction[user->getUserId()] =
+            new UserAction(new User(user->getUserId(), "", ""),
                            RAISE,
                            SMALL_BLIND_BID);
-    incrementLoopCounter(user.getUserId());
+    incrementLoopCounter(user->getUserId());
     return user;
 }
 
@@ -126,8 +138,8 @@ UserInfo Game::currentCursorOnUser()
 void Game::moveCurrentCursor(long offset)
 {
     cursorOnUserWithIndex = getCursor(cursorOnUserWithIndex + offset);
-    UserInfo* user = &usersInGame[cursorOnUserWithIndex];
-    bool lastActonFold = isLastActionExists(user->getUserId()) &&
+    UserInfo user = usersInGame[cursorOnUserWithIndex];
+    bool lastActonFold = isLastActionExists(user.getUserId()) &&
                          (lastUserAction[usersInGame[cursorOnUserWithIndex].getUserId()]->getAction() == FOLD);
     if (lastActonFold ||
         usersInGame[cursorOnUserWithIndex].isAllIn())
@@ -175,7 +187,7 @@ void Game::askForUserMove(bool isFirstStep)
     currentLoopStep += isFirstStep ? 2 : 1;
     moveCurrentCursor(isFirstStep ? 3 : 1);
     UserInfo currentUser = currentCursorOnUser();
-    emit onUserMove(new UserMoveAction(currentUser,
+    emit onUserMove(UserMoveAction(currentUser,
                                        getAvailableActions(currentUser.getUserId()),
                                        getMinimumBid(currentUser.getUserId())));
     //TODO:Add 60 sec. timer.

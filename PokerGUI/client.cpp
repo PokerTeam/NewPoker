@@ -82,6 +82,17 @@ void Client::readClient(){
                 emit onLoginResult(&result);
                 break;
             }
+            case Commands::gameStart:{
+                GameStartAction action;
+                in >> action;
+                emit onGameStart(action);
+                break;
+            }
+            case Commands::userMove:{
+                UserMoveAction action;
+                in >> action;
+                break;
+            }
             case Commands::joinGame:{
                 {
                     QList<UserInfo> list;

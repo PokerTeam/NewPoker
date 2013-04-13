@@ -48,9 +48,9 @@ private:
     QList<User*> getWinner(QList<UserCardSet> cardSets, QList<Card*> cardsOnTable);
     User* getWinner(UserCardSet firstList, UserCardSet second);
     User* getWinner(QList<UserCardSet> cardSets);      
-    UserInfo getUserWithButton();
-    UserInfo getBigBlind();
-    UserInfo getSmallBlind();
+    UserInfo* getUserWithButton();
+    UserInfo* getBigBlind();
+    UserInfo* getSmallBlind();
     UserInfo currentCursorOnUser();
     void askForUserMove(bool isFirstStep = false);
     QList<Actions> getAvailableActions(long userId);
@@ -88,7 +88,7 @@ signals:
         //And We need to fill cardSets collection.
     void gameStarted(GameStartAction gameStartAction);
         // Occurs when cursor is set to user. And 30(hidden) + 30(visible) seconds timer is started.
-    void onUserMove(UserMoveAction* userMoveAction);
+    void onUserMove(UserMoveAction userMoveAction);
         // When first three cards dealed.
     void onFirstCardsDealed(FirstCardsAction* firstCardsAction);
 
