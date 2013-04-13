@@ -31,6 +31,7 @@ private:
     QMap<long,UserInfo> usersInGame;
     QMap<long,QObject*> usersUI;
     QMap<long, QString> userAdditionalInfo;
+    long minimumBid;
     long maximumBid;
     long currentBid;
     UserMoveAction lastAction;
@@ -53,6 +54,7 @@ private:
     QString getUserFieldName(long position);
     long GetAvaliblePosition();
     void AppendInfo(long userId, QString info);
+    void UpdateRateUI();
 signals:
     void joinGame(UserInfo*);
 private slots:

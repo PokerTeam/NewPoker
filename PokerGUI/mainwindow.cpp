@@ -216,7 +216,9 @@ void MainWindow::OnUserMove(UserMoveAction action){
 
     button = root->findChild<QObject*>("buttonDecObj");
     button->setProperty("enabled", false);
-
+    currentBid = 0;
+    minimumBid = action.getMinimumBid();
+    maximumBid = action.getUserInfo().getUserMoney();
     if (userInfo.getUserId() == action.getUserInfo().getUserId()){
         foreach(Actions item, action.getAvailableActions()){
             switch (item){
@@ -227,37 +229,15 @@ void MainWindow::OnUserMove(UserMoveAction action){
                 case RAISE:
                     button = root->findChild<QObject*>("buttonRaise");
                     button->setProperty("enabled", true);
+                    button = root->findChild<QObject*>("buttonIncObj");
+                    button->setProperty("enabled", true);
+                    button = root->findChild<QObject*>("buttonDecObj");
+                    button->setProperty("enabled", true);
                     break;
             }
         }
     }
 }
-
-/*
-    button = aRoot->findChild<QObject*>("buttonFold");
-    QObject::connect(button, SIGNAL(buttonClick()),
-                     this, SLOT(OnButtonFoldClick()));
-
-    button = aRoot->findChild<QObject*>("buttonCall");
-    button->setProperty("enabled", false);
-    QObject::connect(button, SIGNAL(buttonClick()),
-                     this, SLOT(OnButtonCallClick()));
-
-    button = aRoot->findChild<QObject*>("buttonRaise");
-    button->setProperty("enabled", false);
-    QObject::connect(button, SIGNAL(buttonClick()),
-                     this, SLOT(OnButtonRaiseClick()));
-
-    button = aRoot->findChild<QObject*>("buttonIncObj");
-    button->setProperty("enabled", false);
-    QObject::connect(button, SIGNAL(buttonClick()),
-                     this, SLOT(OnButtonRateIncClick()));
-
-    button = aRoot->findChild<QObject*>("buttonDecObj");
-    button->setProperty("enabled", false);
-    QObject::connect(button, SIGNAL(buttonClick()),
-                     this, SLOT(OnButtonRateDecClick()));
-*/
 
 void MainWindow::AppendInfo(long userId, QString info){
     userAdditionalInfo[userId] = QString("%1%2").arg(userAdditionalInfo.contains(userId) ? userAdditionalInfo[userId] + ", " : "").arg(info);
@@ -338,10 +318,23 @@ void MainWindow::OnButtonRaiseClick()
 
 void MainWindow::OnButtonRateIncClick()
 {
-
+    currentBid++;
+    if (currentBid > maximumBid ){
+        currentBid = maximumBid;
+    }
+    UpdateRateUI();
 }
 
 void MainWindow::OnButtonRateDecClick()
 {
+    currentBid--;
+    if (currentBid < 0 ){
+        currentBid = 0;
+    }
+    UpdateRateUI();
+}
 
+void MainWindow::UpdateRateUI(){
+    QObject* text = root->findChild<QObject*>("textRaiseValueObj");
+    text->setProperty("raiseValue", QString("%1").arg(currentBid));
 }
