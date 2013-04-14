@@ -55,6 +55,18 @@ void Client::doJoinGameRequest(UserInfo* userInfo){
     socket.waitForBytesWritten(1000);
 }
 
+void Client::doUserActionRequest(UserAction action){
+    QByteArray block;
+    QDataStream out(&block, QIODevice::WriteOnly);
+    out.setVersion(QDataStream::Qt_4_6);
+    out << quint16(0) << quint16(Commands::userAction) << action;
+    out.device()->seek(0);
+    out << quint16(block.size() - sizeof(quint16));
+    socket.write(block);
+    socket.flush();
+    socket.waitForBytesWritten(1000);
+}
+
 void Client::readClient(){
     qDebug() << endl <<"Client req, Avalible: " << socket.bytesAvailable() << ", next: " << nextBlockSize;
     QDataStream in(&socket);

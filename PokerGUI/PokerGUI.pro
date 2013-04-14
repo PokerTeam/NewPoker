@@ -18,7 +18,8 @@ SOURCES += main.cpp\
     ../user.cpp \
     ../loginresult.cpp \
     ../gamestartaction.cpp \
-    ../usermoveaction.cpp
+    ../usermoveaction.cpp \
+    ../useraction.cpp
 
 HEADERS  += mainwindow.h \
     client.h \
@@ -27,7 +28,8 @@ HEADERS  += mainwindow.h \
     ../userinfo.h \
     ../user.h \
     ../gamestartaction.h \
-    ../usermoveaction.h
+    ../usermoveaction.h \
+    ../useraction.h
 
 OTHER_FILES += \
     login.qml \

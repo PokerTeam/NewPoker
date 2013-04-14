@@ -303,17 +303,17 @@ void MainWindow::OnButtonExitClick()
 
 void MainWindow::OnButtonFoldClick()
 {
-
+    client->doUserActionRequest(UserAction(userInfo, FOLD, -1));
 }
 
 void MainWindow::OnButtonCallClick()
 {
-
+    client->doUserActionRequest(UserAction(userInfo, CALL, minimumBid));
 }
 
 void MainWindow::OnButtonRaiseClick()
 {
-
+    client->doUserActionRequest(UserAction(userInfo, RAISE, currentBid));
 }
 
 void MainWindow::OnButtonRateIncClick()

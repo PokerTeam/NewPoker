@@ -10,6 +10,7 @@
 #include "../userinfo.h"
 #include "../gamestartaction.h"
 #include "../usermoveaction.h"
+#include "../useraction.h"
 
 class Client : public QObject
 {
@@ -23,6 +24,7 @@ public slots:
     void doRegisterRequest(QString username, QString password);
     void doLoginRequest(QString username, QString password);
     void doJoinGameRequest(UserInfo* userInfo);
+    void doUserActionRequest(UserAction action);
     void readClient();
 
 signals:
