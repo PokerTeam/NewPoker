@@ -1,6 +1,7 @@
 #include <QDebug>
 #include "client.h"
 #include "../commands.h"
+#include "../bankchangeaction.h"
 
 Client::Client()
 {
@@ -104,6 +105,12 @@ void Client::readClient(){
                 UserMoveAction action;
                 in >> action;
                 emit onUserMove(action);
+                break;
+            }
+            case Commands::bankChange:{
+                BankChangeAction action;
+                in >> action;
+                emit onBankChange(action);
                 break;
             }
             case Commands::userAction:{

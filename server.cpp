@@ -63,6 +63,7 @@ void Server::incomingConnection(int handle)
     connect(game, SIGNAL(gameStarted(GameStartAction)), client, SLOT(doGameStart(GameStartAction)));
     connect(game, SIGNAL(onUserMove(UserMoveAction)), client, SLOT(doUserMove(UserMoveAction)));
     connect(game, SIGNAL(onUserAction(UserAction)), client, SLOT(doUserAction(UserAction)));
+    connect(game, SIGNAL(onBankChanged(BankChangeAction)), client, SLOT(doBankChangeAction(BankChangeAction)));
     connect(client, SIGNAL(onUserAction(UserAction)), game, SLOT(doAction(UserAction)));
 }
 

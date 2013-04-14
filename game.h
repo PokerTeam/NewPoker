@@ -104,7 +104,7 @@ signals:
         //Occures after 60 seconds without response.
     void onUserLeaveGame(UserLeaveAction* userLeaveAction);
 
-    void onBankChanged(BankChangeAction* bankChangeAction); //Occurs when bank value changed.
+    void onBankChanged(BankChangeAction bankChangeAction); //Occurs when bank value changed.
 };
 
 #endif // GAME_H

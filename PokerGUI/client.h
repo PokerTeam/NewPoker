@@ -11,6 +11,7 @@
 #include "../gamestartaction.h"
 #include "../usermoveaction.h"
 #include "../useraction.h"
+#include "../bankchangeaction.h"
 
 class Client : public QObject
 {
@@ -33,6 +34,7 @@ signals:
     void onGameStart(GameStartAction action);
     void onUserMove(UserMoveAction action);
     void onUserAction(UserAction action);
+    void onBankChange(BankChangeAction action);
 private:
     QTcpSocket socket;
     quint16 nextBlockSize;

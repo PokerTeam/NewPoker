@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(client, SIGNAL(onGameStart(GameStartAction)), this, SLOT(OnGameStart(GameStartAction)));
     connect(client, SIGNAL(onUserMove(UserMoveAction)), this, SLOT(OnUserMove(UserMoveAction)));
     connect(client, SIGNAL(onUserAction(UserAction)), this, SLOT(OnUserAction(UserAction)));
+    connect(client, SIGNAL(onBankChange(BankChangeAction)), this, SLOT(OnBankChange(BankChangeAction)));
     SetLoginScreen();
 }
 
@@ -221,6 +222,7 @@ void MainWindow::OnUserMove(UserMoveAction action){
     minimumBid = action.getMinimumBid();
     maximumBid = action.getUserInfo().getUserMoney();
     if (userInfo.getUserId() == action.getUserInfo().getUserId()){
+        userInfo = action.getUserInfo();
         foreach(Actions item, action.getAvailableActions()){
             switch (item){
                 case CALL:
@@ -306,6 +308,11 @@ void MainWindow::OnUserAction(UserAction action){
     if (userInfo.getUserId() == action.getUser().getUserId()){
         userInfo = action.getUser();
     }
+}
+
+void MainWindow::OnBankChange(BankChangeAction action){
+    QObject* ui = root->findChild<QObject*>("textBankValueObj");
+    ui->setProperty("bankValue", QString("%1").arg(action.getBankValue()));
 }
 
 void MainWindow::OnButtonExitClick()

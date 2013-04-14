@@ -65,6 +65,7 @@ private slots:
     void OnGameStart(GameStartAction);
     void OnUserMove(UserMoveAction);
     void OnUserAction(UserAction);
+    void OnBankChange(BankChangeAction action);
 
     void OnButtonExitClick();
     void OnButtonFoldClick();

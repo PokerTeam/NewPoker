@@ -152,7 +152,7 @@ void Game::askForUserMove(bool isFirstStep)
 {
     if (!isFirstStep && isLoopFinished())
     {
-        emit onBankChanged(new BankChangeAction(moveFromTableToBank()));
+        emit onBankChanged(BankChangeAction(moveFromTableToBank()));
         switch(cardsOnTable.length())
         {
             case 0:
