@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(client, SIGNAL(userJoinedGame(QList<UserInfo>)), this, SLOT(OnUserJoinedGame(QList<UserInfo>)));
     connect(client, SIGNAL(onGameStart(GameStartAction)), this, SLOT(OnGameStart(GameStartAction)));
     connect(client, SIGNAL(onUserMove(UserMoveAction)), this, SLOT(OnUserMove(UserMoveAction)));
+    connect(client, SIGNAL(onUserAction(UserAction)), this, SLOT(OnUserAction(UserAction)));
     SetLoginScreen();
 }
 
@@ -294,6 +295,10 @@ void MainWindow::OnButtonRegisterClick(){
     textArea = root->findChild<QObject*>("textAreaPassword");
     QString password = textArea->property("textContent").toString();
     client->doRegisterRequest(login, password);
+}
+
+void MainWindow::OnUserAction(UserAction action){
+
 }
 
 void MainWindow::OnButtonExitClick()

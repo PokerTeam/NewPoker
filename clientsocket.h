@@ -29,6 +29,7 @@ private slots:
     void doUserJoinGame(QList<UserInfo> users);
     void doGameStart(GameStartAction action);
     void doUserMove(UserMoveAction userMoveAction);
+    void doUserAction(UserAction);
 private:
     quint16 nextBlockSize;
 

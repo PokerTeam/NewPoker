@@ -62,6 +62,7 @@ void Server::incomingConnection(int handle)
     connect(game, SIGNAL(onUserJoinGame(QList<UserInfo>)), client, SLOT(doUserJoinGame(QList<UserInfo>)));
     connect(game, SIGNAL(gameStarted(GameStartAction)), client, SLOT(doGameStart(GameStartAction)));
     connect(game, SIGNAL(onUserMove(UserMoveAction)), client, SLOT(doUserMove(UserMoveAction)));
+    connect(game, SIGNAL(onUserAction(UserAction)), client, SLOT(doUserAction(UserAction)));
     connect(client, SIGNAL(onUserAction(UserAction)), game, SLOT(doAction(UserAction)));
 }
 
