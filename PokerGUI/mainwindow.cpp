@@ -303,6 +303,9 @@ void MainWindow::OnUserAction(UserAction action){
         ui->setProperty("labelUsername", "FOLD");
         ui->setProperty("labelUsercash", "");
     }
+    if (userInfo.getUserId() == action.getUser().getUserId()){
+        userInfo = action.getUser();
+    }
 }
 
 void MainWindow::OnButtonExitClick()
