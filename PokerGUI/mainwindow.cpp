@@ -298,7 +298,11 @@ void MainWindow::OnButtonRegisterClick(){
 }
 
 void MainWindow::OnUserAction(UserAction action){
-
+    QObject* ui = usersUI[action.getUser().getUserId()];
+    if (action.getAction() == FOLD){
+        ui->setProperty("labelUsername", "FOLD");
+        ui->setProperty("labelUsercash", "");
+    }
 }
 
 void MainWindow::OnButtonExitClick()

@@ -31,7 +31,7 @@ void Game::doAction(UserAction userAction)
         case CHECK:
             break;
     }
-    emit onUserAction(userAction);
+    emit onUserAction(UserAction(user, userAction.getAction(), userAction.getMoney()));
     askForUserMove();
 }
 
