@@ -19,19 +19,19 @@ void Game::doAction(UserAction userAction)
 {
     lastUserAction[userAction.getUser().getUserId()] = &userAction;
     incrementLoopCounter(userAction.getUser().getUserId());
-    UserInfo user = getUserInGame(userAction.getUser().getUserId());
+    UserInfo* user = &getUserInGame(userAction.getUser().getUserId());
     switch(userAction.getAction())
     {
         case CALL:
         case RAISE:
-            user.putOnTable(userAction.getMoney());
+            user->putOnTable(userAction.getMoney());
             break;
 
         case FOLD:
         case CHECK:
             break;
     }
-    emit onUserAction(UserAction(user, userAction.getAction(), userAction.getMoney()));
+    emit onUserAction(UserAction(*user, userAction.getAction(), userAction.getMoney()));
     askForUserMove();
 }
 
