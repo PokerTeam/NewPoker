@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(client, SIGNAL(onUserMove(UserMoveAction)), this, SLOT(OnUserMove(UserMoveAction)));
     connect(client, SIGNAL(onUserAction(UserAction)), this, SLOT(OnUserAction(UserAction)));
     connect(client, SIGNAL(onBankChange(BankChangeAction)), this, SLOT(OnBankChange(BankChangeAction)));
+    connect(client, SIGNAL(onFirstCardsAction(FirstCardsAction)), this, SLOT(OnFirstCardsAction(FirstCardsAction)));
     SetLoginScreen();
 }
 
@@ -316,6 +317,10 @@ void MainWindow::OnUserAction(UserAction action){
 void MainWindow::OnBankChange(BankChangeAction action){
     QObject* ui = root->findChild<QObject*>("textBankValueObj");
     ui->setProperty("bankValue", QString("%1").arg(action.getBankValue()));
+}
+
+void MainWindow::OnFirstCardsAction(FirstCardsAction action){
+
 }
 
 void MainWindow::OnButtonExitClick()

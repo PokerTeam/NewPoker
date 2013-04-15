@@ -3,6 +3,7 @@
 #include "../commands.h"
 #include "../bankchangeaction.h"
 
+
 Client::Client()
 {
     connect(&socket, SIGNAL(readyRead()), this, SLOT(readClient()));
@@ -117,6 +118,12 @@ void Client::readClient(){
                 UserAction action;
                 in >> action;
                 emit onUserAction(action);
+                break;
+            }
+            case Commands::firstCardsAction:{
+                FirstCardsAction action;
+                in >> action;
+                emit onFirstCardsAction(action);
                 break;
             }
             case Commands::joinGame:{

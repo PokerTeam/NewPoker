@@ -19,6 +19,7 @@ public:
     static const quint16 userMove = 11;
     static const quint16 userAction = 12;
     static const quint16 bankChange = 13;
+    static const quint16 firstCardsAction = 14;
 
     Commands();
 };

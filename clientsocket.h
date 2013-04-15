@@ -10,6 +10,7 @@
 #include "usermoveaction.h"
 #include "useraction.h"
 #include "bankchangeaction.h"
+#include "firstcardsaction.h"
 
 
 class ClientSocket : public QTcpSocket
@@ -32,6 +33,7 @@ private slots:
     void doUserMove(UserMoveAction userMoveAction);
     void doUserAction(UserAction);
     void doBankChangeAction(BankChangeAction action);
+    void doFirstCardsAction(FirstCardsAction action);
 private:
     quint16 nextBlockSize;
 
