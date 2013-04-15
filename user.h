@@ -7,6 +7,7 @@ class User
 {
 public:
     User(long userId, QString username, QString password, long money = 0);
+    User(QString username, QString password, long money = 0);
     long getUserId();
     QString getUsername();
     QString getPassword();

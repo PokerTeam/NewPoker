@@ -10,6 +10,5 @@ int main(int argc, char *argv[])
     AccountManager* accountManager = new AccountManager();
     Server* server = new Server(new Game(accountManager), accountManager);
     server->start(QHostAddress::Any, 1234);
-
     return a.exec();
 }

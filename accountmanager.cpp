@@ -2,51 +2,101 @@
 
 AccountManager::AccountManager()
 {
-    users.push_back(User(1, "qwe", "123", 1000));
-    users.push_back(User(2, "qwe1", "123", 1000));
-    users.push_back(User(3, "qwe2", "123", 1000));
-    users.push_back(User(4, "qwe3", "123", 1000));
+    dbase = QSqlDatabase::addDatabase("QSQLITE");
+    dbase.setDatabaseName("UserDataBase.sqlite");
+    dbase.open();
+}
+
+User* AccountManager::GetUser(QString userName)
+{
+    if(isUserWithSuchUsernameExists(userName))
+    {
+        return loadUser(getUserIdByUserName(userName));
+    }
+    return NULL;
+}
+
+User* AccountManager::GetUser(long userId)
+{
+    return loadUser(userId);
+}
+
+LoginResult* AccountManager::Login(QString userName, QString password)
+{
+    if(isUserWithSuchUsernameExists(userName))
+    {
+        User* user = loadUser(getUserIdByUserName(userName));
+        if(isPasswordCorrect(user->getUserId(), password))
+        {
+            return new LoginResult(true, QString(""),
+                 UserInfo(user->getUsername(), user->getUserId(), user->getMoney(), 0));
+        }
+    }
+    return new LoginResult(false, QString("Incorrect username or password."), UserInfo());
+}
+
+LoginResult* AccountManager::Registration(QString userName, QString password)
+{
+    if(isUserWithSuchUsernameExists(userName))
+    {
+        return new LoginResult(false, QString("User already exists."), UserInfo());
+    }
+    User *newUser = new User(userName, password, 0);
+    return createNewUser(newUser);
+}
+
+long AccountManager::getUserIdByUserName(QString userName)
+{
+    QSqlQuery query;
+    query.exec(QString("select Id from users where name='"+userName+"'"));
+    query.next();
+    return query.value(0).toLongLong();
+}
+
+LoginResult* AccountManager::createNewUser(User *user)
+{
+    QSqlQuery query;
+    if(query.exec(QString("insert into Users values(null,'"+
+       user->getUsername()+"','"+user->getPassword()+"',"
+       +QString::number(user->getMoney())+")")))
+    {
+        return new LoginResult(true, QString(""),
+             UserInfo(user->getUsername(), user->getUserId(), user->getMoney(), 0));
+    }
+    return new LoginResult(false, QString("There was an error.Try again"), UserInfo());
+
+}
+
+User* AccountManager::loadUser(long userId)
+{
+    QSqlQuery query;
+    query.exec(QString("select * from users where Id="+ QString::number(userId)));
+    query.next();
+    return new User(query.value(0).toLongLong(),
+                    query.value(1).toString(),
+                    query.value(2).toString(),
+                    query.value(3).toLongLong());
 }
 
 bool AccountManager::isPasswordCorrect(long userId, QString password)
 {
-    //TODO: Add Logic.
-    return true;
+    QSqlQuery query;
+    query.exec(QString("select Password from users where id="+QString::number(userId)));
+    query.next();
+    return query.value(0).toString() == password;
 }
 
-LoginResult* AccountManager::createNewUser(QString login, QString password)
+bool AccountManager::isUserWithSuchUsernameExists(QString username)
 {
-    User user = loadUser(login);
-    if (user.getUserId() != 0){
-        return new LoginResult(false, QString("User already exists."), UserInfo());
-    }else{
-        User user = User(users.count() + 1, login, password, 1000);
-        users.push_back(user);
-        return new LoginResult(true, QString(""),
-                                UserInfo(user.getUsername(), user.getUserId(), user.getMoney(), 0));
-    }
+    QSqlQuery query;
+    query.exec(QString("select Id from users where name = '"+username+ "'"));
+    query.next();
+    return query.value(0).isValid();
 }
 
-LoginResult* AccountManager::loginUser(QString login, QString password)
+void AccountManager::updateUser(User *updatedUser)
 {
-    User user = loadUser(login);
-    if (user.getUserId() == 0){
-        return new LoginResult(false, QString("Incorrect username."), UserInfo());
-    }else{
-        if (user.getPassword() == password){
-            return new LoginResult(true, QString(""),
-                                    UserInfo(user.getUsername(), user.getUserId(), user.getMoney(), 0));
-        }else{
-            return new LoginResult(false, QString("Incorrect password."), UserInfo());
-        }
-    }
-}
-
-User AccountManager::loadUser(QString login){
-    foreach(User user, users){
-        if (user.getUsername() == login){
-            return user;
-        }
-    }
-    return User(0, "", "", 0);
+    QSqlQuery query;
+    QString s = "update users set Money="+QString::number(updatedUser->getMoney());
+    query.exec(QString(s+" where id="+QString::number(updatedUser->getUserId())));
 }

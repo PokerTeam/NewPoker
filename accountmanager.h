@@ -4,6 +4,7 @@
 #include <user.h>
 #include <QString>
 #include <QObject>
+#include <QtSql/QtSql>
 #include "loginresult.h"
 
 class AccountManager : public QObject
@@ -12,17 +13,21 @@ class AccountManager : public QObject
 
 public:
     AccountManager();
-    bool isPasswordCorrect(long userId, QString password);
+    User* GetUser(QString userName);
+    User* GetUser(long userId);
+    void updateUser(User* updatedUser);
 
 private:
-    User loadUser(QString login);
+    QSqlDatabase dbase;
+    User* loadUser(long userId);
+    LoginResult* createNewUser(User* user);
     bool isUserWithSuchUsernameExists(QString username);
-    void updateUser(User* updatedUser);
-    QList<User> users; //Remove when DB will be implemented.
+    long getUserIdByUserName(QString userName);
+    bool isPasswordCorrect(long userId, QString password);
 
 public slots:
-    LoginResult* createNewUser(QString login, QString password);
-    LoginResult* loginUser(QString login, QString password);
+    LoginResult* Login(QString userName, QString password);
+    LoginResult* Registration(QString userName, QString password);
 };
 
 #endif // ACCOUNTMANAGER_H

@@ -11,6 +11,13 @@ User::User(long userId,
     this->money = money;
 }
 
+User::User(QString username, QString password, long money)
+{
+    this->username = username;
+    this->password = password;
+    this->money = money;
+}
+
 long User::getUserId()
 {
     return this->userId;

@@ -56,8 +56,8 @@ void Server::incomingConnection(int handle)
     qDebug() << "Connected";
     ClientSocket *client = new ClientSocket(this);
     client->setSocketDescriptor(handle);
-    connect(client, SIGNAL(onRegisterRequest(QString,QString)), accountManager, SLOT(createNewUser(QString,QString)));
-    connect(client, SIGNAL(onLoginRequest(QString,QString)), accountManager, SLOT(loginUser(QString,QString)));
+    connect(client, SIGNAL(onRegisterRequest(QString,QString)), accountManager, SLOT(Registration(QString,QString)));
+    connect(client, SIGNAL(onLoginRequest(QString,QString)), accountManager, SLOT(Login(QString,QString)));
     connect(client, SIGNAL(onJoinGameRequest(UserInfo*)), game, SLOT(joinGame(UserInfo*)));
     connect(game, SIGNAL(onUserJoinGame(QList<UserInfo>)), client, SLOT(doUserJoinGame(QList<UserInfo>)));
     connect(game, SIGNAL(gameStarted(GameStartAction)), client, SLOT(doGameStart(GameStartAction)));
