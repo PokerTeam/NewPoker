@@ -23,3 +23,15 @@ Card FirstCardsAction::getThirdCard()
 {
     return thirdCard;
 }
+
+QDataStream &operator<<(QDataStream &out,FirstCardsAction &action)
+{
+    out << action.firstCard << action.secondCard << action.thirdCard;
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, FirstCardsAction &action)
+{
+    in >> action.firstCard >> action.secondCard >> action.thirdCard;
+    return in;
+}
