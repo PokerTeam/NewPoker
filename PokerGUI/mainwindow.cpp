@@ -236,6 +236,9 @@ void MainWindow::OnUserMove(UserMoveAction action){
                     button->setProperty("enabled", true);
                     button = root->findChild<QObject*>("buttonDecObj");
                     button->setProperty("enabled", true);
+                    QObject* bankText = root->findChild<QObject*>("textRaiseValueObj");
+                    bankText->setProperty("raiseValue", QString("%1").arg(action.getMinimumBid()));
+                    currentBid = action.getMinimumBid();
                     break;
             }
         }
@@ -347,8 +350,8 @@ void MainWindow::OnButtonRateIncClick()
 void MainWindow::OnButtonRateDecClick()
 {
     currentBid--;
-    if (currentBid < 0 ){
-        currentBid = 0;
+    if (currentBid < minimumBid ){
+        currentBid = minimumBid;
     }
     UpdateRateUI();
 }
