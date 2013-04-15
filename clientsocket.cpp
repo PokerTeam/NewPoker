@@ -161,6 +161,19 @@ void ClientSocket::doBankChangeAction(BankChangeAction action){
     waitForBytesWritten(1000);
 }
 
+void ClientSocket::doFirstCardsAction(FirstCardsAction action){
+    QByteArray block;
+    QDataStream out(&block, QIODevice::WriteOnly);
+    out.setVersion(QDataStream::Qt_4_6);
+    out << quint16(0) << quint16(Commands::firstCardsAction);
+    out << action;
+    out.device()->seek(0);
+    out << quint16(block.size() - sizeof(quint16));
+    write(block);
+    flush();
+    waitForBytesWritten(1000);
+}
+
 void ClientSocket::sendLoginRequest(LoginResult* login)
 {
     QByteArray block;

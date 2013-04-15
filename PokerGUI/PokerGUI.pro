@@ -20,7 +20,9 @@ SOURCES += main.cpp\
     ../gamestartaction.cpp \
     ../usermoveaction.cpp \
     ../useraction.cpp \
-    ../bankchangeaction.cpp
+    ../bankchangeaction.cpp \
+    ../firstcardsaction.cpp \
+    ../card.cpp
 
 HEADERS  += mainwindow.h \
     client.h \
@@ -31,7 +33,10 @@ HEADERS  += mainwindow.h \
     ../gamestartaction.h \
     ../usermoveaction.h \
     ../useraction.h \
-    ../bankchangeaction.h
+    ../bankchangeaction.h \
+    ../firstcardsaction.h \
+    ../card.h \
+    ../suit.h
 
 OTHER_FILES += \
     login.qml \

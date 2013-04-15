@@ -6,6 +6,7 @@
 class FirstCardsAction
 {
 public:
+    FirstCardsAction();
     FirstCardsAction(Card firstCard, Card secondCard, Card thirdCard);
     Card getFirstCard();
     Card getSecondCard();
