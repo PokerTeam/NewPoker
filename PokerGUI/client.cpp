@@ -126,6 +126,12 @@ void Client::readClient(){
                 emit onFirstCardsAction(action);
                 break;
             }
+            case Commands::nextCardAction:{
+                Card card;
+                in >> card;
+                emit onNextCardDealed(card);
+                break;
+            }
             case Commands::joinGame:{
                 {
                     QList<UserInfo> list;

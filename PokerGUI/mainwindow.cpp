@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(client, SIGNAL(onUserAction(UserAction)), this, SLOT(OnUserAction(UserAction)));
     connect(client, SIGNAL(onBankChange(BankChangeAction)), this, SLOT(OnBankChange(BankChangeAction)));
     connect(client, SIGNAL(onFirstCardsAction(FirstCardsAction)), this, SLOT(OnFirstCardsAction(FirstCardsAction)));
+    connect(client, SIGNAL(onNextCardDealed(Card)), this, SLOT(OnNextCardDealed(Card)));
     SetLoginScreen();
 }
 
@@ -334,7 +335,12 @@ void MainWindow::OnBankChange(BankChangeAction action){
 }
 
 void MainWindow::OnFirstCardsAction(FirstCardsAction action){
+    cardsOnTable = 3;
     //TODO: Draw first three cards.
+}
+void MainWindow::OnNextCardDealed(Card card){
+    cardsOnTable++;
+    //TODO: Draw next card;
 }
 
 void MainWindow::OnButtonExitClick()

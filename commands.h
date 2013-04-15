@@ -20,6 +20,7 @@ public:
     static const quint16 userAction = 12;
     static const quint16 bankChange = 13;
     static const quint16 firstCardsAction = 14;
+    static const quint16 nextCardAction = 15;
 
     Commands();
 };

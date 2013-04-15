@@ -35,6 +35,7 @@ private:
     long maximumBid;
     long currentBid;
     UserMoveAction lastAction;
+    long cardsOnTable;
 
     void SetupUI(QString path);
     void SetLoginScreen();
@@ -67,6 +68,7 @@ private slots:
     void OnUserAction(UserAction);
     void OnBankChange(BankChangeAction action);
     void OnFirstCardsAction(FirstCardsAction action);
+    void OnNextCardDealed(Card);
 
     void OnButtonExitClick();
     void OnButtonFoldClick();
