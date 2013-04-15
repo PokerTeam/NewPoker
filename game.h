@@ -31,7 +31,7 @@ private:
 
     AccountManager* accountManager;
     Deck* deck;
-    QList<Card*> cardsOnTable;
+    QList<Card> cardsOnTable;
     QList<UserCardSet> cardSets;
     QList<UserInfo> usersInGame; //This users are currently playing game.
     QList<UserInfo> userInQueue; //This users are waiting for game.
@@ -68,7 +68,7 @@ private:
     long moveFromTableToBank();
     long getBankValue();
     long getMaximumBid();
-    QList<Card*> addCardsOnTable(int count);
+    QList<Card> addCardsOnTable(int count);
     bool isLastActionExists(long userId);
     bool isAllBidsAreEquals();
     bool isAllMovesEquals();
@@ -90,9 +90,9 @@ signals:
         // Occurs when cursor is set to user. And 30(hidden) + 30(visible) seconds timer is started.
     void onUserMove(UserMoveAction userMoveAction);
         // When first three cards dealed.
-    void onFirstCardsDealed(FirstCardsAction* firstCardsAction);
+    void onFirstCardsDealed(FirstCardsAction firstCardsAction);
 
-    void onNextCardDealed(Card* nextCard);// For 4th and 5th cards.
+    void onNextCardDealed(Card nextCard);// For 4th and 5th cards.
 
 
     void onGameFinished(UserInfo* winner);

@@ -216,24 +216,24 @@ long Game::moveFromTableToBank()
 
 void Game::dealFirstThreeCards()
 {
-    QList<Card*> newCards = addCardsOnTable(3);
-    emit onFirstCardsDealed(new FirstCardsAction(newCards[0],
+    QList<Card> newCards = addCardsOnTable(3);
+    emit onFirstCardsDealed(FirstCardsAction(newCards[0],
                                                  newCards[1],
                                                  newCards[2]));
 }
 
 void Game::dealNextCard()
 {
-    Card* newCard = addCardsOnTable(1).first();
+    Card newCard = addCardsOnTable(1).first();
     emit onNextCardDealed(newCard);
 }
 
-QList<Card*> Game::addCardsOnTable(int count)
+QList<Card> Game::addCardsOnTable(int count)
 {
-    QList<Card*> cardsToInsert;
+    QList<Card> cardsToInsert;
     for (int i = 0; i < count; i++)
     {
-        cardsToInsert.push_back(deck->getNextCard());
+        cardsToInsert.push_back(*deck->getNextCard());
     }
     cardsOnTable.append(cardsToInsert);
     return cardsToInsert;

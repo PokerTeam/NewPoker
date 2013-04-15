@@ -6,6 +6,7 @@
 class Card
 {
 public:
+    Card();
     Card(Suit suit, int number);
     Suit getSuit();
     int getCardNumber();
