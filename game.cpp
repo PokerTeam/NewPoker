@@ -19,19 +19,19 @@ void Game::doAction(UserAction userAction)
 {
     lastUserAction[userAction.getUser().getUserId()] = &userAction;
     incrementLoopCounter(userAction.getUser().getUserId());
-    UserInfo user = getUserInGame(userAction.getUser().getUserId());
+    UserInfo* user = getUserInGame(userAction.getUser().getUserId());
     switch(userAction.getAction())
     {
         case CALL:
         case RAISE:
-            user.putOnTable(userAction.getMoney());
+            user->putOnTable(userAction.getMoney());
             break;
 
         case FOLD:
         case CHECK:
             break;
     }
-    emit onUserAction(UserAction(user, userAction.getAction(), userAction.getMoney()));
+    emit onUserAction(UserAction(*user, userAction.getAction(), userAction.getMoney()));
     askForUserMove();
 }
 
@@ -256,21 +256,21 @@ QList<Actions> Game::getAvailableActions(long userId)
 
 long Game::getMinimumBid(long userId)
 {
-    UserInfo user = getUserInGame(userId);
+    UserInfo user = *getUserInGame(userId);
     return getMaximumBid() - user.getUserMoneyOnTable();
 }
 
-UserInfo& Game::getUserInGame(long userId)
+UserInfo* Game::getUserInGame(long userId)
 {
     for(long i = 0; i < usersInGame.length(); i++)
     {
         if (usersInGame[i].getUserId() == userId)
         {
-            return usersInGame[i];
+            return &usersInGame[i];
         }
     }
-    UserInfo qwe;
-    return qwe;
+
+    return NULL;
 }
 
 bool Game::isLoopFinished()
@@ -321,7 +321,7 @@ bool Game::isLastActionExists(long userId)
 
 bool Game::isUserActiveForBids(long userId)
 {
-    UserInfo user = getUserInGame(userId);
+    UserInfo user = *getUserInGame(userId);
     bool isLastActionNotFold = !isLastActionExists(userId) ||
                                (lastUserAction[userId]->getAction() != FOLD);
     return !user.isAllIn() && isLastActionNotFold;
