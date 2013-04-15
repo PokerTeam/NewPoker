@@ -19,19 +19,19 @@ void Game::doAction(UserAction userAction)
 {
     lastUserAction[userAction.getUser().getUserId()] = &userAction;
     incrementLoopCounter(userAction.getUser().getUserId());
-    UserInfo* user = &getUserInGame(userAction.getUser().getUserId());
+    UserInfo user = getUserInGame(userAction.getUser().getUserId());
     switch(userAction.getAction())
     {
         case CALL:
         case RAISE:
-            user->putOnTable(userAction.getMoney());
+            user.putOnTable(userAction.getMoney());
             break;
 
         case FOLD:
         case CHECK:
             break;
     }
-    emit onUserAction(UserAction(*user, userAction.getAction(), userAction.getMoney()));
+    emit onUserAction(UserAction(user, userAction.getAction(), userAction.getMoney()));
     askForUserMove();
 }
 
@@ -260,17 +260,17 @@ long Game::getMinimumBid(long userId)
     return getMaximumBid() - user.getUserMoneyOnTable();
 }
 
-UserInfo Game::getUserInGame(long userId)
+UserInfo& Game::getUserInGame(long userId)
 {
-    foreach(UserInfo user, usersInGame)
+    for(long i = 0; i < usersInGame.length(); i++)
     {
-        if (user.getUserId() == userId)
+        if (usersInGame[i].getUserId() == userId)
         {
-            return user;
+            return usersInGame[i];
         }
     }
-
-    return UserInfo();
+    UserInfo qwe;
+    return qwe;
 }
 
 bool Game::isLoopFinished()

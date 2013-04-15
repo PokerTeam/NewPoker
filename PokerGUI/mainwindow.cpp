@@ -243,6 +243,9 @@ void MainWindow::OnUserMove(UserMoveAction action){
                     break;
             }
         }
+    }else{
+        QObject* userUI = usersUI[action.getUserInfo().getUserId()];
+        userUI->setProperty("labelUsercash", QString("%1 (%2)").arg(action.getUserInfo().getUserMoney()).arg(action.getUserInfo().getUserMoneyOnTable()));
     }
 }
 
