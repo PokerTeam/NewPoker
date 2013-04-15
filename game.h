@@ -48,10 +48,10 @@ private:
     QList<User*> getWinner(QList<UserCardSet> cardSets, QList<Card*> cardsOnTable);
     User* getWinner(UserCardSet firstList, UserCardSet second);
     User* getWinner(QList<UserCardSet> cardSets);      
-    UserInfo& getUserWithButton();
-    UserInfo& getBigBlind();
-    UserInfo& getSmallBlind();
-    UserInfo& currentCursorOnUser();
+    UserInfo getUserWithButton();
+    UserInfo getBigBlind();
+    UserInfo getSmallBlind();
+    UserInfo currentCursorOnUser();
     void askForUserMove(bool isFirstStep = false);
     QList<Actions> getAvailableActions(long userId);
     long getMinimumBid(long userId);
@@ -60,7 +60,7 @@ private:
     void resetLoopCounter();
     void incrementLoopCounter(long userId);
     void moveCurrentCursor(long offset);
-    UserInfo& getUserInGame(long userId);
+    UserInfo getUserInGame(long userId);
     bool isLoopFinished();
     void dealFirstThreeCards();
     void dealNextCard();

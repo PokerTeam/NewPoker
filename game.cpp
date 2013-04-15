@@ -94,12 +94,12 @@ long Game::getMaximumBid()
     return maximumBid;
 }
 
-UserInfo& Game::getUserWithButton()
+UserInfo Game::getUserWithButton()
 {
     return usersInGame[getCursor(buttonOnUserWithIndex)];
 }
 
-UserInfo& Game::getBigBlind()
+UserInfo Game::getBigBlind()
 {
     long index = getCursor(buttonOnUserWithIndex + 2);
     UserInfo* user = &usersInGame[index];
@@ -118,19 +118,19 @@ long Game::getCursor(long cursorValue)
     return cursorValue % usersInGame.length();
 }
 
-UserInfo& Game::getSmallBlind()
+UserInfo Game::getSmallBlind()
 {
-    UserInfo& user = usersInGame[getCursor(buttonOnUserWithIndex + 1)];
-    user.putOnTable(SMALL_BLIND_BID);
-    lastUserAction[user.getUserId()] =
-            new UserAction(user,
+    UserInfo* user = &usersInGame[getCursor(buttonOnUserWithIndex + 1)];
+    user->putOnTable(SMALL_BLIND_BID);
+    lastUserAction[user->getUserId()] =
+            new UserAction(*user,
                            RAISE,
                            SMALL_BLIND_BID);
-    incrementLoopCounter(user.getUserId());
-    return user;
+    incrementLoopCounter(user->getUserId());
+    return *user;
 }
 
-UserInfo& Game::currentCursorOnUser()
+UserInfo Game::currentCursorOnUser()
 {
     return usersInGame[getCursor(cursorOnUserWithIndex)];
 }
@@ -260,7 +260,7 @@ long Game::getMinimumBid(long userId)
     return getMaximumBid() - user.getUserMoneyOnTable();
 }
 
-UserInfo& Game::getUserInGame(long userId)
+UserInfo Game::getUserInGame(long userId)
 {
     foreach(UserInfo user, usersInGame)
     {
@@ -269,8 +269,8 @@ UserInfo& Game::getUserInGame(long userId)
             return user;
         }
     }
-    UserInfo hateThis;
-    return hateThis;
+
+    return UserInfo();
 }
 
 bool Game::isLoopFinished()
