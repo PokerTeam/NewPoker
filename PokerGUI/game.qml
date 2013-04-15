@@ -89,13 +89,29 @@ Rectangle {
         borderSize: 2
     }
 
+    Button {
+        id: buttonCheck
+        objectName: "buttonCheck"
+
+        height: 32
+        x: buttonRaise.x + buttonRaise.width + 10
+        y: parent.height - height - 8
+        label: "Check"
+        labelColor: "#FFB0B0B0"
+        gradientColorTop: "#A0101010"
+        gradientOnHoverColorTop: "#A0303030"
+        gradientColorBottom: "#A0000000"
+        gradientOnHoverColorBottom: "#A0202020"
+        borderSize: 2
+    }
+
     Rectangle {
         id: blockRaiseValue
 
         width: buttonInc.width + buttonDec.width +
                textRaiseValue.paintedWidth + textBankValue.paintedWidth + 16 * 4
         height: 32
-        x: buttonRaise.x + buttonRaise.width + 30
+        x: buttonCheck.x + buttonCheck.width + 30
         y: parent.height - height - 8
         color: "#60303030"
         border {

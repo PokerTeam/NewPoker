@@ -114,6 +114,11 @@ void MainWindow::SetupGameButtons(QObject *aRoot)
     QObject::connect(button, SIGNAL(buttonClick()),
                      this, SLOT(OnButtonRaiseClick()));
 
+    button = aRoot->findChild<QObject*>("buttonCheck");
+    button->setProperty("enabled", false);
+    QObject::connect(button, SIGNAL(buttonClick()),
+                     this, SLOT(OnButtonCheckClick()));
+
     button = aRoot->findChild<QObject*>("buttonIncObj");
     button->setProperty("enabled", false);
     QObject::connect(button, SIGNAL(buttonClick()),
@@ -214,6 +219,9 @@ void MainWindow::OnUserMove(UserMoveAction action){
     button = root->findChild<QObject*>("buttonRaise");
     button->setProperty("enabled", false);
 
+    button = root->findChild<QObject*>("buttonCheck");
+    button->setProperty("enabled", false);
+
     button = root->findChild<QObject*>("buttonIncObj");
     button->setProperty("enabled", false);
 
@@ -226,6 +234,10 @@ void MainWindow::OnUserMove(UserMoveAction action){
         userInfo = action.getUserInfo();
         foreach(Actions item, action.getAvailableActions()){
             switch (item){
+                case CHECK:
+                    button = root->findChild<QObject*>("buttonCheck");
+                    button->setProperty("enabled", true);
+                    break;
                 case CALL:
                     button = root->findChild<QObject*>("buttonCall");
                     button->setProperty("enabled", true);
@@ -243,10 +255,9 @@ void MainWindow::OnUserMove(UserMoveAction action){
                     break;
             }
         }
-    }else{
-        QObject* userUI = usersUI[action.getUserInfo().getUserId()];
-        userUI->setProperty("labelUsercash", QString("%1 (%2)").arg(action.getUserInfo().getUserMoney()).arg(action.getUserInfo().getUserMoneyOnTable()));
     }
+    QObject* userUI = usersUI[action.getUserInfo().getUserId()];
+    userUI->setProperty("labelUsercash", QString("%1 (%2)").arg(action.getUserInfo().getUserMoney()).arg(action.getUserInfo().getUserMoneyOnTable()));
 }
 
 void MainWindow::AppendInfo(long userId, QString info){
@@ -323,7 +334,7 @@ void MainWindow::OnBankChange(BankChangeAction action){
 }
 
 void MainWindow::OnFirstCardsAction(FirstCardsAction action){
-
+    //TODO: Draw first three cards.
 }
 
 void MainWindow::OnButtonExitClick()
@@ -344,6 +355,11 @@ void MainWindow::OnButtonCallClick()
 void MainWindow::OnButtonRaiseClick()
 {
     client->doUserActionRequest(UserAction(userInfo, RAISE, currentBid));
+}
+
+void MainWindow::OnButtonCheckClick()
+{
+    client->doUserActionRequest(UserAction(userInfo, CHECK, 0));
 }
 
 void MainWindow::OnButtonRateIncClick()

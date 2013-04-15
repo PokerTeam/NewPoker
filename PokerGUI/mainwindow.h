@@ -72,6 +72,7 @@ private slots:
     void OnButtonFoldClick();
     void OnButtonCallClick();
     void OnButtonRaiseClick();
+    void OnButtonCheckClick();
     void OnButtonRateIncClick();
     void OnButtonRateDecClick();
 };
