@@ -102,14 +102,14 @@ UserInfo& Game::getUserWithButton()
 UserInfo& Game::getBigBlind()
 {
     long index = getCursor(buttonOnUserWithIndex + 2);
-    UserInfo& user = usersInGame[index];
-    user.putOnTable(BIG_BLIND_BID);
-    lastUserAction[user.getUserId()] =
-            new UserAction(user,
+    UserInfo* user = &usersInGame[index];
+    user->putOnTable(BIG_BLIND_BID);
+    lastUserAction[user->getUserId()] =
+            new UserAction(*user,
                            RAISE,
                            BIG_BLIND_BID);
-    incrementLoopCounter(user.getUserId()); //TODO: move from this method.
-    return user;
+    incrementLoopCounter(user->getUserId()); //TODO: move from this method.
+    return *user;
 }
 
 long Game::getCursor(long cursorValue)
