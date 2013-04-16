@@ -101,7 +101,9 @@ long Game::getMaximumBid()
 
 UserInfo Game::getUserWithButton()
 {
-    return usersInGame[getCursor(buttonOnUserWithIndex)];
+    UserInfo user = usersInGame[getCursor(buttonOnUserWithIndex)];
+    //incrementLoopCounter(user.getUserId());
+    return user;
 }
 
 UserInfo Game::getBigBlind()
@@ -131,7 +133,7 @@ UserInfo Game::getSmallBlind()
             new UserAction(*user,
                            RAISE,
                            SMALL_BLIND_BID);
-    incrementLoopCounter(user->getUserId());
+    ///incrementLoopCounter(user->getUserId());
     return *user;
 }
 
@@ -178,23 +180,17 @@ void Game::askForUserMove(bool isFirstStep)
         }
     }
 
-    if (isAllMovesEquals())
-    {
-        activeUsersCountOnStartLoop = currentLoopStep = 0;
-        foreach(UserInfo user, usersInGame)
-        {
-            if (isUserActiveForBids(user.getUserId()))
-            {
-                activeUsersCountOnStartLoop++;
-            }
-        }
+    if (isFirstStep){
+        moveCurrentCursor(3);
+    }else{
+        moveCurrentCursor(1);
     }
-    currentLoopStep += isFirstStep ? 2 : 1;
-    moveCurrentCursor(isFirstStep ? 3 : 1);
+
     UserInfo currentUser = currentCursorOnUser();
     UserMoveAction action = UserMoveAction(currentUser,
                                            getAvailableActions(currentUser.getUserId()),
                                            getMinimumBid(currentUser.getUserId()));
+
     emit onUserMove(action);
     //TODO:Add 60 sec. timer.
 }
@@ -211,10 +207,9 @@ void Game::clearBank()
 
 long Game::moveFromTableToBank()
 {
-    foreach(UserInfo user, usersInGame)
-    {
-        bankValue += user.getUserMoneyOnTable();
-        user.clearMoneyOnTable();
+    for (int i = 0; i < usersInGame.length(); i++){
+        bankValue += usersInGame[i].getUserMoneyOnTable();
+        usersInGame[i].clearMoneyOnTable();
     }
     return bankValue;
 }
@@ -280,9 +275,6 @@ UserInfo* Game::getUserInGame(long userId)
 
 bool Game::isLoopFinished()
 {
-    qDebug() << "All bids eq: " << isAllBidsAreEquals() << endl
-             << "All moves eq: " << isAllMovesEquals() << endl
-             << "Moves " << activeUsersCountOnStartLoop << " - " << currentLoopStep;
     return isAllBidsAreEquals() && isAllMovesEquals();
 }
 
@@ -311,7 +303,19 @@ bool Game::isAllBidsAreEquals()
 
 bool Game::isAllMovesEquals()
 {
-    return currentLoopStep == activeUsersCountOnStartLoop;
+    long previous = -1;
+    bool isEquals = true;
+    foreach(UserInfo user, usersInGame){
+        if (isUserActiveForBids(user.getUserId())){
+            if (previous == -1){
+                previous = userMoveCounter[user.getUserId()];
+            }else{
+                isEquals = isEquals && previous == userMoveCounter[user.getUserId()];
+            }
+        }
+    }
+
+    return isEquals;
 }
 
 long Game::getUserMovesCount(long userId)

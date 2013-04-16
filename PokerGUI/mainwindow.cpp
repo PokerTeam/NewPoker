@@ -334,11 +334,17 @@ void MainWindow::OnUserAction(UserAction action){
     if (userInfo.getUserId() == action.getUser().getUserId()){
         userInfo = action.getUser();
     }
+    usersInGame[action.getUser().getUserId()] = action.getUser();
+    UpdateUsers();
 }
 
 void MainWindow::OnBankChange(BankChangeAction action){
     QObject* ui = root->findChild<QObject*>("textBankValueObj");
     ui->setProperty("bankValue", QString("%1").arg(action.getBankValue()));
+    foreach (long key, usersInGame.keys()){
+        usersInGame[key].clearMoneyOnTable();
+    }
+    UpdateUsers();
 }
 
 void MainWindow::OnFirstCardsAction(FirstCardsAction action){
