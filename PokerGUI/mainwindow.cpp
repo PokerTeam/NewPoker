@@ -209,6 +209,12 @@ void MainWindow::OnGameStart(GameStartAction action){
     AppendInfo(action.getBigBlind().getUserId(), "Big");
     AppendInfo(action.getSmallBlind().getUserId(), "Small");
     AppendInfo(action.getUserWithButton().getUserId(), "Btn");
+    foreach(UserCardSet set, action.getCards()){
+        if (set.getUser().getUserId() == userInfo.getUserId()){
+            //TODO: Show current user cards.
+        }
+    }
+
     UpdateUsers();
 }
 

@@ -75,9 +75,14 @@ void Game::start()
     UserInfo smallBlind = getSmallBlind();
     UserInfo bigBlind = getBigBlind();
     UserInfo userWithButton = getUserWithButton();
+    cardSets.clear();
+    for (int i = 0; i < usersInGame.length(); i++){
+        cardSets.push_back(UserCardSet(usersInGame[i], *deck->getNextCard(), *deck->getNextCard()));
+    }
     emit gameStarted(GameStartAction(smallBlind,
                                      bigBlind,
-                                     userWithButton));
+                                     userWithButton,
+                                     cardSets));
     askForUserMove(true);
 }
 

@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     ../useraction.cpp \
     ../bankchangeaction.cpp \
     ../firstcardsaction.cpp \
-    ../card.cpp
+    ../card.cpp \
+    ../usercardset.cpp
 
 HEADERS  += mainwindow.h \
     client.h \
@@ -36,7 +37,8 @@ HEADERS  += mainwindow.h \
     ../bankchangeaction.h \
     ../firstcardsaction.h \
     ../card.h \
-    ../suit.h
+    ../suit.h \
+    ../usercardset.h
 
 OTHER_FILES += \
     login.qml \

@@ -16,6 +16,9 @@ public:
     Card getSecondCard();
     UserInfo getUser();
 
+    friend QDataStream &operator<<(QDataStream &out,UserCardSet &set);
+    friend QDataStream &operator>>(QDataStream &in, UserCardSet &set);
+
 private:
     Card firstCard;
     Card secondCard;
