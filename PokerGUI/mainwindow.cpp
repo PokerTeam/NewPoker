@@ -234,8 +234,9 @@ void MainWindow::OnUserMove(UserMoveAction action){
 
     button = root->findChild<QObject*>("buttonDecObj");
     button->setProperty("enabled", false);
-    currentBid = 0;
+
     minimumBid = action.getMinimumBid();
+    currentBid = minimumBid;
     maximumBid = action.getUserInfo().getUserMoney();
     if (userInfo.getUserId() == action.getUserInfo().getUserId()){
         userInfo = action.getUserInfo();
@@ -361,7 +362,11 @@ void MainWindow::OnButtonFoldClick()
 
 void MainWindow::OnButtonCallClick()
 {
-    client->doUserActionRequest(UserAction(userInfo, CALL, minimumBid));
+    if (minimumBid != 0){
+        client->doUserActionRequest(UserAction(userInfo, CALL, minimumBid));
+    }else{
+        client->doUserActionRequest(UserAction(userInfo, CHECK, 0));
+    }
 }
 
 void MainWindow::OnButtonRaiseClick()
