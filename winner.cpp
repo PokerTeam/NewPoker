@@ -4,18 +4,18 @@ Winner::Winner()
 {
 }
 
-QList<User*> Winner::GetWinner(QList<UserCardSet> &cardSets, QList<Card*> &cardsOnTable)
+QList<UserInfo> Winner::GetWinner(QList<UserCardSet> &cardSets, QList<Card> &cardsOnTable)
 {
     QList<UserCombination> combinations;
 
     foreach (UserCardSet handCards, cardSets)
     {
-        UserCombination usersCombination(&handCards, cardsOnTable);
+        UserCombination usersCombination(handCards, cardsOnTable);
         combinations.append(usersCombination);
     }
 
     QList<UserCombination> winners = determineWinners(combinations);
-    QList<User*> users;
+    QList<UserInfo> users;
 
     foreach (UserCombination winnerCombination, winners)
     {
@@ -63,17 +63,17 @@ QList<UserCombination> Winner::determineWinners(QList<UserCombination> &usersCom
 int Winner::compareTwoTheSameCombinations(UserCombination firstCombination,
                                           UserCombination secondCombination)
 {
-    QList<Card*> firstControversialCards = firstCombination.GetControversialCards();
-    QList<Card*> secondControversialCards = secondCombination.GetControversialCards();
+    QList<Card> firstControversialCards = firstCombination.GetControversialCards();
+    QList<Card> secondControversialCards = secondCombination.GetControversialCards();
 
     for (int i = 0; i < firstControversialCards.length(); i++)
     {
-        if (firstControversialCards[i]->getCardNumber() > secondControversialCards[i]->getCardNumber())
+        if (firstControversialCards[i].getCardNumber() > secondControversialCards[i].getCardNumber())
         {
             return 1;
         }
 
-        if (firstControversialCards[i]->getCardNumber() < secondControversialCards[i]->getCardNumber())
+        if (firstControversialCards[i].getCardNumber() < secondControversialCards[i].getCardNumber())
         {
             return -1;
         }

@@ -11,8 +11,8 @@ class UserCombination
 {
 
 public:
-    UserCombination(UserCardSet* userCards, QList<Card*> tableCards);
-    QList<Card*> GetCardsCombination()
+    UserCombination(UserCardSet userCards, QList<Card> tableCards);
+    QList<Card> GetCardsCombination()
     {
         return cardsCombination;
     }
@@ -22,40 +22,40 @@ public:
         return combinationValue;
     }
 
-    QList<Card*> GetControversialCards()
+    QList<Card> GetControversialCards()
     {
         return controversialCards;
     }
 
-    User* GetUser()
+    UserInfo GetUser()
     {
         return user;
     }
 
 private:
-    UserCardSet* cardSet;
-    User* user;
-    QList<Card*> cardsOnTable;
-    QList<Card*> cardsCombination;
+    UserCardSet cardSet;
+    UserInfo user;
+    QList<Card> cardsOnTable;
+    QList<Card> cardsCombination;
     Combination combinationValue;
-    QList<Card*> controversialCards;
+    QList<Card> controversialCards;
 
     //------------------PAIR COMBINATONS-----------------------------------------------------
 
-    bool checkOnPairs(QMap<int, QList<Card*> > cardsMap,
+    bool checkOnPairs(QMap<int, QList<Card> > cardsMap,
                       QList<int> setKeys,
                       QList<int> pairKeys);
-    void determineTwoPairsFromThreePairs(QMap<int, QList<Card*> > cardsMap,
+    void determineTwoPairsFromThreePairs(QMap<int, QList<Card> > cardsMap,
                                          QList<int> pairKeys);
-    void determineTwoPairs(QMap<int, QList<Card*> > cardsMap,
+    void determineTwoPairs(QMap<int, QList<Card> > cardsMap,
                            QList<int> pairKeys);
-    void determinePair(QMap<int, QList<Card*> > cardsMap,
+    void determinePair(QMap<int, QList<Card> > cardsMap,
                        QList<int> pairKeys);
     void determineHandCards();
 
     //------------------SET COMBINATIONS------------------------------------------------------
 
-    bool checkOnSet(QMap<int, QList<Card*> > cardsMap,
+    bool checkOnSet(QMap<int, QList<Card> > cardsMap,
                     QList<int> setKeys,
                     QList<int> pairKeys);
 
@@ -63,32 +63,32 @@ private:
 
 
     bool determineSameCardsValueCombinations();
-    QList<Card*> prepareCards();
-    void countCardsEntries(QMap<int, QList<Card*> > &map,
-                           QList<Card*> cards);
+    QList<Card> prepareCards();
+    void countCardsEntries(QMap<int, QList<Card> > &map,
+                           QList<Card> cards);
 
 
     //-------------------FOUR OF KIND METHODS-----------------------------------------------------
 
-    void determineFourOfKind(QList<Card*> cards,
-                             QList<Card*> fourOfKindCards);
-    bool checkOnFourOfKind(QMap<int, QList<Card*> > map,
-                           QList<Card*> cards);
+    void determineFourOfKind(QList<Card> cards,
+                             QList<Card> fourOfKindCards);
+    bool checkOnFourOfKind(QMap<int, QList<Card> > map,
+                           QList<Card> cards);
 
     //-------------------FULL HOUSE METHODS------------------------------------------------------------------
 
-    void fullHouseFromTwoSets(QMap<int, QList<Card*> > cardsMap,
+    void fullHouseFromTwoSets(QMap<int, QList<Card> > cardsMap,
                               QList<int> setKeys,
                               QList<int> pairKeys);
-    void fullHouseFromSetAndPairs(QMap<int, QList<Card*> > cardsMap,
+    void fullHouseFromSetAndPairs(QMap<int, QList<Card> > cardsMap,
                                   QList<int> setKeys,
                                   QList<int> pairKeys);
-    void countAmountOfPairs(QMapIterator<int, QList<Card*> > i,
+    void countAmountOfPairs(QMapIterator<int, QList<Card> > i,
                             QList<int> &setKeys,
                             QList<int> &pairKeys);
-    void determineFullHouse(QList<Card*> setCards,
-                            QList<Card*> pairCards);
-    bool checkOnFullHouse(QMap<int, QList<Card*> > cardsMap,
+    void determineFullHouse(QList<Card> setCards,
+                            QList<Card> pairCards);
+    bool checkOnFullHouse(QMap<int, QList<Card> > cardsMap,
                           QList<int> setKeys,
                           QList<int> pairKeys);
 
@@ -98,22 +98,22 @@ private:
 
     //--------------------FLASH COMBINATIONS METHODS-----------------------------------------------
 
-    QList<Card*> checkSameSuit();
+    QList<Card> checkSameSuit();
     bool determineSameSuitCombination();
-    void sortCards(QList<Card*> &cards);
-    QList<Card*> checkStrightFollowing(QList<Card*> cards);
-    bool checkOnStright(QList<Card*> &cards);
+    void sortCards(QList<Card> &cards);
+    QList<Card> checkStrightFollowing(QList<Card> cards);
+    bool checkOnStright(QList<Card> &cards);
     void determineCombination();
-    QList<Card*> addTableCardsOfTheSameSuit(QList<Card*> flashCombination,
-                                           QList<Card*> cardsOnTable);
-    bool checkOnFlush(QList<Card*> &cards);
+    QList<Card> addTableCardsOfTheSameSuit(QList<Card> flashCombination,
+                                           QList<Card> cardsOnTable);
+    bool checkOnFlush(QList<Card> &cards);
 
     //----------------------------------------------------------------------------------------------
 
     void determineControversialCard();
-    void determineControversialCard(Card* firstCard);
-    void determineControversialCard(Card* firstCard,
-                                    Card* secondCard);
+    void determineControversialCard(Card firstCard);
+    void determineControversialCard(Card firstCard,
+                                    Card secondCard);
     void addHandCardsToControversialCards();
 };
 

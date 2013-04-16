@@ -3,22 +3,23 @@
 
 #include <QList>
 #include "card.h"
-#include "user.h"
+#include "userinfo.h"
 
 class UserCardSet
 {
 public:
-    UserCardSet(User* user,
-                Card* firstCard,
-                Card* secondCard);
-    Card* getFirstCard();
-    Card* getSecondCard();
-    User* getUser();
+    UserCardSet() { firstCard = Card(); secondCard = Card(); user = UserInfo(); }
+    UserCardSet(UserInfo user,
+                Card firstCard,
+                Card secondCard);
+    Card getFirstCard();
+    Card getSecondCard();
+    UserInfo getUser();
 
 private:
-    Card* firstCard;
-    Card* secondCard;
-    User* user;
+    Card firstCard;
+    Card secondCard;
+    UserInfo user;
 };
 
 #endif // USERCARDSET_H

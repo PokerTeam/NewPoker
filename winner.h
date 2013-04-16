@@ -7,14 +7,13 @@
 #include "usercardset.h"
 #include "usercombination.h"
 
-class Winner : public QObject
+class Winner
 {
-    Q_OBJECT
 
 public:
     Winner();
-    QList<User*> GetWinner(QList<UserCardSet> &cardSets,
-                           QList<Card*> &cardsOnTable);
+    QList<UserInfo> GetWinner(QList<UserCardSet> &cardSets,
+                           QList<Card> &cardsOnTable);
 private:
     QList<UserCombination> determineWinners(QList<UserCombination> &usersCombination);
     QList<UserCombination> getBestCombinations(QList<UserCombination> &usersCombination);

@@ -45,9 +45,9 @@ private:
     int activeUsersCountOnStartLoop;
     int currentLoopStep;
 
-    QList<User*> getWinner(QList<UserCardSet> cardSets, QList<Card*> cardsOnTable);
-    User* getWinner(UserCardSet firstList, UserCardSet second);
-    User* getWinner(QList<UserCardSet> cardSets);      
+    QList<UserInfo> getWinner(QList<UserCardSet> cardSets, QList<Card> cardsOnTable);
+    UserInfo getWinner(UserCardSet firstList, UserCardSet second);
+    UserInfo getWinner(QList<UserCardSet> cardSets);
     UserInfo getUserWithButton();
     UserInfo getBigBlind();
     UserInfo getSmallBlind();

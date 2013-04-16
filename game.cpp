@@ -327,8 +327,8 @@ bool Game::isUserActiveForBids(long userId)
     return !user.isAllIn() && isLastActionNotFold;
 }
 
-QList<User*> Game::getWinner(QList<UserCardSet> cardSets, QList<Card*> cardsOnTable)
+QList<UserInfo> Game::getWinner(QList<UserCardSet> cardSets, QList<Card> cardsOnTable)
 {
-    Winner* winners = new Winner();
-    return winners->GetWinner(cardSets, cardsOnTable);
+    Winner winners = Winner();
+    return winners.GetWinner(cardSets, cardsOnTable);
 }
