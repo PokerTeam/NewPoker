@@ -203,6 +203,11 @@ void MainWindow::OnUserJoinedGame(QList<UserInfo> users){
 }
 
 void MainWindow::OnGameStart(GameStartAction action){
+    SetupGameCardImages(root);
+    minimumBid = maximumBid = currentBid = cardsOnTable = 0;
+    QObject* ui = root->findChild<QObject*>("textBankValueObj");
+    ui->setProperty("bankValue", "0");
+    userAdditionalInfo.clear();
     usersInGame[action.getBigBlind().getUserId()] = action.getBigBlind();
     usersInGame[action.getSmallBlind().getUserId()] = action.getSmallBlind();
     usersInGame[action.getUserWithButton().getUserId()] = action.getUserWithButton();
