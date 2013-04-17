@@ -378,12 +378,7 @@ void MainWindow::OnNextCardDealed(Card card){
             break;
 
         case 5:
-            cardUI = root->findChild<QObject*>("card4");
-            cardUI->setProperty("currentFrame", Card::getCardImage(card));
-            break;
-
-        case 6:
-            cardUI = root->findChild<QObject*>("card4");
+            cardUI = root->findChild<QObject*>("card5");
             cardUI->setProperty("currentFrame", Card::getCardImage(card));
             break;
 

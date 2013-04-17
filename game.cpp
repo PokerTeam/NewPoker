@@ -133,7 +133,6 @@ UserInfo Game::getSmallBlind()
             new UserAction(*user,
                            RAISE,
                            SMALL_BLIND_BID);
-    ///incrementLoopCounter(user->getUserId());
     return *user;
 }
 
@@ -172,8 +171,7 @@ void Game::askForUserMove(bool isFirstStep)
                 break;
 
             case 5:
-                //TODO: check winner;
-                qDebug() << "Winner";
+                QList<UserInfo> user = getWinner(cardSets, cardsOnTable);
                 clearBank();
                 start();
                 return;
