@@ -9,7 +9,7 @@ Game::Game(AccountManager* accountManager)
     bankValue = 0;
     lastBid = 0;
     currentUserCursor = 0;
-    buttonOnUserWithIndex = 0;
+    buttonOnUserWithIndex = -1;
     cursorOnUserWithIndex = 0;
     activeUsersCountOnStartLoop = 0;
     currentLoopStep = 0;
@@ -72,6 +72,7 @@ void Game::resetLoopCounter()
 void Game::start()
 {
     resetLoopCounter();
+    buttonOnUserWithIndex++;
     UserInfo smallBlind = getSmallBlind();
     UserInfo bigBlind = getBigBlind();
     UserInfo userWithButton = getUserWithButton();
@@ -122,6 +123,7 @@ UserInfo Game::getBigBlind()
 long Game::getCursor(long cursorValue)
 {
     long length = usersInGame.length();
+    long result = cursorValue % length;
     return cursorValue % usersInGame.length();
 }
 
