@@ -211,7 +211,13 @@ void MainWindow::OnGameStart(GameStartAction action){
     AppendInfo(action.getUserWithButton().getUserId(), "Btn");
     foreach(UserCardSet set, action.getCards()){
         if (set.getUser().getUserId() == userInfo.getUserId()){
-            //TODO: Show current user cards.
+            QObject* cardUI;
+
+            cardUI = root->findChild<QObject*>("cardImageSelf1");
+            cardUI->setProperty("currentFrame", Card::getCardImage(set.getFirstCard()));
+
+            cardUI = root->findChild<QObject*>("cardImageSelf2");
+            cardUI->setProperty("currentFrame", Card::getCardImage(set.getSecondCard()));
         }
     }
 
@@ -349,11 +355,41 @@ void MainWindow::OnBankChange(BankChangeAction action){
 
 void MainWindow::OnFirstCardsAction(FirstCardsAction action){
     cardsOnTable = 3;
-    //TODO: Draw first three cards.
+    QObject* cardUI;
+
+    cardUI = root->findChild<QObject*>("card1");
+    cardUI->setProperty("currentFrame", Card::getCardImage(action.getFirstCard()));
+
+    cardUI = root->findChild<QObject*>("card2");
+    cardUI->setProperty("currentFrame", Card::getCardImage(action.getSecondCard()));
+
+    cardUI = root->findChild<QObject*>("card3");
+    cardUI->setProperty("currentFrame", Card::getCardImage(action.getThirdCard()));
 }
+
 void MainWindow::OnNextCardDealed(Card card){
     cardsOnTable++;
-    //TODO: Draw next card;
+    QObject* cardUI;
+    switch (cardsOnTable)
+    {
+        case 4:
+            cardUI = root->findChild<QObject*>("card4");
+            cardUI->setProperty("currentFrame", Card::getCardImage(card));
+            break;
+
+        case 5:
+            cardUI = root->findChild<QObject*>("card4");
+            cardUI->setProperty("currentFrame", Card::getCardImage(card));
+            break;
+
+        case 6:
+            cardUI = root->findChild<QObject*>("card4");
+            cardUI->setProperty("currentFrame", Card::getCardImage(card));
+            break;
+
+        default:
+            break;
+    }
 }
 
 void MainWindow::OnButtonExitClick()

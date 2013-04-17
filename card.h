@@ -12,6 +12,8 @@ public:
     Suit getSuit();
     int getCardNumber();
 
+    static int getCardImage(Card card);
+
     friend QDataStream &operator<<(QDataStream &out,Card &info);
     friend QDataStream &operator>>(QDataStream &in, Card &info);
 
