@@ -257,8 +257,6 @@ void MainWindow::OnUserMove(UserMoveAction action){
                     button->setProperty("enabled", true);
                     break;
                 case RAISE:
-                    button = root->findChild<QObject*>("buttonRaise");
-                    button->setProperty("enabled", true);
                     button = root->findChild<QObject*>("buttonIncObj");
                     button->setProperty("enabled", true);
                     button = root->findChild<QObject*>("buttonDecObj");
@@ -426,6 +424,10 @@ void MainWindow::OnButtonRateIncClick()
     if (currentBid > maximumBid ){
         currentBid = maximumBid;
     }
+    if (currentBid > minimumBid){
+        QObject* button = root->findChild<QObject*>("buttonRaise");
+        button->setProperty("enabled", true);
+    }
     UpdateRateUI();
 }
 
@@ -434,6 +436,10 @@ void MainWindow::OnButtonRateDecClick()
     currentBid--;
     if (currentBid < minimumBid ){
         currentBid = minimumBid;
+    }
+    if (currentBid == minimumBid){
+        QObject* button = root->findChild<QObject*>("buttonRaise");
+        button->setProperty("enabled", false);
     }
     UpdateRateUI();
 }

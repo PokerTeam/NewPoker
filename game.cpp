@@ -243,7 +243,9 @@ QList<Actions> Game::getAvailableActions(long userId)
     long minimumBid = getMinimumBid(userId);
     QList<Actions> actions;
     actions.push_back(FOLD);
-    actions.push_back(CALL);
+    if (minimumBid != 0){
+        actions.push_back(CALL);
+    }
     actions.push_back(RAISE);
     if (minimumBid == 0)
     {
