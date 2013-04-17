@@ -271,6 +271,10 @@ void MainWindow::OnUserMove(UserMoveAction action){
         }
     }
     QObject* userUI = usersUI[action.getUserInfo().getUserId()];
+    foreach(QObject* itemUI, usersUI.values()){
+        itemUI->setProperty("activeUser", false);
+    }
+    userUI->setProperty("activeUser", true);
     userUI->setProperty("labelUsercash", QString("%1 (%2)").arg(action.getUserInfo().getUserMoney()).arg(action.getUserInfo().getUserMoneyOnTable()));
 }
 
