@@ -133,6 +133,7 @@ UserInfo Game::getSmallBlind()
             new UserAction(*user,
                            RAISE,
                            SMALL_BLIND_BID);
+    incrementLoopCounter(user->getUserId());
     return *user;
 }
 
