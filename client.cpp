@@ -48,7 +48,6 @@ void Client::onReadyRead()
 
         //считываем размер (2 байта)
         in >> _blockSize;
-        qDebug() << "_blockSize now " << _blockSize;
     }
 
     //ждем пока блок прийдет полностью
@@ -66,7 +65,6 @@ void Client::onReadyRead()
     quint8 command;
     QString buf;
     in >> command>>buf;
-    qDebug() << "Received command " << command;
     //для неавторизованный пользователей принимается только команда "запрос на авторизацию"
     if (!_isAutched &&
         (command != Commands::comAutchReq) &&

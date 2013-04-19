@@ -83,7 +83,6 @@ void ClientSocket::processJoinGameRequest(QDataStream &stream)
 {
     UserInfo userInfo;
     stream >> userInfo;
-    qDebug() << "Join game " << userInfo.getUserId();
     emit onJoinGameRequest(&userInfo);
 }
 

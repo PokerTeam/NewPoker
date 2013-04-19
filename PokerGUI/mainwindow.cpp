@@ -233,6 +233,11 @@ void MainWindow::OnUserJoinedGame(QList<UserInfo> users)
 
 void MainWindow::OnGameStart(GameStartAction action)
 {
+    SetupGameCardImages(root);
+    minimumBid = maximumBid = currentBid = cardsOnTable = 0;
+    QObject* ui = root->findChild<QObject*>("textBankValueObj");
+    ui->setProperty("bankValue", "0");
+    userAdditionalInfo.clear();
     usersInGame[action.getBigBlind().getUserId()] = action.getBigBlind();
     usersInGame[action.getSmallBlind().getUserId()] = action.getSmallBlind();
     usersInGame[action.getUserWithButton().getUserId()] = action.getUserWithButton();
@@ -300,8 +305,6 @@ void MainWindow::OnUserMove(UserMoveAction action)
 
                 case RAISE:
                 {
-                    button = root->findChild<QObject*>("buttonRaise");
-                    button->setProperty("enabled", true);
                     button = root->findChild<QObject*>("buttonIncObj");
                     button->setProperty("enabled", true);
                     button = root->findChild<QObject*>("buttonDecObj");
@@ -318,6 +321,11 @@ void MainWindow::OnUserMove(UserMoveAction action)
         }
     }
     QObject* userUI = usersUI[action.getUserInfo().getUserId()];
+    foreach (QObject* itemUI, usersUI.values())
+    {
+        itemUI->setProperty("activeUser", false);
+    }
+    userUI->setProperty("activeUser", true);
     userUI->setProperty("labelUsercash", QString("%1 (%2)").arg(action.getUserInfo().getUserMoney()).arg(action.getUserInfo().getUserMoneyOnTable()));
 }
 
@@ -447,12 +455,12 @@ void MainWindow::OnNextCardDealed(Card card)
             break;
 
         case 5:
-            cardUI = root->findChild<QObject*>("card4");
+            cardUI = root->findChild<QObject*>("card5");
             cardUI->setProperty("currentFrame", Card::getCardImage(card));
             break;
 
         case 6:
-            cardUI = root->findChild<QObject*>("card4");
+            cardUI = root->findChild<QObject*>("card6");
             cardUI->setProperty("currentFrame", Card::getCardImage(card));
             break;
 
@@ -500,6 +508,11 @@ void MainWindow::OnButtonRateIncClick()
     {
         currentBid = maximumBid;
     }
+    if (currentBid > minimumBid)
+    {
+        QObject* button = root->findChild<QObject*>("buttonRaise");
+        button->setProperty("enabled", true);
+    }
     UpdateRateUI();
 }
 
@@ -509,6 +522,11 @@ void MainWindow::OnButtonRateDecClick()
     if (currentBid < minimumBid )
     {
         currentBid = minimumBid;
+    }
+    if (currentBid == minimumBid)
+    {
+        QObject* button = root->findChild<QObject*>("buttonRaise");
+        button->setProperty("enabled", false);
     }
     UpdateRateUI();
 }
