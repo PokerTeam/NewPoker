@@ -26,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(client, SIGNAL(onNextCardDealed(Card)),
             this, SLOT(OnNextCardDealed(Card)));
     SetLoginScreen();
+    SetGameScreen();
 }
 
 MainWindow::~MainWindow()
@@ -144,22 +145,22 @@ void MainWindow::SetupGameUserBlocks(QObject *aRoot)
 {
     QObject* user = aRoot->findChild<QObject*>("user1");
     user->setProperty("activeUser", false);
-    user->setProperty("faildeUser", true);
+    user->setProperty("failedUser", true);
     user->setProperty("userAvaImage", 0);
 
     user = aRoot->findChild<QObject*>("user2");
     user->setProperty("activeUser", false);
-    user->setProperty("faildeUser", true);
+    user->setProperty("failedUser", false);
     user->setProperty("userAvaImage", 0);
 
     user = aRoot->findChild<QObject*>("user3");
-    user->setProperty("activeUser", false);
-    user->setProperty("faildeUser", true);
+    user->setProperty("activeUser", true);
+    user->setProperty("failedUser", false);
     user->setProperty("userAvaImage", 0);
 
     user = aRoot->findChild<QObject*>("userSelf");
     user->setProperty("activeUser", false);
-    user->setProperty("faildeUser", false);
+    user->setProperty("failedUser", false);
     user->setProperty("userAvaImage", 4);
 }
 
@@ -185,6 +186,24 @@ void MainWindow::SetupGameCardImages(QObject *aRoot)
 
     card = aRoot->findChild<QObject*>("card5");
     card->setProperty("currentFrame", 83);
+
+    card = aRoot->findChild<QObject*>("cardImage1User1");
+    card->setProperty("currentFrame", 13);
+
+    card = aRoot->findChild<QObject*>("cardImage2User1");
+    card->setProperty("currentFrame", 13);
+
+    card = aRoot->findChild<QObject*>("cardImage1User2");
+    card->setProperty("currentFrame", 8);
+
+    card = aRoot->findChild<QObject*>("cardImage2User2");
+    card->setProperty("currentFrame", 5);
+
+    card = aRoot->findChild<QObject*>("cardImage1User3");
+    card->setProperty("currentFrame", 13);
+
+    card = aRoot->findChild<QObject*>("cardImage2User3");
+    card->setProperty("currentFrame", 13);
 }
 
 void MainWindow::OnButtonLoginClick()
@@ -266,16 +285,21 @@ void MainWindow::OnUserMove(UserMoveAction action)
             switch (item)
             {
                 case CHECK:
+                {
                     button = root->findChild<QObject*>("buttonCheck");
                     button->setProperty("enabled", true);
                     break;
+                }
 
                 case CALL:
+                {
                     button = root->findChild<QObject*>("buttonCall");
                     button->setProperty("enabled", true);
                     break;
+                }
 
                 case RAISE:
+                {
                     button = root->findChild<QObject*>("buttonRaise");
                     button->setProperty("enabled", true);
                     button = root->findChild<QObject*>("buttonIncObj");
@@ -285,6 +309,10 @@ void MainWindow::OnUserMove(UserMoveAction action)
                     QObject* bankText = root->findChild<QObject*>("textRaiseValueObj");
                     bankText->setProperty("raiseValue", QString("%1").arg(action.getMinimumBid()));
                     currentBid = action.getMinimumBid();
+                    break;
+                }
+
+                default:
                     break;
             }
         }

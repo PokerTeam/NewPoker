@@ -178,8 +178,8 @@ void Client::readClient(){
             char *arr;
 
             uint len = (uint)(quint32(nextBlockSize) - quint32(bytesBeforeRead) - quint32(socket.bytesAvailable()));
-            in.readBytes(arr, len);
-            /*To process bytes*/
+            in.readBytes(arr, len);*/
+            //To process bytes
             //socket.close();
             nextBlockSize = 0;
         }

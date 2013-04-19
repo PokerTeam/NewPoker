@@ -9,15 +9,15 @@ Rectangle {
     property int borderSize: 3
     property int animationDuration: 120
 
-    property color gradientColorTop: "#A0101010"
-    property color gradientOnActiveColorTop: "#A0303030"
-    property color gradientOnFailColorTop: "#80000030"
-    property color gradientColorBottom: "#A0000000"
-    property color gradientOnActiveColorBottom: "#A0303030"
-    property color gradientOnFailColorBottom: "#80000020"
-    property color borderColor: "#80FFFFFF"
+    property color gradientColorTop: "#A2151515"
+    property color gradientOnActiveColorTop: "#A2361616"
+    property color gradientOnFailColorTop: "#A2202036"
+    property color gradientColorBottom: "#82000000"
+    property color gradientOnActiveColorBottom: "#82161616"
+    property color gradientOnFailColorBottom: "#82101018"
+    property color borderColor: "#70FFFFFF"
     property color borderOnActiveColor: "#A0FF2020"
-    property color borderOnFailColor: "#A04040A0"
+    property color borderOnFailColor: "#A0365080"
 
     property color labelColor: "#FFFFFFFF"
     property bool labelBold: true

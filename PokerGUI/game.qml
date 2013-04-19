@@ -198,6 +198,28 @@ Rectangle {
         }
     }
 
+    CardImage {
+        id: cardImage1User3
+        objectName: "cardImage1User3"
+
+        cardSize: 0.75
+        anchors.top: user3.bottom
+        anchors.topMargin: 6
+        anchors.right: user3.right
+        anchors.rightMargin: 40
+    }
+
+    CardImage {
+        id: cardImage2User3
+        objectName: "cardImage2User3"
+
+        cardSize: 0.75
+        anchors.top: user3.bottom
+        anchors.topMargin: 6
+        anchors.right: user3.right
+        anchors.rightMargin: 10
+    }
+
     UserBlock {
         id: user3
         objectName: "user3"
@@ -208,7 +230,29 @@ Rectangle {
         anchors.rightMargin: 6
         ublockWidth: 260
         ublockHeight: 64
-        labelSize: 12
+        labelSize: 12        
+    }
+
+    CardImage {
+        id: cardImage1User2
+        objectName: "cardImage1User2"
+
+        cardSize: 0.75
+        anchors.top: user2.bottom
+        anchors.topMargin: 6
+        anchors.right: user2.right
+        anchors.rightMargin: 40
+    }
+
+    CardImage {
+        id: cardImage2User2
+        objectName: "cardImage2User2"
+
+        cardSize: 0.75
+        anchors.top: user2.bottom
+        anchors.topMargin: 6
+        anchors.right: user2.right
+        anchors.rightMargin: 10
     }
 
     UserBlock {
@@ -222,6 +266,28 @@ Rectangle {
         ublockWidth: 260
         ublockHeight: 64
         labelSize: 12
+    }   
+
+    CardImage {
+        id: cardImage1User1
+        objectName: "cardImage1User1"
+
+        cardSize: 0.75
+        anchors.top: user1.bottom
+        anchors.topMargin: 6
+        anchors.right: user1.right
+        anchors.rightMargin: 40
+    }
+
+    CardImage {
+        id: cardImage2User1
+        objectName: "cardImage2User1"
+
+        cardSize: 0.75
+        anchors.top: user1.bottom
+        anchors.topMargin: 6
+        anchors.right: user1.right
+        anchors.rightMargin: 10
     }
 
     UserBlock {
@@ -234,8 +300,8 @@ Rectangle {
         anchors.rightMargin: 12
         ublockWidth: 260
         ublockHeight: 64
-        labelSize: 12        
-    }
+        labelSize: 12
+    }   
 
     CardImage {
         id: cardImageSelf1
@@ -272,7 +338,7 @@ Rectangle {
         failedUser: false
         gradientColorTop: "#FB101010"
         gradientOnActiveColorTop: "#FB303030"
-        gradientOnFailColorTop: "#FB606060"
+        gradientOnFailColorTop: "#FB303040"
         gradientColorBottom: "#FB000000"
         gradientOnActiveColorBottom: "#FB202020"
     }
