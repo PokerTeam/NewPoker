@@ -16,6 +16,7 @@ public:
 
     friend QDataStream &operator<<(QDataStream &out, GameStartAction &action);
     friend QDataStream &operator>>(QDataStream &in, GameStartAction &action);
+
 private:
     UserInfo smallBlind;
     UserInfo bigBlind;

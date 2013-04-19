@@ -25,8 +25,7 @@ MainWindow::MainWindow(QWidget *parent) :
             this, SLOT(OnFirstCardsAction(FirstCardsAction)));
     connect(client, SIGNAL(onNextCardDealed(Card)),
             this, SLOT(OnNextCardDealed(Card)));
-    SetLoginScreen();
-    SetGameScreen();
+    SetLoginScreen();    
 }
 
 MainWindow::~MainWindow()
@@ -188,22 +187,22 @@ void MainWindow::SetupGameCardImages(QObject *aRoot)
     card->setProperty("currentFrame", 83);
 
     card = aRoot->findChild<QObject*>("cardImage1User1");
-    card->setProperty("currentFrame", 13);
+    card->setProperty("currentFrame", 83);
 
     card = aRoot->findChild<QObject*>("cardImage2User1");
-    card->setProperty("currentFrame", 13);
+    card->setProperty("currentFrame", 83);
 
     card = aRoot->findChild<QObject*>("cardImage1User2");
-    card->setProperty("currentFrame", 8);
+    card->setProperty("currentFrame", 83);
 
     card = aRoot->findChild<QObject*>("cardImage2User2");
-    card->setProperty("currentFrame", 5);
+    card->setProperty("currentFrame", 83);
 
     card = aRoot->findChild<QObject*>("cardImage1User3");
-    card->setProperty("currentFrame", 13);
+    card->setProperty("currentFrame", 83);
 
     card = aRoot->findChild<QObject*>("cardImage2User3");
-    card->setProperty("currentFrame", 13);
+    card->setProperty("currentFrame", 83);
 }
 
 void MainWindow::OnButtonLoginClick()
@@ -367,6 +366,7 @@ void MainWindow::UpdateUsersInGame(QList<UserInfo> users)
             if (!usersUI.contains(user.getUserId()))
             {
                 usersUI[user.getUserId()] = root->findChild<QObject*>(getUserFieldName(GetAvaliblePosition()));
+                usersUI[user.getUserId()]->setProperty("userAvaImage", (int)GetAvaliblePosition());
                 usersByPosition[GetAvaliblePosition()] = user.getUserId();
             }
             usersInGame[user.getUserId()] = user;

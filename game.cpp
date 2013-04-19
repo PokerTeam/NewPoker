@@ -308,11 +308,16 @@ bool Game::isAllMovesEquals()
 {
     long previous = -1;
     bool isEquals = true;
-    foreach(UserInfo user, usersInGame){
-        if (isUserActiveForBids(user.getUserId())){
-            if (previous == -1){
+    foreach (UserInfo user, usersInGame)
+    {
+        if (isUserActiveForBids(user.getUserId()))
+        {
+            if (previous == -1)
+            {
                 previous = userMoveCounter[user.getUserId()];
-            }else{
+            }
+            else
+            {
                 isEquals = isEquals && previous == userMoveCounter[user.getUserId()];
             }
         }

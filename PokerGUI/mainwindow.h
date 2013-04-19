@@ -56,8 +56,10 @@ private:
     long GetAvaliblePosition();
     void AppendInfo(long userId, QString info);
     void UpdateRateUI();
+
 signals:
     void joinGame(UserInfo*);
+
 private slots:
     void OnButtonLoginClick();
     void OnLoginResult(LoginResult*);

@@ -28,8 +28,8 @@ QDataStream &operator<<(QDataStream &out,
                         UserCardSet &set)
 {
     out << set.firstCard
-           << set.secondCard
-              << set.user;
+        << set.secondCard
+        << set.user;
 
     return out;
 }
@@ -38,8 +38,8 @@ QDataStream &operator>>(QDataStream &in,
                         UserCardSet &set)
 {
     in >> set.firstCard
-           >> set.secondCard
-              >> set.user;
+       >> set.secondCard
+       >> set.user;
 
     return in;
 }

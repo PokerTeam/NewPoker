@@ -1,5 +1,6 @@
 #ifndef COMBINATION_H
 #define COMBINATION_H
+
 enum Combination
 {
     ROYAL_FLUSH = 10,
@@ -13,6 +14,6 @@ enum Combination
     PAIR = 2,
     HAND_CARDS = 1,
     NONE = 0
-
 };
+
 #endif // COMBINATION_H

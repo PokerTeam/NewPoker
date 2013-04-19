@@ -86,13 +86,15 @@ void ClientSocket::processJoinGameRequest(QDataStream &stream)
     emit onJoinGameRequest(&userInfo);
 }
 
-void ClientSocket::processUserActionRequest(QDataStream &stream){
+void ClientSocket::processUserActionRequest(QDataStream &stream)
+{
     UserAction action;
     stream >> action;
     emit onUserAction(action);
 }
 
-void ClientSocket::doUserJoinGame(QList<UserInfo> users){
+void ClientSocket::doUserJoinGame(QList<UserInfo> users)
+{
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_4_6);
@@ -108,7 +110,8 @@ void ClientSocket::doUserJoinGame(QList<UserInfo> users){
     waitForBytesWritten(1000);
 }
 
-void ClientSocket::doGameStart(GameStartAction action){
+void ClientSocket::doGameStart(GameStartAction action)
+{
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_4_6);
@@ -121,7 +124,8 @@ void ClientSocket::doGameStart(GameStartAction action){
     waitForBytesWritten(1000);
 }
 
-void ClientSocket::doUserMove(UserMoveAction userMoveAction){
+void ClientSocket::doUserMove(UserMoveAction userMoveAction)
+{
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_4_6);
@@ -134,7 +138,8 @@ void ClientSocket::doUserMove(UserMoveAction userMoveAction){
     waitForBytesWritten(1000);
 }
 
-void ClientSocket::doUserAction(UserAction userAction){
+void ClientSocket::doUserAction(UserAction userAction)
+{
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_4_6);
@@ -147,7 +152,8 @@ void ClientSocket::doUserAction(UserAction userAction){
     waitForBytesWritten(1000);
 }
 
-void ClientSocket::doBankChangeAction(BankChangeAction action){
+void ClientSocket::doBankChangeAction(BankChangeAction action)
+{
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_4_6);
@@ -160,7 +166,8 @@ void ClientSocket::doBankChangeAction(BankChangeAction action){
     waitForBytesWritten(1000);
 }
 
-void ClientSocket::doFirstCardsAction(FirstCardsAction action){
+void ClientSocket::doFirstCardsAction(FirstCardsAction action)
+{
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_4_6);
@@ -173,7 +180,8 @@ void ClientSocket::doFirstCardsAction(FirstCardsAction action){
     waitForBytesWritten(1000);
 }
 
-void ClientSocket::doNextCardsDealed(Card card){
+void ClientSocket::doNextCardsDealed(Card card)
+{
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_4_6);

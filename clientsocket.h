@@ -35,6 +35,7 @@ private slots:
     void doBankChangeAction(BankChangeAction action);
     void doFirstCardsAction(FirstCardsAction action);
     void doNextCardsDealed(Card);
+
 private:
     quint16 nextBlockSize;
 

@@ -1,6 +1,8 @@
 #ifndef BANKCHANGEACTION_H
 #define BANKCHANGEACTION_H
+
 #include <QDataStream>
+
 class BankChangeAction
 {
 public:

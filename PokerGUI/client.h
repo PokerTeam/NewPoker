@@ -38,6 +38,7 @@ signals:
     void onBankChange(BankChangeAction action);
     void onFirstCardsAction(FirstCardsAction action);
     void onNextCardDealed(Card);
+
 private:
     QTcpSocket socket;
     quint16 nextBlockSize;

@@ -18,6 +18,7 @@ public:
 
     friend QDataStream &operator<<(QDataStream &out, UserMoveAction &action);
     friend QDataStream &operator>>(QDataStream &in, UserMoveAction &action);
+
 private:
     UserInfo user;
     QList<Actions> availableActions;
