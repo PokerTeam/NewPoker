@@ -1,11 +1,13 @@
 #include "card.h"
 
-Card::Card(){
+Card::Card()
+{
     this->suit = HEARTS;
     this->number = 0;
 }
 
-Card::Card(Suit suit, int number){
+Card::Card(Suit suit, int number)
+{
     this->suit = suit;
     this->number = number;
 }

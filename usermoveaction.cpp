@@ -37,7 +37,8 @@ QDataStream &operator<<(QDataStream &out,
     out << action.user
         << qint64(action.minimumBid)
         << action.availableActions.length();
-    foreach(Actions item, action.availableActions){
+    foreach (Actions item, action.availableActions)
+    {
         out << qint64(item);
     }
 
@@ -53,8 +54,8 @@ QDataStream &operator>>(QDataStream &in,
        >> bid
        >> length;
     action.minimumBid = bid;
-    for (int i = 0; i < length; i++){
-        Actions item;
+    for (int i = 0; i < length; i++)
+    {
         qint64 it;
         in >> it;
         action.availableActions.push_back((Actions)it);

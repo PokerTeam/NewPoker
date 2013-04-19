@@ -9,13 +9,15 @@ Client::Client()
     connect(&socket, SIGNAL(readyRead()), this, SLOT(readClient()));
 }
 
-void Client::connectToServer(){
+void Client::connectToServer()
+{
     socket.connectToHost(QHostAddress::LocalHost, 1234);
     nextBlockSize = 0;
     socket.waitForConnected();
 }
 
-void Client::doRegisterRequest(QString username, QString password){
+void Client::doRegisterRequest(QString username, QString password)
+{
     qDebug() << "Register req";
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
@@ -29,7 +31,8 @@ void Client::doRegisterRequest(QString username, QString password){
     socket.waitForBytesWritten(1000);
 }
 
-void Client::doLoginRequest(QString username, QString password){
+void Client::doLoginRequest(QString username, QString password)
+{
     qDebug() << "Login req";
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
@@ -43,7 +46,8 @@ void Client::doLoginRequest(QString username, QString password){
     socket.waitForBytesWritten(1000);
 }
 
-void Client::doJoinGameRequest(UserInfo* userInfo){
+void Client::doJoinGameRequest(UserInfo* userInfo)
+{
     qDebug() << "Join game req";
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
@@ -57,7 +61,8 @@ void Client::doJoinGameRequest(UserInfo* userInfo){
     socket.waitForBytesWritten(1000);
 }
 
-void Client::doUserActionRequest(UserAction action){
+void Client::doUserActionRequest(UserAction action)
+{
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_4_6);
@@ -73,79 +78,101 @@ void Client::readClient(){
     qDebug() << endl <<"Client req, Avalible: " << socket.bytesAvailable() << ", next: " << nextBlockSize;
     QDataStream in(&socket);
     in.setVersion(QDataStream::Qt_4_6);
-    while (socket.bytesAvailable() > 0){
-        if (nextBlockSize == 0){
-            if (socket.bytesAvailable() < sizeof(quint16)){
+    while (socket.bytesAvailable() > 0)
+    {
+        if (nextBlockSize == 0)
+        {
+            if (socket.bytesAvailable() < sizeof(quint16))
+            {
                 return;
-            }else{
+            }
+            else
+            {
                 in >> nextBlockSize;
             }
         }
 
-        if (socket.bytesAvailable() < nextBlockSize){
+        if (socket.bytesAvailable() < nextBlockSize)
+        {
             return;
-        }else{
+        }
+        else
+        {
             quint16 requestType;
             in >> requestType;
             qDebug() << requestType << " Size: " << socket.bytesAvailable() << " next: " << nextBlockSize;
-            switch(requestType){
-            case Commands::loginResult:
+            switch(requestType)
             {
-                LoginResult result;
-                in >> result;
-                emit onLoginResult(&result);
-                break;
-            }
-            case Commands::gameStart:{
-                GameStartAction action;
-                in >> action;
-                emit onGameStart(action);
-                break;
-            }
-            case Commands::userMove:{
-                UserMoveAction action;
-                in >> action;
-                emit onUserMove(action);
-                break;
-            }
-            case Commands::bankChange:{
-                BankChangeAction action;
-                in >> action;
-                emit onBankChange(action);
-                break;
-            }
-            case Commands::userAction:{
-                UserAction action;
-                in >> action;
-                emit onUserAction(action);
-                break;
-            }
-            case Commands::firstCardsAction:{
-                FirstCardsAction action;
-                in >> action;
-                emit onFirstCardsAction(action);
-                break;
-            }
-            case Commands::nextCardAction:{
-                Card card;
-                in >> card;
-                emit onNextCardDealed(card);
-                break;
-            }
-            case Commands::joinGame:{
+                case Commands::loginResult:
+                {
+                    LoginResult result;
+                    in >> result;
+                    emit onLoginResult(&result);
+                    break;
+                }
+
+                case Commands::gameStart:
+                {
+                    GameStartAction action;
+                    in >> action;
+                    emit onGameStart(action);
+                    break;
+                }
+
+                case Commands::userMove:
+                {
+                    UserMoveAction action;
+                    in >> action;
+                    emit onUserMove(action);
+                    break;
+                }
+
+                case Commands::bankChange:
+                {
+                    BankChangeAction action;
+                    in >> action;
+                    emit onBankChange(action);
+                    break;
+                }
+
+                case Commands::userAction:
+                {
+                    UserAction action;
+                    in >> action;
+                    emit onUserAction(action);
+                    break;
+                }
+
+                case Commands::firstCardsAction:
+                {
+                    FirstCardsAction action;
+                    in >> action;
+                    emit onFirstCardsAction(action);
+                    break;
+                }
+
+                case Commands::nextCardAction:
+                {
+                    Card card;
+                    in >> card;
+                    emit onNextCardDealed(card);
+                    break;
+                }
+
+                case Commands::joinGame:
                 {
                     QList<UserInfo> list;
                     qint32 size;
                     in >> size;
-                    for (quint32 i = 0; i < size; i++){
+                    for (int i = 0; i < size; i++)
+                    {
                         UserInfo userInfo;
                         in >> userInfo;
                         list.push_back(userInfo);
                     }
                     emit userJoinedGame(list);
+                    break;
                 }
-                break;
-            }
             }
             /*Stub
             char *arr;

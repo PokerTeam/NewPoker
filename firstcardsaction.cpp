@@ -1,6 +1,7 @@
 #include "firstcardsaction.h"
 
-FirstCardsAction::FirstCardsAction(){
+FirstCardsAction::FirstCardsAction()
+{
     this->firstCard = Card();
     this->secondCard = Card();
     this->thirdCard = Card();

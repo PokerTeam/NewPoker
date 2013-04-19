@@ -7,15 +7,24 @@ MainWindow::MainWindow(QWidget *parent) :
     ui = new QDeclarativeView;
     client = new Client();
     client->connectToServer();
-    connect(client, SIGNAL(onLoginResult(LoginResult*)), this, SLOT(OnLoginResult(LoginResult*)));
-    connect(this, SIGNAL(joinGame(UserInfo*)), client, SLOT(doJoinGameRequest(UserInfo*)));
-    connect(client, SIGNAL(userJoinedGame(QList<UserInfo>)), this, SLOT(OnUserJoinedGame(QList<UserInfo>)));
-    connect(client, SIGNAL(onGameStart(GameStartAction)), this, SLOT(OnGameStart(GameStartAction)));
-    connect(client, SIGNAL(onUserMove(UserMoveAction)), this, SLOT(OnUserMove(UserMoveAction)));
-    connect(client, SIGNAL(onUserAction(UserAction)), this, SLOT(OnUserAction(UserAction)));
-    connect(client, SIGNAL(onBankChange(BankChangeAction)), this, SLOT(OnBankChange(BankChangeAction)));
-    connect(client, SIGNAL(onFirstCardsAction(FirstCardsAction)), this, SLOT(OnFirstCardsAction(FirstCardsAction)));
-    connect(client, SIGNAL(onNextCardDealed(Card)), this, SLOT(OnNextCardDealed(Card)));
+    connect(client, SIGNAL(onLoginResult(LoginResult*)),
+            this, SLOT(OnLoginResult(LoginResult*)));
+    connect(this, SIGNAL(joinGame(UserInfo*)),
+            client, SLOT(doJoinGameRequest(UserInfo*)));
+    connect(client, SIGNAL(userJoinedGame(QList<UserInfo>)),
+            this, SLOT(OnUserJoinedGame(QList<UserInfo>)));
+    connect(client, SIGNAL(onGameStart(GameStartAction)),
+            this, SLOT(OnGameStart(GameStartAction)));
+    connect(client, SIGNAL(onUserMove(UserMoveAction)),
+            this, SLOT(OnUserMove(UserMoveAction)));
+    connect(client, SIGNAL(onUserAction(UserAction)),
+            this, SLOT(OnUserAction(UserAction)));
+    connect(client, SIGNAL(onBankChange(BankChangeAction)),
+            this, SLOT(OnBankChange(BankChangeAction)));
+    connect(client, SIGNAL(onFirstCardsAction(FirstCardsAction)),
+            this, SLOT(OnFirstCardsAction(FirstCardsAction)));
+    connect(client, SIGNAL(onNextCardDealed(Card)),
+            this, SLOT(OnNextCardDealed(Card)));
     SetLoginScreen();
 }
 
@@ -198,19 +207,23 @@ void MainWindow::OnLoginResult(LoginResult* loginResult)
     }
 }
 
-void MainWindow::OnUserJoinedGame(QList<UserInfo> users){
+void MainWindow::OnUserJoinedGame(QList<UserInfo> users)
+{
     UpdateUsersInGame(users);
 }
 
-void MainWindow::OnGameStart(GameStartAction action){
+void MainWindow::OnGameStart(GameStartAction action)
+{
     usersInGame[action.getBigBlind().getUserId()] = action.getBigBlind();
     usersInGame[action.getSmallBlind().getUserId()] = action.getSmallBlind();
     usersInGame[action.getUserWithButton().getUserId()] = action.getUserWithButton();
     AppendInfo(action.getBigBlind().getUserId(), "Big");
     AppendInfo(action.getSmallBlind().getUserId(), "Small");
     AppendInfo(action.getUserWithButton().getUserId(), "Btn");
-    foreach(UserCardSet set, action.getCards()){
-        if (set.getUser().getUserId() == userInfo.getUserId()){
+    foreach (UserCardSet set, action.getCards())
+    {
+        if (set.getUser().getUserId() == userInfo.getUserId())
+        {
             QObject* cardUI;
 
             cardUI = root->findChild<QObject*>("cardImageSelf1");
@@ -224,7 +237,8 @@ void MainWindow::OnGameStart(GameStartAction action){
     UpdateUsers();
 }
 
-void MainWindow::OnUserMove(UserMoveAction action){
+void MainWindow::OnUserMove(UserMoveAction action)
+{
     QObject* button;
     button = root->findChild<QObject*>("buttonCall");
     button->setProperty("enabled", false);
@@ -244,18 +258,23 @@ void MainWindow::OnUserMove(UserMoveAction action){
     minimumBid = action.getMinimumBid();
     currentBid = minimumBid;
     maximumBid = action.getUserInfo().getUserMoney();
-    if (userInfo.getUserId() == action.getUserInfo().getUserId()){
+    if (userInfo.getUserId() == action.getUserInfo().getUserId())
+    {
         userInfo = action.getUserInfo();
-        foreach(Actions item, action.getAvailableActions()){
-            switch (item){
+        foreach(Actions item, action.getAvailableActions())
+        {
+            switch (item)
+            {
                 case CHECK:
                     button = root->findChild<QObject*>("buttonCheck");
                     button->setProperty("enabled", true);
                     break;
+
                 case CALL:
                     button = root->findChild<QObject*>("buttonCall");
                     button->setProperty("enabled", true);
                     break;
+
                 case RAISE:
                     button = root->findChild<QObject*>("buttonRaise");
                     button->setProperty("enabled", true);
@@ -274,32 +293,43 @@ void MainWindow::OnUserMove(UserMoveAction action){
     userUI->setProperty("labelUsercash", QString("%1 (%2)").arg(action.getUserInfo().getUserMoney()).arg(action.getUserInfo().getUserMoneyOnTable()));
 }
 
-void MainWindow::AppendInfo(long userId, QString info){
+void MainWindow::AppendInfo(long userId, QString info)
+{
     userAdditionalInfo[userId] = QString("%1%2").arg(userAdditionalInfo.contains(userId) ? userAdditionalInfo[userId] + ", " : "").arg(info);
 }
 
-long MainWindow::GetAvaliblePosition(){
-    for (long i = 1; i <= 3; i++){
-        if (!usersByPosition.contains(i)){
+long MainWindow::GetAvaliblePosition()
+{
+    for (long i = 1; i <= 3; i++)
+    {
+        if (!usersByPosition.contains(i))
+        {
             return i;
         }
     }
     return -1;
 }
 
-void MainWindow::UpdateUsersInGame(QList<UserInfo> users){
-    foreach (UserInfo user, users){
-        if (user.getUserId() == userInfo.getUserId()){
-            if (!usersUI.contains(user.getUserId())){
+void MainWindow::UpdateUsersInGame(QList<UserInfo> users)
+{
+    foreach (UserInfo user, users)
+    {
+        if (user.getUserId() == userInfo.getUserId())
+        {
+            if (!usersUI.contains(user.getUserId()))
+            {
                 SetGameScreen();
                 usersUI[user.getUserId()] = root->findChild<QObject*>("userSelf");
                 usersInGame[user.getUserId()] = user;
             }
         }
     } //Because we need to show table first.
-    foreach (UserInfo user, users){
-        if (user.getUserId() != userInfo.getUserId()){
-            if (!usersUI.contains(user.getUserId())){
+    foreach (UserInfo user, users)
+    {
+        if (user.getUserId() != userInfo.getUserId())
+        {
+            if (!usersUI.contains(user.getUserId()))
+            {
                 usersUI[user.getUserId()] = root->findChild<QObject*>(getUserFieldName(GetAvaliblePosition()));
                 usersByPosition[GetAvaliblePosition()] = user.getUserId();
             }
@@ -310,8 +340,10 @@ void MainWindow::UpdateUsersInGame(QList<UserInfo> users){
 }
 
 
-void MainWindow::UpdateUsers(){
-    foreach(long key, usersInGame.keys()){
+void MainWindow::UpdateUsers()
+{
+    foreach(long key, usersInGame.keys())
+    {
         QObject* userUI = usersUI[key];
         QString info = userAdditionalInfo.contains(key) ? "(" + userAdditionalInfo[key] + ")" : "";
         userUI->setProperty("labelUsername", QString("%1 %2").arg(usersInGame[key].getUsername()).arg(info));
@@ -319,11 +351,13 @@ void MainWindow::UpdateUsers(){
     }
 }
 
-QString MainWindow::getUserFieldName(long position){
+QString MainWindow::getUserFieldName(long position)
+{
     return QString("user%1").arg(position);
 }
 
-void MainWindow::OnButtonRegisterClick(){
+void MainWindow::OnButtonRegisterClick()
+{
     QObject* textArea = root->findChild<QObject*>("textAreaLogin");
     QString login = textArea->property("textContent").toString();
     textArea = root->findChild<QObject*>("textAreaPassword");
@@ -331,29 +365,35 @@ void MainWindow::OnButtonRegisterClick(){
     client->doRegisterRequest(login, password);
 }
 
-void MainWindow::OnUserAction(UserAction action){
+void MainWindow::OnUserAction(UserAction action)
+{
     QObject* ui = usersUI[action.getUser().getUserId()];
-    if (action.getAction() == FOLD){
+    if (action.getAction() == FOLD)
+    {
         ui->setProperty("labelUsername", "FOLD");
         ui->setProperty("labelUsercash", "");
     }
-    if (userInfo.getUserId() == action.getUser().getUserId()){
+    if (userInfo.getUserId() == action.getUser().getUserId())
+    {
         userInfo = action.getUser();
     }
     usersInGame[action.getUser().getUserId()] = action.getUser();
     UpdateUsers();
 }
 
-void MainWindow::OnBankChange(BankChangeAction action){
+void MainWindow::OnBankChange(BankChangeAction action)
+{
     QObject* ui = root->findChild<QObject*>("textBankValueObj");
     ui->setProperty("bankValue", QString("%1").arg(action.getBankValue()));
-    foreach (long key, usersInGame.keys()){
+    foreach (long key, usersInGame.keys())
+    {
         usersInGame[key].clearMoneyOnTable();
     }
     UpdateUsers();
 }
 
-void MainWindow::OnFirstCardsAction(FirstCardsAction action){
+void MainWindow::OnFirstCardsAction(FirstCardsAction action)
+{
     cardsOnTable = 3;
     QObject* cardUI;
 
@@ -367,7 +407,8 @@ void MainWindow::OnFirstCardsAction(FirstCardsAction action){
     cardUI->setProperty("currentFrame", Card::getCardImage(action.getThirdCard()));
 }
 
-void MainWindow::OnNextCardDealed(Card card){
+void MainWindow::OnNextCardDealed(Card card)
+{
     cardsOnTable++;
     QObject* cardUI;
     switch (cardsOnTable)
@@ -404,9 +445,12 @@ void MainWindow::OnButtonFoldClick()
 
 void MainWindow::OnButtonCallClick()
 {
-    if (minimumBid != 0){
+    if (minimumBid != 0)
+    {
         client->doUserActionRequest(UserAction(userInfo, CALL, minimumBid));
-    }else{
+    }
+    else
+    {
         client->doUserActionRequest(UserAction(userInfo, CHECK, 0));
     }
 }
@@ -424,7 +468,8 @@ void MainWindow::OnButtonCheckClick()
 void MainWindow::OnButtonRateIncClick()
 {
     currentBid++;
-    if (currentBid > maximumBid ){
+    if (currentBid > maximumBid )
+    {
         currentBid = maximumBid;
     }
     UpdateRateUI();
@@ -433,13 +478,15 @@ void MainWindow::OnButtonRateIncClick()
 void MainWindow::OnButtonRateDecClick()
 {
     currentBid--;
-    if (currentBid < minimumBid ){
+    if (currentBid < minimumBid )
+    {
         currentBid = minimumBid;
     }
     UpdateRateUI();
 }
 
-void MainWindow::UpdateRateUI(){
+void MainWindow::UpdateRateUI()
+{
     QObject* text = root->findChild<QObject*>("textRaiseValueObj");
     text->setProperty("raiseValue", QString("%1").arg(currentBid));
 }

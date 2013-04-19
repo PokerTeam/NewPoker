@@ -24,7 +24,8 @@ bool UserInfo::isAllIn()
     return (userMoneyOnTable != 0) && (userMoney == 0);
 }
 
-QString UserInfo::getUsername(){
+QString UserInfo::getUsername()
+{
     return username;
 }
 

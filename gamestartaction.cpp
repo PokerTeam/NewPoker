@@ -1,6 +1,7 @@
 #include "gamestartaction.h"
 
-GameStartAction::GameStartAction(){
+GameStartAction::GameStartAction()
+{
     this->bigBlind = UserInfo();
     this->smallBlind = UserInfo();
     this->userWithButton = UserInfo();
@@ -43,7 +44,8 @@ QDataStream &operator<<(QDataStream &out,
         << action.smallBlind
         << action.userWithButton
         << qint32(action.cards.length());
-    foreach(UserCardSet set, action.cards){
+    foreach (UserCardSet set, action.cards)
+    {
         out << set;
     }
 
@@ -58,7 +60,8 @@ QDataStream &operator>>(QDataStream &in,
        >> action.smallBlind
        >> action.userWithButton
        >> length;
-    for (qint32 i = 0; i < length; i++){
+    for (qint32 i = 0; i < length; i++)
+    {
         UserCardSet set;
         in >> set;
         action.cards.push_back(set);
