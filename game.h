@@ -16,6 +16,7 @@
 #include "bankchangeaction.h"
 #include "usermoveaction.h"
 #include "winner.h"
+#include "gamefinish.h"
 #include "accountmanager.h"
 
 class Game : public QObject
@@ -95,7 +96,7 @@ signals:
     void onNextCardDealed(Card nextCard);// For 4th and 5th cards.
 
 
-    void onGameFinished(UserInfo* winner);
+    void onGameFinished(GameFinish action);
         //Occurs when gameStartedAction occured and less then 3 users in game.
     void onGameStopped();
 

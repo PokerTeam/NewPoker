@@ -174,9 +174,20 @@ void Game::askForUserMove(bool isFirstStep)
                 break;
 
             case 5:
-                QList<UserInfo> user = getWinner(cardSets, cardsOnTable);
+                QList<UserInfo> users = getWinner(cardSets, cardsOnTable);
+                QList<UserCardSet> winnerCardSets;
+                for (long i = 0; i < users.length(); i++){
+                    for (long j = 0; j < cardSets.length(); j++){
+                        if (users[i].getUserId() == cardSets[j].getUser().getUserId()){
+                            winnerCardSets.push_back(UserCardSet(users[i], cardSets[j].getFirstCard(), cardSets[j].getSecondCard()));
+                        }
+                    }
+                }
+                emit onGameFinished(GameFinish(winnerCardSets));
+                /*QTimer::singleShot(5000, this, SLOT());
+
                 clearBank();
-                start();
+                start();*/
                 return;
         }
     }

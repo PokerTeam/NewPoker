@@ -159,6 +159,13 @@ void Client::readClient(){
                     break;
                 }
 
+                case Commands::gameFinished:{
+                    GameFinish action;
+                    in >> action;
+                    emit onGameFinished(action);
+                    break;
+                }
+
                 case Commands::joinGame:
                 {
                     QList<UserInfo> list;

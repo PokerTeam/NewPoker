@@ -11,6 +11,7 @@
 #include "useraction.h"
 #include "bankchangeaction.h"
 #include "firstcardsaction.h"
+#include "gamefinish.h"
 
 
 class ClientSocket : public QTcpSocket
@@ -35,6 +36,7 @@ private slots:
     void doBankChangeAction(BankChangeAction action);
     void doFirstCardsAction(FirstCardsAction action);
     void doNextCardsDealed(Card);
+    void doGameFinished(GameFinish action);
 
 private:
     quint16 nextBlockSize;

@@ -21,6 +21,7 @@ public:
     static const quint16 bankChange = 13;
     static const quint16 firstCardsAction = 14;
     static const quint16 nextCardAction = 15;
+    static const quint16 gameFinished = 16;
 
     Commands();
 };

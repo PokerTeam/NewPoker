@@ -37,7 +37,8 @@ SOURCES += main.cpp \
     client.cpp \
     card.cpp \
     bankchangeaction.cpp \
-    accountmanager.cpp
+    accountmanager.cpp \
+    gamefinish.cpp
 
 HEADERS += \
     winner.h \
@@ -63,4 +64,5 @@ HEADERS += \
     card.h \
     bankchangeaction.h \
     actions.h \
-    accountmanager.h
+    accountmanager.h \
+    gamefinish.h

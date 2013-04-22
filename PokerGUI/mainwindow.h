@@ -71,6 +71,7 @@ private slots:
     void OnBankChange(BankChangeAction action);
     void OnFirstCardsAction(FirstCardsAction action);
     void OnNextCardDealed(Card);
+    void OnGameFinished(GameFinish);
 
     void OnButtonExitClick();
     void OnButtonFoldClick();

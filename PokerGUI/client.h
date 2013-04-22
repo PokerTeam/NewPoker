@@ -13,6 +13,7 @@
 #include "../useraction.h"
 #include "../bankchangeaction.h"
 #include "../firstcardsaction.h"
+#include "../gamefinish.h"
 
 class Client : public QObject
 {
@@ -38,6 +39,7 @@ signals:
     void onBankChange(BankChangeAction action);
     void onFirstCardsAction(FirstCardsAction action);
     void onNextCardDealed(Card);
+    void onGameFinished(GameFinish action);
 
 private:
     QTcpSocket socket;

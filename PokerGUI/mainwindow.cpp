@@ -25,6 +25,8 @@ MainWindow::MainWindow(QWidget *parent) :
             this, SLOT(OnFirstCardsAction(FirstCardsAction)));
     connect(client, SIGNAL(onNextCardDealed(Card)),
             this, SLOT(OnNextCardDealed(Card)));
+    connect(client, SIGNAL(onGameFinished(GameFinish)),
+            this, SLOT(OnGameFinished(GameFinish)));
     SetLoginScreen();    
 }
 
@@ -149,17 +151,17 @@ void MainWindow::SetupGameUserBlocks(QObject *aRoot)
 
     user = aRoot->findChild<QObject*>("user2");
     user->setProperty("activeUser", false);
-    user->setProperty("failedUser", false);
+    user->setProperty("failedUser", true);
     user->setProperty("userAvaImage", 0);
 
     user = aRoot->findChild<QObject*>("user3");
-    user->setProperty("activeUser", true);
-    user->setProperty("failedUser", false);
+    user->setProperty("activeUser", false);
+    user->setProperty("failedUser", true);
     user->setProperty("userAvaImage", 0);
 
     user = aRoot->findChild<QObject*>("userSelf");
     user->setProperty("activeUser", false);
-    user->setProperty("failedUser", false);
+    user->setProperty("failedUser", true);
     user->setProperty("userAvaImage", 4);
 }
 
@@ -466,6 +468,21 @@ void MainWindow::OnNextCardDealed(Card card)
 
         default:
             break;
+    }
+}
+
+void MainWindow::OnGameFinished(GameFinish action){
+    foreach(UserCardSet set, action.getWinners()){
+        foreach(long position, usersByPosition.keys())
+            if (usersByPosition[position] == set.getUser().getUserId()){
+                QString firstCardName = QString("cardImage1User%1").arg(position);
+                QString secondCardName = QString("cardImage2User%1").arg(position);
+                QObject* card = root->findChild<QObject*>(firstCardName);
+                card->setProperty("currentFrame", Card::getCardImage(set.getFirstCard()));
+
+                card = root->findChild<QObject*>(secondCardName);
+                card->setProperty("currentFrame", Card::getCardImage(set.getSecondCard()));
+            }
     }
 }
 
