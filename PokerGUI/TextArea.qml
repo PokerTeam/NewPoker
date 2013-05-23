@@ -6,16 +6,16 @@ Rectangle {
 
     property int textAreaWidth: 200
     property int textAreaHeight: 28
-    property int borderSize:3
-    property int borderRadius: 14
+    property int borderSize: 2
+    property int borderRadius: 4
     property int animationDuration: 120
 
-    property color baseColor: "#FF585858"
-    property color baseOnHoverColor: "#FF70707B"
-    property color baseFocusedColor: "#FF66666B"
+    property color baseColor: "#FF666666"
+    property color baseOnHoverColor: "#FF707B7F"
+    property color baseFocusedColor: "#FF666B6F"
 
-    property color borderColor: "#30000000"
-    property color borderOnHoverColor: "#30A0A0FF"
+    property color borderColor: "#60000000"
+    property color borderOnHoverColor: "#6080A0B0"
 
     property string textAreaLabel: "Text area"
     property int textAreaLabelSize: 11
@@ -36,11 +36,12 @@ Rectangle {
     property string textFamily: "Segoe UI"
     property bool textBold: false
     property bool textItalic: true
-    property bool textPassword: false
+    property bool textPassword: false      
 
     color: "transparent"
     width: textAreaWidth
     height: textAreaHeight
+    onFocusChanged: blockOnFocus(focus)
 
     Rectangle {
         id: blockLabel
@@ -84,7 +85,7 @@ Rectangle {
             id: flickableArea
 
             anchors.centerIn: parent
-            width: parent.width - 2 * borderRadius
+            width: parent.width - 2 * borderRadius - 16
             height: parent.height - 4 * borderSize
             boundsBehavior: Flickable.StopAtBounds
             flickableDirection: Flickable.HorizontalFlick
@@ -110,7 +111,7 @@ Rectangle {
                     font.family: textFamily
                     font.bold: textBold
                     font.italic: textItalic
-                    onFocusChanged: blockOnFocus()
+                    onFocusChanged: blockOnFocus(focus)
                     echoMode: textPassword ? TextInput.Password : TextInput.Normal
                 }
             }
@@ -142,14 +143,16 @@ Rectangle {
         }
     }
 
-    function blockOnFocus() {
+    function blockOnFocus(isFocus) {
+        if (textInputArea.focus != isFocus)
+            textInputArea.focus = isFocus
         blockLabelText.color =
                 textInputArea.focus ? textAreaLaberFocusedColor : textAreaLabelColor
         blockText.color =
                 textInputArea.focus ? baseFocusedColor : baseColor
         blockText.border.color = borderColor
         blockHintText.color =
-                textInputArea.focus ? textAreaHintFocusedColor : textAreaHintColor
+                textInputArea.focus ? textAreaHintFocusedColor : textAreaHintColor        
     }
 
     function blockOnHover(isHover) {

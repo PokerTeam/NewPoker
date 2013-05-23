@@ -37,6 +37,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::SetupUI(QString path)
 {
+    this->setMinimumWidth(1024);
+    this->setMinimumHeight(600);
+
     ui->setSource(QUrl(path));
     ui->setResizeMode(QDeclarativeView::SizeRootObjectToView);
     setCentralWidget(ui);
@@ -46,9 +49,7 @@ void MainWindow::SetupUI(QString path)
 void MainWindow::SetLoginScreen()
 {
     SetupUI("qrc:/login.qml");
-    root = ui->rootObject();    
-    this->setMinimumWidth(360);
-    this->setMinimumHeight(380);
+    root = ui->rootObject();        
     SetupLoginControls(root);
 }
 
@@ -84,8 +85,6 @@ void MainWindow::SetGameScreen()
 {
     SetupUI("qrc:/game.qml");
     root = ui->rootObject();    
-    this->setMinimumWidth(1024);
-    this->setMinimumHeight(600);
     SetupGameControls(root);
 }
 

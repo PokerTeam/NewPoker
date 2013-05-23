@@ -5,14 +5,14 @@ Rectangle {
 
     property int buttonWidth: 110
     property int buttonHeight: 32
-    property int borderSize: 4
-    property int borderRadius: 6
+    property int borderSize: 2
+    property int borderRadius: 2
     property int animationDuration: 120
 
-    property color gradientColorTop: "#FF202020"
+    property color gradientColorTop: "#FF101010"
     property color gradientOnHoverColorTop: "#FF303030"
     property color gradientColorBottom: "#FF101010"
-    property color gradientOnHoverColorBottom: "#FF202020"
+    property color gradientOnHoverColorBottom: "#FF252525"
     property color borderColor: "#20FFFFFF"
     property color borderOnHoverColor: "#24FFFFFF"
 
@@ -23,12 +23,16 @@ Rectangle {
     property string label: "button"
     property real labelSize: 11
 
-    signal buttonClick()
+    signal buttonClick()    
 
     width: (buttonLabel.paintedWidth <= (buttonWidth - 4 * borderRadius)) ? (buttonWidth) : (buttonLabel.paintedWidth + 4 * borderRadius)
     height: buttonHeight
     radius: borderRadius
     smooth: true
+    onFocusChanged: buttonOnFocus(focus)
+    Keys.enabled: true
+    Keys.onReturnPressed: buttonClick()
+
     border {
         width: borderSize;
         Behavior on color { ColorAnimation { duration: animationDuration } }
@@ -59,10 +63,14 @@ Rectangle {
 
         anchors.fill: parent
         hoverEnabled: true
-        onClicked: buttonClick()
+        onClicked: buttonClick()     
         onEntered: buttonOnHover(true)
         onExited:  buttonOnHover(false)
     }    
+
+    function buttonOnFocus(isFocus) {
+        buttonOnHover(isFocus)
+    }
 
     function buttonOnHover(isHover) {
         if (isHover) {
