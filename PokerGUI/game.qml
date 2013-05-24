@@ -1,4 +1,3 @@
-// import QtQuick 1.0 // to target S60 5th Edition or Maemo 5
 import QtQuick 1.1
 
 Rectangle {
@@ -34,10 +33,6 @@ Rectangle {
         y: 8
         label: "Exit"
         labelColor: "#FFB0B0B0"
-        gradientColorTop: "#A0101010"
-        gradientOnHoverColorTop: "#A0303030"
-        gradientColorBottom: "#A0000000"
-        gradientOnHoverColorBottom: "#A0202020"
         borderSize: 2
     }
 
@@ -50,10 +45,6 @@ Rectangle {
         y: parent.height - height - 8
         label: "Fold"
         labelColor: "#FFB0B0B0"
-        gradientColorTop: "#A0101010"
-        gradientOnHoverColorTop: "#A0303030"
-        gradientColorBottom: "#A0000000"
-        gradientOnHoverColorBottom: "#A0202020"
         borderSize: 2
     }
 
@@ -66,10 +57,6 @@ Rectangle {
         y: parent.height - height - 8
         label: "Call"
         labelColor: "#FFB0B0B0"
-        gradientColorTop: "#A0101010"
-        gradientOnHoverColorTop: "#A0303030"
-        gradientColorBottom: "#A0000000"
-        gradientOnHoverColorBottom: "#A0202020"
         borderSize: 2
     }
 
@@ -82,10 +69,6 @@ Rectangle {
         y: parent.height - height - 8
         label: "Raise"
         labelColor: "#FFB0B0B0"
-        gradientColorTop: "#A0101010"
-        gradientOnHoverColorTop: "#A0303030"
-        gradientColorBottom: "#A0000000"
-        gradientOnHoverColorBottom: "#A0202020"
         borderSize: 2
     }
 
@@ -98,10 +81,6 @@ Rectangle {
         y: parent.height - height - 8
         label: "Check"
         labelColor: "#FFB0B0B0"
-        gradientColorTop: "#A0101010"
-        gradientOnHoverColorTop: "#A0303030"
-        gradientColorBottom: "#A0000000"
-        gradientOnHoverColorBottom: "#A0202020"
         borderSize: 2
     }
 
@@ -109,17 +88,16 @@ Rectangle {
         id: blockRaiseValue
 
         width: buttonInc.width + buttonDec.width +
-               textRaiseValue.paintedWidth + textBankValue.paintedWidth + 16 * 4
+               textRaiseValue.paintedWidth + 16 * 2
         height: 32
         x: buttonCheck.x + buttonCheck.width + 30
         y: parent.height - height - 8
-        color: "#60303030"
+        color: "#80101010"
         border {
             width: 2;
-            Behavior on color { ColorAnimation { duration: animationDuration } }
             color: "#20FFFFFF"
         }
-        radius: 8
+        radius: 2
         smooth: true
 
         Button {
@@ -133,10 +111,6 @@ Rectangle {
             label: "-"
             labelSize: 12
             labelColor: "#FFB0B0B0"
-            gradientColorTop: "#A0101010"
-            gradientOnHoverColorTop: "#A0303030"
-            gradientColorBottom: "#A0000000"
-            gradientOnHoverColorBottom: "#A0202020"
             borderSize: 2
         }
 
@@ -171,12 +145,172 @@ Rectangle {
             label: "+"
             labelSize: 12
             labelColor: "#FFB0B0B0"
-            gradientColorTop: "#A0101010"
-            gradientOnHoverColorTop: "#A0303030"
-            gradientColorBottom: "#A0000000"
-            gradientOnHoverColorBottom: "#A0202020"
             borderSize: 2
+        }        
+    }    
+
+    UserBlock {
+        id: user1
+        objectName: "user1"
+
+        x: parent.width * 0.35 - width * 0.5
+        y: 80 - height * 0.5
+
+        ublockWidth: 160
+        ublockHeight: 40
+        cardsSize: 0.7
+        labelSize: 8
+    }   
+
+    UserBlock {
+        id: user2
+        objectName: "user2"
+
+        x: parent.width * 0.65 - width * 0.5
+        y: 80 - height * 0.5
+
+        ublockWidth: 160
+        ublockHeight: 40
+        cardsSize: 0.7
+        labelSize: 8
+    }   
+
+    UserBlock {
+        id: user3
+        objectName: "user3"
+
+        x: parent.width * 0.9 - width * 0.5
+        y: parent.height * 0.35 - height * 0.5
+
+        ublockWidth: 160
+        ublockHeight: 40
+        cardsSize: 0.7
+        labelSize: 8
+    }       
+
+    UserBlock {
+        id: user4
+        objectName: "user4"
+
+        x: parent.width * 0.9 - width * 0.5
+        y: parent.height * 0.65 - height * 0.5
+
+        ublockWidth: 160
+        ublockHeight: 40
+        cardsSize: 0.7
+        labelSize: 8
+    }
+
+    UserBlock {
+        id: user5
+        objectName: "user5"
+
+        x: parent.width * 0.65 - width * 0.5
+        y: parent.height - 100 - height * 0.5
+
+        ublockWidth: 160
+        ublockHeight: 40
+        cardsSize: 0.7
+        labelSize: 8
+    }
+
+    UserBlock {
+        id: user6
+        objectName: "user6"
+
+        x: parent.width * 0.35 - width * 0.5
+        y: parent.height - 100 - height * 0.5
+
+        ublockWidth: 160
+        ublockHeight: 40
+        cardsSize: 0.7
+        labelSize: 8
+    }
+
+    UserBlock {
+        id: user7
+        objectName: "user7"
+
+        x: parent.width * 0.1 - width * 0.5
+        y: parent.height * 0.65 - height * 0.5
+
+        ublockWidth: 160
+        ublockHeight: 40
+        cardsSize: 0.7
+        labelSize: 8
+    }
+
+    UserBlock {
+        id: user8
+        objectName: "user8"
+
+        x: parent.width * 0.1 - width * 0.5
+        y: parent.height * 0.35 - height * 0.5
+
+        ublockWidth: 160
+        ublockHeight: 40
+        cardsSize: 0.7
+        labelSize: 8
+    }
+
+    CardImage {
+        id: card1
+        objectName: "card1"
+
+        x: parent.width * 0.5 - width - getCard1Position()
+        y: (parent.height - height * 1.4) * 0.5
+    }
+
+    CardImage {
+        id: card2
+        objectName: "card2"
+
+        x: parent.width * 0.5 - width - getCard2Position()
+        y: (parent.height - height * 1.4) * 0.5
+    }
+
+    CardImage {
+        id: card3
+        objectName: "card3"
+
+        x: parent.width * 0.5 + getCard3Position()
+        y: (parent.height - height * 1.4) * 0.5
+    }
+
+    CardImage {
+        id: card4
+        objectName: "card4"
+
+        currentFrame: 83
+
+        x: parent.width * 0.5 + getCard4Position()
+        y: (parent.height - height * 1.4) * 0.5
+    }
+
+    CardImage {
+        id: card5
+        objectName: "card5"
+
+        currentFrame: 83
+
+        x: parent.width * 0.5 + getCard5Position()
+        y: (parent.height - height * 1.4) * 0.5
+    }
+
+    Rectangle {
+        id: blockBankValue
+
+        width: textBankValue.paintedWidth + 16 * 2
+        height: 32
+        x: (parent.width - width) * 0.5
+        y: parent.height * 0.5 + card1.height * 0.65 - height * 0.5
+        color: "#80101010"
+        border {
+            width: 2;
+            color: "#80000000"
         }
+        radius: 2
+        smooth: true
 
         Text {
             id: textBankValue
@@ -184,7 +318,7 @@ Rectangle {
 
             property string bankValue: "60"
 
-            anchors.left: buttonInc.right
+            anchors.left: parent.left
             anchors.leftMargin: 16
             anchors.top: parent.top
             anchors.topMargin: (parent.height - paintedHeight) * 0.5
@@ -198,196 +332,67 @@ Rectangle {
         }
     }
 
-    CardImage {
-        id: cardImage1User3
-        objectName: "cardImage1User3"
-
-        cardSize: 0.75
-        anchors.top: user3.bottom
-        anchors.topMargin: 6
-        anchors.right: user3.right
-        anchors.rightMargin: 40
-    }
-
-    CardImage {
-        id: cardImage2User3
-        objectName: "cardImage2User3"
-
-        cardSize: 0.75
-        anchors.top: user3.bottom
-        anchors.topMargin: 6
-        anchors.right: user3.right
-        anchors.rightMargin: 10
-    }
-
-    UserBlock {
-        id: user3
-        objectName: "user3"
-
-        anchors.top: parent.top
-        anchors.topMargin: 6
-        anchors.right: parent.right
-        anchors.rightMargin: 6
-        ublockWidth: 260
-        ublockHeight: 64
-        labelSize: 12        
-    }
-
-    CardImage {
-        id: cardImage1User2
-        objectName: "cardImage1User2"
-
-        cardSize: 0.75
-        anchors.top: user2.bottom
-        anchors.topMargin: 6
-        anchors.right: user2.right
-        anchors.rightMargin: 40
-    }
-
-    CardImage {
-        id: cardImage2User2
-        objectName: "cardImage2User2"
-
-        cardSize: 0.75
-        anchors.top: user2.bottom
-        anchors.topMargin: 6
-        anchors.right: user2.right
-        anchors.rightMargin: 10
-    }
-
-    UserBlock {
-        id: user2
-        objectName: "user2"
-
-        anchors.top: parent.top
-        anchors.topMargin: 6
-        anchors.right: user3.left
-        anchors.rightMargin: 12
-        ublockWidth: 260
-        ublockHeight: 64
-        labelSize: 12
-    }   
-
-    CardImage {
-        id: cardImage1User1
-        objectName: "cardImage1User1"
-
-        cardSize: 0.75
-        anchors.top: user1.bottom
-        anchors.topMargin: 6
-        anchors.right: user1.right
-        anchors.rightMargin: 40
-    }
-
-    CardImage {
-        id: cardImage2User1
-        objectName: "cardImage2User1"
-
-        cardSize: 0.75
-        anchors.top: user1.bottom
-        anchors.topMargin: 6
-        anchors.right: user1.right
-        anchors.rightMargin: 10
-    }
-
-    UserBlock {
-        id: user1
-        objectName: "user1"
-
-        anchors.top: parent.top
-        anchors.topMargin: 6
-        anchors.right: user2.left
-        anchors.rightMargin: 12
-        ublockWidth: 260
-        ublockHeight: 64
-        labelSize: 12
-    }   
-
-    CardImage {
-        id: cardImageSelf1
-        objectName: "cardImageSelf1"
-
-        anchors.top: parent.bottom
-        anchors.topMargin: -126
-        anchors.left: parent.right
-        anchors.leftMargin: -140
-    }
-
-    CardImage {
-        id: cardImageSelf2
-        objectName: "cardImageSelf2"
-
-        anchors.top: parent.bottom
-        anchors.topMargin: -126
-        anchors.left: parent.right
-        anchors.leftMargin: -106
-    }
-
-    UserBlock {
-        id: userSelf
-        objectName: "userSelf"
-
-        anchors.top: parent.bottom
-        anchors.topMargin: -60 - 6
-        anchors.left: parent.right
-        anchors.leftMargin: -260 - 6
-        ublockWidth: 260
-        ublockHeight: 60
-        labelSize: 12
-        userAvaImage: 4
-        failedUser: false
-        gradientColorTop: "#FB101010"
-        gradientOnActiveColorTop: "#FB303030"
-        gradientOnFailColorTop: "#FB303040"
-        gradientColorBottom: "#FB000000"
-        gradientOnActiveColorBottom: "#FB202020"
-    }
-
-    CardImage {
-        id: card3
-        objectName: "card3"
-
-        anchors.centerIn: parent
-    }
-
-    CardImage {
-        id: card2
-        objectName: "card2"
-
-        anchors.top: card3.top
-        anchors.right: card3.left
-        anchors.rightMargin: 18
-    }
-
-    CardImage {
-        id: card1
-        objectName: "card1"
-
-        anchors.top: card3.top
-        anchors.right: card2.left
-        anchors.rightMargin: 18
-    }
-
-    CardImage {
-        id: card4
-        objectName: "card4"
-
-        anchors.top: card3.top
-        anchors.left: card3.right
-        anchors.leftMargin: 18
-    }
-
-    CardImage {
-        id: card5
-        objectName: "card5"
-
-        anchors.top: card3.top
-        anchors.left: card4.right
-        anchors.leftMargin: 18
-    }
-
     Gradient {
         GradientStop { position: 0.0; color: "#FF393939" }
         GradientStop { position: 1.0; color: "#FF222222" }
+    }
+
+    function getCardsCount() {
+        var count = 3
+        if (card4.currentFrame != 83)
+            ++count
+        if (card5.currentFrame != 83)
+            ++count
+        return count
+    }
+
+    function getCard1Position() {
+        switch (getCardsCount())
+        {
+        case 3: return card2.width * 0.5 + 18
+        case 4: return card2.width + 18  + 18 * 0.5
+        case 5: return card3.width * 0.5 + card2.width + 18 + 18
+        default: return 0
+        }
+    }
+
+    function getCard2Position() {
+        switch (getCardsCount())
+        {
+        case 3: return -card2.width * 0.5
+        case 4: return 18 * 0.5
+        case 5: return card3.width * 0.5 + 18
+        default: return 0
+        }
+    }
+
+    function getCard3Position() {
+        switch (getCardsCount())
+        {
+        case 3: return card2.width * 0.5 + 18
+        case 4: return 18 * 0.5
+        case 5: return -card3.width * 0.5
+        default: return 0
+        }
+    }
+
+    function getCard4Position() {
+        switch (getCardsCount())
+        {
+        case 3: return 0
+        case 4: return card3.width + 18  + 18 * 0.5
+        case 5: return card3.width * 0.5 + 18
+        default: return 0
+        }
+    }
+
+    function getCard5Position() {
+        switch (getCardsCount())
+        {
+        case 3: return 0
+        case 4: return 0
+        case 5: return card3.width * 0.5 + card4.width + 18 + 18
+        default: return 0
+        }
     }
 }

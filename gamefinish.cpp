@@ -25,7 +25,7 @@ QDataStream &operator>>(QDataStream &in, GameFinish &action)
     quint32 length;
     in >> length;
     UserCardSet set;
-    for (long i = 0; i < length; i++){
+    for (quint32 i = 0; i < length; i++){
         in >> set;
         action.winners.push_back(set);
     }

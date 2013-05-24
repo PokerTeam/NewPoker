@@ -1,4 +1,3 @@
-// import QtQuick 1.0 // to target S60 5th Edition or Maemo 5
 import QtQuick 1.1
 
 Rectangle {
@@ -13,7 +12,7 @@ Rectangle {
     height: 118 * cardSize
     color: "transparent"
 
-    Item{
+    Item {
         id: cardBody
 
         anchors.centerIn: parent
@@ -21,7 +20,7 @@ Rectangle {
         width: cardImage.width / framesCountX
         height: cardImage.height / framesCountY
 
-        Image{
+        Image {
             id: cardImage
 
             source: "cards.png"
@@ -47,5 +46,12 @@ Rectangle {
 
     function getFrameY() {
         return Math.floor(getCurrentFrame() / framesCountX)
+    }
+
+    function getWidth() {
+        if (currentFrame == 83)
+            return 0
+        else
+            return width
     }
 }

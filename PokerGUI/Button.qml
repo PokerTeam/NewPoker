@@ -8,13 +8,16 @@ Rectangle {
     property int borderSize: 2
     property int borderRadius: 2
     property int animationDuration: 120
+    property bool enabled: true
 
     property color gradientColorTop: "#FF101010"
     property color gradientOnHoverColorTop: "#FF303030"
     property color gradientColorBottom: "#FF101010"
     property color gradientOnHoverColorBottom: "#FF252525"
+    property color disabledColor: "#80363636"
     property color borderColor: "#20FFFFFF"
     property color borderOnHoverColor: "#24FFFFFF"
+    property color borderDisabledColor: "#80000000"
 
     property color labelColor: "#FFFFFFFF"
     property bool labelBold: true
@@ -36,14 +39,14 @@ Rectangle {
     border {
         width: borderSize;
         Behavior on color { ColorAnimation { duration: animationDuration } }
-        color: borderColor }
+        color: (enabled) ? borderColor : borderDisabledColor }
     gradient: Gradient {
         GradientStop { position: 0.0;
             Behavior on color { ColorAnimation { duration: animationDuration } }
-            color: gradientColorTop }
+            color: (enabled) ? gradientColorTop : disabledColor }
         GradientStop { position: 1.0;
             Behavior on color { ColorAnimation { duration: animationDuration } }
-            color: gradientColorBottom }
+            color: (enabled) ? gradientColorBottom : disabledColor }
     }
 
     Text {
@@ -63,7 +66,7 @@ Rectangle {
 
         anchors.fill: parent
         hoverEnabled: true
-        onClicked: buttonClick()     
+        onClicked: if (enabled) buttonClick()
         onEntered: buttonOnHover(true)
         onExited:  buttonOnHover(false)
     }    
@@ -74,14 +77,14 @@ Rectangle {
 
     function buttonOnHover(isHover) {
         if (isHover) {
-            border.color = borderOnHoverColor
-            gradient.stops[0].color = gradientOnHoverColorTop
-            gradient.stops[1].color = gradientOnHoverColorBottom
+            border.color = (enabled) ? borderOnHoverColor : borderDisabledColor
+            gradient.stops[0].color = (enabled) ? gradientOnHoverColorTop : disabledColor
+            gradient.stops[1].color = (enabled) ? gradientOnHoverColorBottom : disabledColor
         }
         else {
-            border.color = borderColor
-            gradient.stops[0].color = gradientColorTop
-            gradient.stops[1].color = gradientColorBottom
+            border.color = (enabled) ? borderColor : borderDisabledColor
+            gradient.stops[0].color = (enabled) ? gradientColorTop : disabledColor
+            gradient.stops[1].color = (enabled) ? gradientColorBottom : disabledColor
         }
     }
 

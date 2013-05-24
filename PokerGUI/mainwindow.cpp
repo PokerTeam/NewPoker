@@ -4,6 +4,7 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {    
+    this->setWindowTitle("Amaizing Poker");
     ui = new QDeclarativeView;
     client = new Client();
     client->connectToServer();
@@ -27,7 +28,8 @@ MainWindow::MainWindow(QWidget *parent) :
             this, SLOT(OnNextCardDealed(Card)));
     connect(client, SIGNAL(onGameFinished(GameFinish)),
             this, SLOT(OnGameFinished(GameFinish)));
-    SetLoginScreen();    
+    //SetLoginScreen();
+    SetGameScreen();
 }
 
 MainWindow::~MainWindow()
@@ -158,15 +160,15 @@ void MainWindow::SetupGameUserBlocks(QObject *aRoot)
     user->setProperty("failedUser", true);
     user->setProperty("userAvaImage", 0);
 
-    user = aRoot->findChild<QObject*>("userSelf");
+    /*user = aRoot->findChild<QObject*>("userSelf");
     user->setProperty("activeUser", false);
     user->setProperty("failedUser", true);
-    user->setProperty("userAvaImage", 4);
+    user->setProperty("userAvaImage", 4);*/
 }
 
 void MainWindow::SetupGameCardImages(QObject *aRoot)
 {
-    QObject* card = aRoot->findChild<QObject*>("cardImageSelf1");
+    /*QObject* card = aRoot->findChild<QObject*>("cardImageSelf1");
     card->setProperty("currentFrame", 13);
 
     card = aRoot->findChild<QObject*>("cardImageSelf2");
@@ -203,7 +205,7 @@ void MainWindow::SetupGameCardImages(QObject *aRoot)
     card->setProperty("currentFrame", 83);
 
     card = aRoot->findChild<QObject*>("cardImage2User3");
-    card->setProperty("currentFrame", 83);
+    card->setProperty("currentFrame", 83);*/
 }
 
 void MainWindow::OnButtonLoginClick()
