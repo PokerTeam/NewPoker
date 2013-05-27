@@ -149,63 +149,99 @@ void MainWindow::SetupGameUserBlocks(QObject *aRoot)
     user->setProperty("activeUser", false);
     user->setProperty("failedUser", true);
     user->setProperty("userAvaImage", 0);
+    user->setProperty("selfUser", true);
 
     user = aRoot->findChild<QObject*>("user2");
     user->setProperty("activeUser", false);
     user->setProperty("failedUser", true);
     user->setProperty("userAvaImage", 0);
+    user->setProperty("selfUser", false);
 
     user = aRoot->findChild<QObject*>("user3");
     user->setProperty("activeUser", false);
     user->setProperty("failedUser", true);
-    user->setProperty("userAvaImage", 0);
+    user->setProperty("userAvaImage", 0);    
+    user->setProperty("selfUser", false);
 
-    /*user = aRoot->findChild<QObject*>("userSelf");
+    user = aRoot->findChild<QObject*>("user4");
     user->setProperty("activeUser", false);
     user->setProperty("failedUser", true);
-    user->setProperty("userAvaImage", 4);*/
+    user->setProperty("userAvaImage", 0);
+    user->setProperty("selfUser", false);
+
+    user = aRoot->findChild<QObject*>("user5");
+    user->setProperty("activeUser", false);
+    user->setProperty("failedUser", true);
+    user->setProperty("userAvaImage", 0);
+    user->setProperty("selfUser", false);
+
+    user = aRoot->findChild<QObject*>("user6");
+    user->setProperty("activeUser", false);
+    user->setProperty("failedUser", true);
+    user->setProperty("userAvaImage", 0);
+    user->setProperty("selfUser", false);
+
+    user = aRoot->findChild<QObject*>("user7");
+    user->setProperty("activeUser", false);
+    user->setProperty("failedUser", true);
+    user->setProperty("userAvaImage", 0);
+    user->setProperty("selfUser", false);
+
+    user = aRoot->findChild<QObject*>("user8");
+    user->setProperty("activeUser", false);
+    user->setProperty("failedUser", true);
+    user->setProperty("userAvaImage", 0);
+    user->setProperty("selfUser", false);
 }
 
 void MainWindow::SetupGameCardImages(QObject *aRoot)
 {
-    /*QObject* card = aRoot->findChild<QObject*>("cardImageSelf1");
-    card->setProperty("currentFrame", 13);
-
-    card = aRoot->findChild<QObject*>("cardImageSelf2");
-    card->setProperty("currentFrame", 13);
-
-    card = aRoot->findChild<QObject*>("card1");
-    card->setProperty("currentFrame", 83);
+    QObject* card = aRoot->findChild<QObject*>("card1");
+    card->setProperty("currentFrame", 22);
 
     card = aRoot->findChild<QObject*>("card2");
-    card->setProperty("currentFrame", 83);
+    card->setProperty("currentFrame", 24);
 
     card = aRoot->findChild<QObject*>("card3");
-    card->setProperty("currentFrame", 83);
+    card->setProperty("currentFrame", 14);
 
     card = aRoot->findChild<QObject*>("card4");
-    card->setProperty("currentFrame", 83);
+    card->setProperty("currentFrame", 31);
 
     card = aRoot->findChild<QObject*>("card5");
     card->setProperty("currentFrame", 83);
 
-    card = aRoot->findChild<QObject*>("cardImage1User1");
-    card->setProperty("currentFrame", 83);
+    QObject* user = aRoot->findChild<QObject*>("user1");
+    user->setProperty("card1", 13);
+    user->setProperty("card2", 13);
 
-    card = aRoot->findChild<QObject*>("cardImage2User1");
-    card->setProperty("currentFrame", 83);
+    user = aRoot->findChild<QObject*>("user2");
+    user->setProperty("card1", 13);
+    user->setProperty("card2", 13);
 
-    card = aRoot->findChild<QObject*>("cardImage1User2");
-    card->setProperty("currentFrame", 83);
+    user = aRoot->findChild<QObject*>("user3");
+    user->setProperty("card1", 13);
+    user->setProperty("card2", 13);
 
-    card = aRoot->findChild<QObject*>("cardImage2User2");
-    card->setProperty("currentFrame", 83);
+    user = aRoot->findChild<QObject*>("user4");
+    user->setProperty("card1", 13);
+    user->setProperty("card2", 13);
 
-    card = aRoot->findChild<QObject*>("cardImage1User3");
-    card->setProperty("currentFrame", 83);
+    user = aRoot->findChild<QObject*>("user5");
+    user->setProperty("card1", 13);
+    user->setProperty("card2", 13);
 
-    card = aRoot->findChild<QObject*>("cardImage2User3");
-    card->setProperty("currentFrame", 83);*/
+    user = aRoot->findChild<QObject*>("user6");
+    user->setProperty("card1", 13);
+    user->setProperty("card2", 13);
+
+    user = aRoot->findChild<QObject*>("user7");
+    user->setProperty("card1", 13);
+    user->setProperty("card2", 13);
+
+    user = aRoot->findChild<QObject*>("user8");
+    user->setProperty("card1", 13);
+    user->setProperty("card2", 13);
 }
 
 void MainWindow::OnButtonLoginClick()

@@ -28,6 +28,7 @@ Rectangle {
 
     property bool activeUser: false
     property bool failedUser: true
+    property bool selfUser: false
     property int userAvaImage: 0
     property real cardsSize: 1
     property int card1: 42
@@ -56,11 +57,12 @@ Rectangle {
     }
 
     Rectangle {
+        radius: (selfUser) ? 8 : 0
         anchors.fill: parent
         smooth: true
         clip: true
         border {
-            width: (!activeUser) ? borderSize : 2;
+            width: (selfUser) ? (borderSize * 2) : (!activeUser) ? borderSize : 2;
             Behavior on color { ColorAnimation { duration: animationDuration } }
             color: (!activeUser) ?
                        ((!failedUser) ? borderColor : borderOnFailColor) :
