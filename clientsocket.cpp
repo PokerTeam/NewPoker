@@ -100,7 +100,8 @@ void ClientSocket::doUserJoinGame(QList<UserInfo> users)
     out.setVersion(QDataStream::Qt_4_6);
     out << quint16(0) << quint16(Commands::joinGame);
     out << qint32(users.size());
-    foreach (UserInfo user, users){
+    foreach (UserInfo user, users)
+    {
         out << user;
     }
     out.device()->seek(0);

@@ -49,7 +49,7 @@ void Game::incrementLoopCounter(long userId)
 
 void Game::joinGame(UserInfo* user)
 {
-    if (usersInGame.length() <= 4)
+    if (usersInGame.length() <= 8)
     {
         usersInGame.push_back(*user);
         emit onUserJoinGame(usersInGame);
@@ -122,8 +122,6 @@ UserInfo Game::getBigBlind()
 
 long Game::getCursor(long cursorValue)
 {
-    long length = usersInGame.length();
-    long result = cursorValue % length;
     return cursorValue % usersInGame.length();
 }
 

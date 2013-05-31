@@ -3,14 +3,14 @@
 
 class UserLeaveAction
 {
+private:
+    long userId;
+    long moneyToBank;
+
 public:
     UserLeaveAction(long userId, long moneyToBank);
     long getUserId();
     long getMoneyToBank();
-
-private:
-    long userId;
-    long moneyToBank;
 };
 
 #endif // USERLEAVEACTION_H

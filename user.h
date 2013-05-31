@@ -5,6 +5,13 @@
 
 class User
 {
+private:
+    long userId;
+    QString username;
+    QString password;
+        //Need to move this field to separate class(When we will do refactoring).
+    long money;
+
 public:
     User(long userId, QString username, QString password, long money = 0);
     User(QString username, QString password, long money = 0);
@@ -13,13 +20,6 @@ public:
     QString getPassword();
     long getMoney();
     long setMoney(long newValue);
-
-private:
-    long userId;
-    QString username;
-    QString password;
-        //Need to move this field to separate class(When we will do refactoring).
-    long money;
 };
 
 #endif // USER_H

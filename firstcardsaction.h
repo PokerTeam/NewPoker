@@ -5,6 +5,11 @@
 
 class FirstCardsAction
 {
+private:
+    Card firstCard;
+    Card secondCard;
+    Card thirdCard;
+
 public:
     FirstCardsAction();
     FirstCardsAction(Card firstCard, Card secondCard, Card thirdCard);
@@ -14,11 +19,6 @@ public:
 
     friend QDataStream &operator<<(QDataStream &out,FirstCardsAction &info);
     friend QDataStream &operator>>(QDataStream &in, FirstCardsAction &info);
-
-private:
-    Card firstCard;
-    Card secondCard;
-    Card thirdCard;
 };
 
 #endif // FIRSTCARDSACTION_H

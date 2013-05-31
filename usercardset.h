@@ -2,11 +2,17 @@
 #define USERCARDSET_H
 
 #include <QList>
+
 #include "card.h"
 #include "userinfo.h"
 
 class UserCardSet
 {
+private:
+    Card firstCard;
+    Card secondCard;
+    UserInfo user;
+
 public:
     UserCardSet() { firstCard = Card(); secondCard = Card(); user = UserInfo(); }
     UserCardSet(UserInfo user,
@@ -18,11 +24,6 @@ public:
 
     friend QDataStream &operator<<(QDataStream &out,UserCardSet &set);
     friend QDataStream &operator>>(QDataStream &in, UserCardSet &set);
-
-private:
-    Card firstCard;
-    Card secondCard;
-    UserInfo user;
 };
 
 #endif // USERCARDSET_H

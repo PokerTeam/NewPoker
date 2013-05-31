@@ -6,6 +6,12 @@
 
 class UserAction
 {
+private:
+    UserInfo user;
+    Actions action;
+        //-1 if action is Fold or Check.
+    int money;
+
 public:
     UserAction();
         //We pass User class as argument because we need to verify password.
@@ -16,12 +22,6 @@ public:
 
     friend QDataStream &operator<<(QDataStream &out,UserAction &action);
     friend QDataStream &operator>>(QDataStream &in, UserAction &action);
-
-private:
-    UserInfo user;
-    Actions action;
-        //-1 if action is Fold or Check.
-    int money;
 };
 
 #endif // USERACTION_H

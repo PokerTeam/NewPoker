@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QList>
 #include <QMap>
+
 #include "user.h"
 #include "gameaction.h"
 #include "card.h"
@@ -22,9 +23,6 @@
 class Game : public QObject
 {
     Q_OBJECT
-
-public:
-    Game(AccountManager* accountManager);
 
 private:
     static const long BIG_BLIND_BID = 2;
@@ -76,6 +74,9 @@ private:
     long getUserMovesCount(long userId);
     bool isUserActiveForBids(long userId);
 
+public:
+    Game(AccountManager* accountManager);
+
 public slots:
         //When user do his step.
     void doAction(UserAction userAction);
@@ -84,7 +85,7 @@ public slots:
 signals:
         //if more than 2 users joined , we need to start the game.
     void onUserJoinGame(QList<UserInfo> usersInGame);
-    void onJoinUserFailed(long userId);
+    void onJoinUserFailed(long userId);    
         //Deal hidden cards.
         //And We need to fill cardSets collection.
     void gameStarted(GameStartAction gameStartAction);

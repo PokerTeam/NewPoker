@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QtNetwork/QTcpSocket>
+
 #include "qstringlist.h"
 #include "server.h"
 #include "commands.h"
@@ -24,11 +25,23 @@ friend class Server;
 
     Q_OBJECT
 
+private:
+    QTcpSocket *_sok;
+    Server *_serv;
+    User * _user;
+    quint16 _blockSize;
+    bool _isAutched;
+
 public:
         //Конструктор для сервера
     Client(int desc, Server *serv);
 
     void ConnectToHost(QHostAddress address, qint16 port);
+
+private slots:
+    void onReadyRead();
+    void onDisconnect();
+    void onError(QAbstractSocket::SocketError socketError) const;
 
 public slots:
     bool doLogin(QString login, QString pass);
@@ -55,18 +68,6 @@ signals:
     void onUserAction(UserAction* userAction);
     void onUserLeaveGame(UserLeaveAction* userLeaveAction);
     void onBankChanged(BankChangeAction* bankChangeAction);
-
-private slots:
-    void onReadyRead();
-    void onDisconnect();
-    void onError(QAbstractSocket::SocketError socketError) const;
-
-private:
-    QTcpSocket *_sok;
-    Server *_serv;
-    User * _user;
-    quint16 _blockSize;
-    bool _isAutched;
 };
 
 #endif // CLIENT_H

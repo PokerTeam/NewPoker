@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QTcpSocket>
 #include <QDataStream>
+
 #include "commands.h"
 #include "loginresult.h"
 #include "gamestartaction.h"
@@ -13,10 +14,18 @@
 #include "firstcardsaction.h"
 #include "gamefinish.h"
 
-
 class ClientSocket : public QTcpSocket
 {
     Q_OBJECT
+
+private:
+    quint16 nextBlockSize;
+
+    void sendLoginRequest(LoginResult* login);
+    void processRegisterRequest(QDataStream &stream);
+    void processLoginRequest(QDataStream &stream);
+    void processJoinGameRequest(QDataStream &stream);
+    void processUserActionRequest(QDataStream &stream);
 
 public:
     ClientSocket(QObject* parent = 0);
@@ -37,15 +46,6 @@ private slots:
     void doFirstCardsAction(FirstCardsAction action);
     void doNextCardsDealed(Card);
     void doGameFinished(GameFinish action);
-
-private:
-    quint16 nextBlockSize;
-
-    void sendLoginRequest(LoginResult* login);
-    void processRegisterRequest(QDataStream &stream);
-    void processLoginRequest(QDataStream &stream);
-    void processJoinGameRequest(QDataStream &stream);
-    void processUserActionRequest(QDataStream &stream);
 };
 
 #endif // CLIENTSOCKET_H

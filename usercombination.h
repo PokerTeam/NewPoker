@@ -1,37 +1,15 @@
 #ifndef USERCOMBINATION_H
 #define USERCOMBINATION_H
 
-#include "user.h"
-#include "usercardset.h"
-#include "combination.h"
 #include <QList>
 #include <QMap>
 
+#include "user.h"
+#include "usercardset.h"
+#include "combination.h"
+
 class UserCombination
 {
-
-public:
-    UserCombination(UserCardSet userCards, QList<Card> tableCards);
-    QList<Card> GetCardsCombination()
-    {
-        return cardsCombination;
-    }
-
-    Combination GetCombinationValue()
-    {
-        return combinationValue;
-    }
-
-    QList<Card> GetControversialCards()
-    {
-        return controversialCards;
-    }
-
-    UserInfo GetUser()
-    {
-        return user;
-    }
-
 private:
     UserCardSet cardSet;
     UserInfo user;
@@ -115,6 +93,28 @@ private:
     void determineControversialCard(Card firstCard,
                                     Card secondCard);
     void addHandCardsToControversialCards();
+
+public:
+    UserCombination(UserCardSet userCards, QList<Card> tableCards);
+    QList<Card> GetCardsCombination()
+    {
+        return cardsCombination;
+    }
+
+    Combination GetCombinationValue()
+    {
+        return combinationValue;
+    }
+
+    QList<Card> GetControversialCards()
+    {
+        return controversialCards;
+    }
+
+    UserInfo GetUser()
+    {
+        return user;
+    }
 };
 
 #endif // USERCOMBINATION_H

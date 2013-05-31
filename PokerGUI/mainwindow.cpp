@@ -4,37 +4,38 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {    
-    this->setWindowTitle("Amaizing Poker");
+    this->setWindowTitle("Amaizing Poker");    
     ui = new QDeclarativeView;
+    SetLoginScreen();
+
     client = new Client();
-    client->connectToServer();
-    connect(client, SIGNAL(onLoginResult(LoginResult*)),
+    client->ConnectToServer();
+    connect(client, SIGNAL(OnLoginResult(LoginResult*)),
             this, SLOT(OnLoginResult(LoginResult*)));
-    connect(this, SIGNAL(joinGame(UserInfo*)),
-            client, SLOT(doJoinGameRequest(UserInfo*)));
-    connect(client, SIGNAL(userJoinedGame(QList<UserInfo>)),
+    connect(this, SIGNAL(JoinGame(UserInfo*)),
+            client, SLOT(DoJoinGameRequest(UserInfo*)));
+    connect(client, SIGNAL(UserJoinedGame(QList<UserInfo>)),
             this, SLOT(OnUserJoinedGame(QList<UserInfo>)));
-    connect(client, SIGNAL(onGameStart(GameStartAction)),
+    connect(client, SIGNAL(OnGameStart(GameStartAction)),
             this, SLOT(OnGameStart(GameStartAction)));
-    connect(client, SIGNAL(onUserMove(UserMoveAction)),
+    connect(client, SIGNAL(OnUserMove(UserMoveAction)),
             this, SLOT(OnUserMove(UserMoveAction)));
-    connect(client, SIGNAL(onUserAction(UserAction)),
+    connect(client, SIGNAL(OnUserAction(UserAction)),
             this, SLOT(OnUserAction(UserAction)));
-    connect(client, SIGNAL(onBankChange(BankChangeAction)),
+    connect(client, SIGNAL(OnBankChange(BankChangeAction)),
             this, SLOT(OnBankChange(BankChangeAction)));
-    connect(client, SIGNAL(onFirstCardsAction(FirstCardsAction)),
+    connect(client, SIGNAL(OnFirstCardsAction(FirstCardsAction)),
             this, SLOT(OnFirstCardsAction(FirstCardsAction)));
-    connect(client, SIGNAL(onNextCardDealed(Card)),
+    connect(client, SIGNAL(OnNextCardDealed(Card)),
             this, SLOT(OnNextCardDealed(Card)));
-    connect(client, SIGNAL(onGameFinished(GameFinish)),
-            this, SLOT(OnGameFinished(GameFinish)));
-    //SetLoginScreen();
-    SetGameScreen();
+    connect(client, SIGNAL(OnGameFinished(GameFinish)),
+            this, SLOT(OnGameFinished(GameFinish)));    
 }
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+    delete client;
+    delete ui;    
 }
 
 void MainWindow::SetupUI(QString path)
@@ -149,7 +150,7 @@ void MainWindow::SetupGameUserBlocks(QObject *aRoot)
     user->setProperty("activeUser", false);
     user->setProperty("failedUser", true);
     user->setProperty("userAvaImage", 0);
-    user->setProperty("selfUser", true);
+    user->setProperty("selfUser", false);
 
     user = aRoot->findChild<QObject*>("user2");
     user->setProperty("activeUser", false);
@@ -197,51 +198,51 @@ void MainWindow::SetupGameUserBlocks(QObject *aRoot)
 void MainWindow::SetupGameCardImages(QObject *aRoot)
 {
     QObject* card = aRoot->findChild<QObject*>("card1");
-    card->setProperty("currentFrame", 22);
+    card->setProperty("currentFrame", 83);
 
     card = aRoot->findChild<QObject*>("card2");
-    card->setProperty("currentFrame", 24);
+    card->setProperty("currentFrame", 83);
 
     card = aRoot->findChild<QObject*>("card3");
-    card->setProperty("currentFrame", 14);
+    card->setProperty("currentFrame", 83);
 
     card = aRoot->findChild<QObject*>("card4");
-    card->setProperty("currentFrame", 31);
+    card->setProperty("currentFrame", 83);
 
     card = aRoot->findChild<QObject*>("card5");
     card->setProperty("currentFrame", 83);
 
     QObject* user = aRoot->findChild<QObject*>("user1");
-    user->setProperty("card1", 13);
-    user->setProperty("card2", 13);
+    user->setProperty("card1", 83);
+    user->setProperty("card2", 83);
 
     user = aRoot->findChild<QObject*>("user2");
-    user->setProperty("card1", 13);
-    user->setProperty("card2", 13);
+    user->setProperty("card1", 83);
+    user->setProperty("card2", 83);
 
     user = aRoot->findChild<QObject*>("user3");
-    user->setProperty("card1", 13);
-    user->setProperty("card2", 13);
+    user->setProperty("card1", 83);
+    user->setProperty("card2", 83);
 
     user = aRoot->findChild<QObject*>("user4");
-    user->setProperty("card1", 13);
-    user->setProperty("card2", 13);
+    user->setProperty("card1", 83);
+    user->setProperty("card2", 83);
 
     user = aRoot->findChild<QObject*>("user5");
-    user->setProperty("card1", 13);
-    user->setProperty("card2", 13);
+    user->setProperty("card1", 83);
+    user->setProperty("card2", 83);
 
     user = aRoot->findChild<QObject*>("user6");
-    user->setProperty("card1", 13);
-    user->setProperty("card2", 13);
+    user->setProperty("card1", 83);
+    user->setProperty("card2", 83);
 
     user = aRoot->findChild<QObject*>("user7");
-    user->setProperty("card1", 13);
-    user->setProperty("card2", 13);
+    user->setProperty("card1", 83);
+    user->setProperty("card2", 83);
 
     user = aRoot->findChild<QObject*>("user8");
-    user->setProperty("card1", 13);
-    user->setProperty("card2", 13);
+    user->setProperty("card1", 83);
+    user->setProperty("card2", 83);
 }
 
 void MainWindow::OnButtonLoginClick()
@@ -250,15 +251,19 @@ void MainWindow::OnButtonLoginClick()
     QString login = textArea->property("textContent").toString();
     textArea = root->findChild<QObject*>("textAreaPassword");
     QString password = textArea->property("textContent").toString();
-    client->doLoginRequest(login, password);
+    client->DoLoginRequest(login, password);
 }
 
 void MainWindow::OnLoginResult(LoginResult* loginResult)
 {
-    if (loginResult->getIsSuccessed()){
+    if (loginResult->getIsSuccessed())
+    {
         userInfo = (*loginResult).getUser();
-        emit joinGame(&userInfo);
-    }else{
+        SetGameScreen();
+        emit JoinGame(&userInfo);
+    }
+    else
+    {
         QObject* textArea = root->findChild<QObject*>("textAreaPassword");
         textArea->setProperty("textAreaHint", loginResult->getMessage());
     }
@@ -282,6 +287,7 @@ void MainWindow::OnGameStart(GameStartAction action)
     AppendInfo(action.getBigBlind().getUserId(), "Big");
     AppendInfo(action.getSmallBlind().getUserId(), "Small");
     AppendInfo(action.getUserWithButton().getUserId(), "Btn");
+
     foreach (UserCardSet set, action.getCards())
     {
         if (set.getUser().getUserId() == userInfo.getUserId())
@@ -374,7 +380,7 @@ void MainWindow::AppendInfo(long userId, QString info)
 
 long MainWindow::GetAvaliblePosition()
 {
-    for (long i = 1; i <= 3; i++)
+    for (long i = 1; i <= 8; i++)
     {
         if (!usersByPosition.contains(i))
         {
@@ -386,34 +392,32 @@ long MainWindow::GetAvaliblePosition()
 
 void MainWindow::UpdateUsersInGame(QList<UserInfo> users)
 {
+    SetupGameUserBlocks(root);
     foreach (UserInfo user, users)
     {
-        if (user.getUserId() == userInfo.getUserId())
+        long place = GetAvaliblePosition();
+        int userId = user.getUserId();
+        if (!usersUI.contains(userId))
         {
-            if (!usersUI.contains(user.getUserId()))
+            if (userId == userInfo.getUserId())
             {
-                SetGameScreen();
-                usersUI[user.getUserId()] = root->findChild<QObject*>("userSelf");
-                usersInGame[user.getUserId()] = user;
+                usersUI[userId] = root->findChild<QObject*>(GetUserFieldName(place));
+                usersUI[userId]->setProperty("userAvaImage", 1 + rand() % 5);
+                usersUI[userId]->setProperty("selfUser", true);
+                usersByPosition[place] = userId;
+                usersInGame[userId] = user;
             }
-        }
-    } //Because we need to show table first.
-    foreach (UserInfo user, users)
-    {
-        if (user.getUserId() != userInfo.getUserId())
-        {
-            if (!usersUI.contains(user.getUserId()))
+            else
             {
-                usersUI[user.getUserId()] = root->findChild<QObject*>(getUserFieldName(GetAvaliblePosition()));
-                usersUI[user.getUserId()]->setProperty("userAvaImage", (int)GetAvaliblePosition());
-                usersByPosition[GetAvaliblePosition()] = user.getUserId();
+                usersUI[userId] = root->findChild<QObject*>(GetUserFieldName(place));
+                usersUI[userId]->setProperty("userAvaImage", 1 + rand() % 5);
+                usersByPosition[place] = userId;
+                usersInGame[userId] = user;
             }
-            usersInGame[user.getUserId()] = user;
         }
     }
     UpdateUsers();
 }
-
 
 void MainWindow::UpdateUsers()
 {
@@ -421,12 +425,14 @@ void MainWindow::UpdateUsers()
     {
         QObject* userUI = usersUI[key];
         QString info = userAdditionalInfo.contains(key) ? "(" + userAdditionalInfo[key] + ")" : "";
-        userUI->setProperty("labelUsername", QString("%1 %2").arg(usersInGame[key].getUsername()).arg(info));
-        userUI->setProperty("labelUsercash", QString("%1 (%2)").arg(usersInGame[key].getUserMoney()).arg(usersInGame[key].getUserMoneyOnTable()));
+        userUI->setProperty("labelUsername",
+                            QString("%1 %2").arg(usersInGame[key].getUsername()).arg(info));
+        userUI->setProperty("labelUsercash",
+                            QString("%1 (%2)").arg(usersInGame[key].getUserMoney()).arg(usersInGame[key].getUserMoneyOnTable()));
     }
 }
 
-QString MainWindow::getUserFieldName(long position)
+QString MainWindow::GetUserFieldName(long position)
 {
     return QString("user%1").arg(position);
 }
@@ -437,7 +443,7 @@ void MainWindow::OnButtonRegisterClick()
     QString login = textArea->property("textContent").toString();
     textArea = root->findChild<QObject*>("textAreaPassword");
     QString password = textArea->property("textContent").toString();
-    client->doRegisterRequest(login, password);
+    client->DoRegisterRequest(login, password);
 }
 
 void MainWindow::OnUserAction(UserAction action)
@@ -509,17 +515,17 @@ void MainWindow::OnNextCardDealed(Card card)
 }
 
 void MainWindow::OnGameFinished(GameFinish action){
-    foreach(UserCardSet set, action.getWinners()){
+    foreach(UserCardSet set, action.getWinners())
+    {
         foreach(long position, usersByPosition.keys())
-            if (usersByPosition[position] == set.getUser().getUserId()){
-                QString firstCardName = QString("cardImage1User%1").arg(position);
-                QString secondCardName = QString("cardImage2User%1").arg(position);
-                QObject* card = root->findChild<QObject*>(firstCardName);
-                card->setProperty("currentFrame", Card::getCardImage(set.getFirstCard()));
-
-                card = root->findChild<QObject*>(secondCardName);
-                card->setProperty("currentFrame", Card::getCardImage(set.getSecondCard()));
+        {
+            if (usersByPosition[position] == set.getUser().getUserId())
+            {
+                QObject* userBlock = usersUI[position];
+                userBlock->setProperty("card1", Card::getCardImage(set.getFirstCard()));
+                userBlock->setProperty("card2", Card::getCardImage(set.getSecondCard()));
             }
+        }
     }
 }
 
@@ -530,29 +536,29 @@ void MainWindow::OnButtonExitClick()
 
 void MainWindow::OnButtonFoldClick()
 {
-    client->doUserActionRequest(UserAction(userInfo, FOLD, -1));
+    client->DoUserActionRequest(UserAction(userInfo, FOLD, -1));
 }
 
 void MainWindow::OnButtonCallClick()
 {
     if (minimumBid != 0)
     {
-        client->doUserActionRequest(UserAction(userInfo, CALL, minimumBid));
+        client->DoUserActionRequest(UserAction(userInfo, CALL, minimumBid));
     }
     else
     {
-        client->doUserActionRequest(UserAction(userInfo, CHECK, 0));
+        client->DoUserActionRequest(UserAction(userInfo, CHECK, 0));
     }
 }
 
 void MainWindow::OnButtonRaiseClick()
 {
-    client->doUserActionRequest(UserAction(userInfo, RAISE, currentBid));
+    client->DoUserActionRequest(UserAction(userInfo, RAISE, currentBid));
 }
 
 void MainWindow::OnButtonCheckClick()
 {
-    client->doUserActionRequest(UserAction(userInfo, CHECK, 0));
+    client->DoUserActionRequest(UserAction(userInfo, CHECK, 0));
 }
 
 void MainWindow::OnButtonRateIncClick()

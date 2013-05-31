@@ -20,6 +20,15 @@ private slots:
 
     void getCardImage_data();
     void getCardImage();
+
+    void isEquals_data();
+    void isEquals();
+
+    void compare_data();
+    void compare();
+
+    void isOrdered_data();
+    void isOrdered();
 };
 
 #endif // TEST_CARD_H

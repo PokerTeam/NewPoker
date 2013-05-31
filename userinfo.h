@@ -6,6 +6,14 @@
 
 class UserInfo
 {
+private:
+    QString username;
+    long userId;
+    long userMoney;
+    long userMoneyOnTable;
+
+    void init(QString username, long userId, long userMoney, long userMoneyOnTable);
+
 public:
     UserInfo(){ username = ""; userId = 0; userMoney = 0; userMoneyOnTable = 0;}
     UserInfo(QString username, long userId, long userMoney, long userMoneyOnTable);
@@ -20,14 +28,6 @@ public:
 
     friend QDataStream &operator<<(QDataStream &out,UserInfo &info);
     friend QDataStream &operator>>(QDataStream &in, UserInfo &info);
-
-private:
-    QString username;
-    long userId;
-    long userMoney;
-    long userMoneyOnTable;
-
-    void init(QString username, long userId, long userMoney, long userMoneyOnTable);
 };
 
 

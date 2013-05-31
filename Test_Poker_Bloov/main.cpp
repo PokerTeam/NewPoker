@@ -2,8 +2,6 @@
 #include <iostream>
 #include <cstdlib>
 #include <cstdio>
-#include "test_accountmanager.h"
-#include "test_user.h"
 #include "test_card.h"
 
 int main(int argc, char *argv[])

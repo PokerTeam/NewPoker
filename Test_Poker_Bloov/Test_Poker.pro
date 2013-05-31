@@ -23,6 +23,5 @@ SOURCES += main.cpp \
 
 HEADERS += \
     ../card.h \
-    ../card.h \
     test_card.h \
     ../suit.h

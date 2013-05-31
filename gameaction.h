@@ -5,8 +5,6 @@ class GameAction
 {
 public:
     GameAction();
-private:
-
 };
 
 #endif // GAMEACTION_H

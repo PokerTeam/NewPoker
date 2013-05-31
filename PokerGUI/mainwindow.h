@@ -26,11 +26,13 @@ private:
     QDeclarativeView *ui;
     QObject *root;
     Client *client;
+
     UserInfo userInfo;
-    QMap<long,long> usersByPosition;
-    QMap<long,UserInfo> usersInGame;
-    QMap<long,QObject*> usersUI;
+    QMap<long, long> usersByPosition;
+    QMap<long, UserInfo> usersInGame;
+    QMap<long, QObject*> usersUI;
     QMap<long, QString> userAdditionalInfo;
+
     long minimumBid;
     long maximumBid;
     long currentBid;
@@ -52,13 +54,13 @@ private:
 
     void UpdateUsersInGame(QList<UserInfo> users);
     void UpdateUsers();
-    QString getUserFieldName(long position);
+    QString GetUserFieldName(long position);
     long GetAvaliblePosition();
     void AppendInfo(long userId, QString info);
     void UpdateRateUI();
 
 signals:
-    void joinGame(UserInfo*);
+    void JoinGame(UserInfo*);
 
 private slots:
     void OnButtonLoginClick();

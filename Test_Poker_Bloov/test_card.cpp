@@ -45,3 +45,45 @@ void Test_Card::getCardImage()
     QFETCH(int, cardImage);
     QCOMPARE(card->getCardImage(*card), cardImage);
 }
+
+void Test_Card::isEquals_data()
+{
+    QTest::addColumn<bool>("equalsValue");
+    QTest::newRow("isEquals_test1") << true;
+}
+
+void Test_Card::isEquals()
+{
+    Card* card = new Card(CLUBS, 7);
+    Card* other = new Card(CLUBS, 7);
+    QFETCH(bool, equalsValue);
+    QCOMPARE(card->isEquals(other), equalsValue);
+}
+
+void Test_Card::compare_data()
+{
+    QTest::addColumn<int>("value");
+    QTest::newRow("compare_test1") << 1;
+}
+
+void Test_Card::compare()
+{
+    Card* card = new Card(CLUBS, 7);
+    Card* other = new Card(CLUBS, 3);
+    QFETCH(int, value);
+    QCOMPARE(card->compare(other), value);
+}
+
+void Test_Card::isOrdered_data()
+{
+    QTest::addColumn<bool>("orderdValue");
+    QTest::newRow("isOrdered_test1") << false;
+}
+
+void Test_Card::isOrdered()
+{
+    Card* card = new Card(CLUBS, 7);
+    Card* other = new Card(CLUBS, 5);
+    QFETCH(bool, orderdValue);
+    QCOMPARE(card->isOrdered(other), orderdValue);
+}

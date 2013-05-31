@@ -6,8 +6,13 @@
 
 class LoginResult
 {
+private:
+    UserInfo user;
+    QString message;
+    bool isSuccessed;
+
 public:
-    LoginResult(){}
+    LoginResult() { }
     LoginResult(bool isSuccessed, QString message, UserInfo user);
     bool getIsSuccessed();
     QString getMessage();
@@ -15,11 +20,6 @@ public:
 
     friend QDataStream &operator<<(QDataStream &out, LoginResult &login);
     friend QDataStream &operator>>(QDataStream &in, LoginResult &login);
-
-private:
-    UserInfo user;
-    QString message;
-    bool isSuccessed;
 };
 
 #endif // REGISTERRESULT_H

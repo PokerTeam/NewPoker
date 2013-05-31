@@ -5,6 +5,9 @@
 
 class BankChangeAction
 {
+private:
+    long newBankValue;
+
 public:
     BankChangeAction();
     BankChangeAction(long newBankValue);
@@ -12,9 +15,6 @@ public:
 
     friend QDataStream &operator<<(QDataStream &out,BankChangeAction &action);
     friend QDataStream &operator>>(QDataStream &in, BankChangeAction &action);
-
-private:
-    long newBankValue;
 };
 
 #endif // BANKCHANGEACTION_H

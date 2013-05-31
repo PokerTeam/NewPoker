@@ -2,4 +2,5 @@
 
 GameAction::GameAction()
 {
+    //nothing to do
 }

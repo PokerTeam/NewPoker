@@ -46,6 +46,50 @@ int Card::getCardImage(Card card)
     return delta + 14 - card.getCardNumber();
 }
 
+bool Card::isEquals(Card *other)
+{
+    return (suit == other->getSuit()) && (number == other->getCardNumber());
+}
+
+int Card::compare(Card *other)
+{
+    if ((int)suit < (int)other->getSuit())
+    {
+        return -1;
+    }
+    else if ((int)suit > (int)other->getSuit())
+    {
+        return 1;
+    }
+    else
+    {
+        if (number < other->getCardNumber())
+        {
+            return -1;
+        }
+        else if (number > other->getCardNumber())
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+}
+
+bool Card::isOrdered(Card *other)
+{
+    if (suit == other->getSuit())
+    {
+        if (number == (other->getCardNumber() + 1) || (number == (other->getSuit() - 1)))
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 QDataStream &operator<<(QDataStream &out,Card &card)
 {
     out << quint32(card.suit)
