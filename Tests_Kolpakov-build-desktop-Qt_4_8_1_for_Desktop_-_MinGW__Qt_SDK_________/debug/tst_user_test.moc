@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'tst_user_test.cpp'
 **
-** Created: Wed 5. Jun 23:52:01 2013
+** Created: Thu 6. Jun 00:03:14 2013
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -22,7 +22,7 @@ static const uint qt_meta_data_User_Test[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-       6,   14, // methods
+       7,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -36,6 +36,7 @@ static const uint qt_meta_data_User_Test[] = {
       48,   10,   10,   10, 0x08,
       58,   10,   10,   10, 0x08,
       71,   10,   10,   10, 0x08,
+      89,   10,   10,   10, 0x08,
 
        0        // eod
 };
@@ -43,7 +44,7 @@ static const uint qt_meta_data_User_Test[] = {
 static const char qt_meta_stringdata_User_Test[] = {
     "User_Test\0\0getUserName()\0getUserId()\0"
     "getMoney()\0isAllIn()\0isNotAllIn()\0"
-    "putOnTable()\0"
+    "putOnTable_data()\0putOnTable()\0"
 };
 
 void User_Test::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -57,7 +58,8 @@ void User_Test::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
         case 2: _t->getMoney(); break;
         case 3: _t->isAllIn(); break;
         case 4: _t->isNotAllIn(); break;
-        case 5: _t->putOnTable(); break;
+        case 5: _t->putOnTable_data(); break;
+        case 6: _t->putOnTable(); break;
         default: ;
         }
     }
@@ -96,9 +98,9 @@ int User_Test::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 6)
+        if (_id < 7)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 6;
+        _id -= 7;
     }
     return _id;
 }
