@@ -8,6 +8,6 @@ int main(int argc, char *argv[])
 {
     freopen("testing.log", "w", stdout);
     QTest::qExec(new Test_Card(), argc, argv);
-    qDebug() << "done";
+    qDebug() << "some";
     return 0;
 }

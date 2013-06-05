@@ -19,11 +19,9 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     ../card.cpp \
-    test_card.cpp \
-    ../user.cpp
+    test_card.cpp
 
 HEADERS += \
     ../card.h \
     test_card.h \
-    ../suit.h \
-    ../user.h
+    ../suit.h
